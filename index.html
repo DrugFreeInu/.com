@@ -60,12 +60,21 @@
     overflow-wrap: break-word; /* wrap long text */
   }
 
+  .subline + .subline {
+    margin-top: 15px; /* spacing between first and second part */
+  }
+
   /* Make sure the subline scrolls on very small screens */
   @media (max-height: 500px) {
     .subline {
       overflow-y: auto;
       max-height: 40vh;
     }
+  }
+
+  a {
+    color: white;
+    text-decoration: underline;
   }
 </style>
 </head>
@@ -76,7 +85,11 @@
   </div>
 
   <p class="subline">
-    DrugFreeInu was created to help people. You may find value in the tools and insights DrugFreeInu provides. DrugFreeInu was built with Luhvcraft, an art technique DrugFreeInu created. To learn this technique, visit <a href="https://luhvcraft.art" target="_blank" style="color:white; text-decoration:underline;">luhvcraft.art</a>
+    DrugFreeInu was created to help people. You may find value in the tools and insights DrugFreeInu provides.
+  </p>
+
+  <p class="subline">
+    DrugFreeInu was built with Luhvcraft, an art technique DrugFreeInu created. To learn this technique, visit <a href="https://luhvcraft.art" target="_blank">luhvcraft.art</a>
   </p>
 </body>
 </html>
