@@ -10,36 +10,60 @@
     margin: 0;
     background-color: black;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-family: "Arial Rounded MT Bold", sans-serif;
+    flex-direction: column;
+  }
+
+  .border-box {
+    border: 2px solid white;
+    padding: 20px 40px;
+    border-radius: 15px;
+    text-align: center;
+    display: inline-block;
+    position: relative;
   }
 
   h1 {
-    font-family: "Arial Rounded MT Bold", sans-serif;
     color: white;
     font-size: clamp(40px, 10vw, 80px);
     font-weight: normal;
-    font-style: italic; /* italicized */
+    font-style: italic;
     letter-spacing: 1.5px;
-    margin: 0 0 15px 0;
-    text-align: center;
+    margin: 0 0 20px 0;
+  }
+
+  /* horizontal line under title */
+  .line {
+    height: 2px; /* thickness */
+    width: 80%;  /* adjust length as needed */
+    margin: 0 auto 15px auto;
+    background: linear-gradient(to right, transparent, white, transparent);
   }
 
   p {
-    font-family: "Arial Rounded MT Bold", sans-serif;
     color: white;
     font-size: 22px;
     font-weight: normal;
     letter-spacing: 1px;
     margin: 0;
-    text-align: center;
     line-height: 1.2;
+  }
+
+  .subline {
+    font-size: 16px;
+    margin-top: 10px;
+    color: white;
   }
 </style>
 </head>
 <body>
-  <h1>DrugFreeInu</h1>
-  <p>an opportunity to<br>learn and create</p>
+  <div class="border-box">
+    <h1>DrugFreeInu</h1>
+
+    <p>an opportunity to<br>learn and create</p>
+  </div>
+  <p class="subline">DrugFreeInu is about embracing the drug free in-u.</p>
 </body>
 </html>
