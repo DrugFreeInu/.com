@@ -3,67 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DrugFreeInu</title>
+<title>DrugFreeInu Description</title>
 <style>
-  html, body {
-    height: 100%;
+  body {
+    font-family: Arial, sans-serif;
+    background: #f0f0f0;
     margin: 0;
-    background-color: black;
+    padding: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
-    font-family: "Arial Rounded MT Bold", sans-serif;
-    flex-direction: column;
+    align-items: flex-start;
+    min-height: 100vh;
   }
 
-  .border-box {
-    border: 2px solid white;
-    padding: 20px 40px;
-    border-radius: 15px;
-    text-align: center;
-    display: inline-block;
-    position: relative;
+  #description-container {
+    max-width: 800px;
+    margin: 40px 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow-y: auto;
+    word-wrap: break-word;
   }
 
-  h1 {
-    color: white;
-    font-size: clamp(40px, 10vw, 80px);
-    font-weight: normal;
-    font-style: italic;
-    letter-spacing: 1.5px;
-    margin: 0 0 20px 0;
+  #description-container a {
+    color: #0077cc;
+    text-decoration: none;
   }
 
-  /* horizontal line under title */
-  .line {
-    height: 2px; /* thickness */
-    width: 80%;  /* adjust length as needed */
-    margin: 0 auto 15px auto;
-    background: linear-gradient(to right, transparent, white, transparent);
+  #description-container a:hover {
+    text-decoration: underline;
   }
 
-  p {
-    color: white;
-    font-size: 22px;
-    font-weight: normal;
-    letter-spacing: 1px;
-    margin: 0;
-    line-height: 1.2;
-  }
-
-  .subline {
-    font-size: 16px;
-    margin-top: 10px;
-    color: white;
+  #description {
+    font-size: 1rem;
+    line-height: 1.6;
   }
 </style>
 </head>
 <body>
-  <div class="border-box">
-    <h1>DrugFreeInu</h1>
 
-    <p>an opportunity to<br>learn and create</p>
-  </div>
-  <p class="subline">DrugFreeInu was created to help people. You may find value in the tools and insights DrugFreeInu provides. DrugFreeInu was built with Luhvcraft, an art technique DrugFreeInu created. To learn this technique, visit luhvcraft.art </p>
+<div id="description-container">
+  <p id="description">
+    DrugFreeInu was created to help people. You may find value in the tools and insights DrugFreeInu provides.<br><br>
+    DrugFreeInu was built with Luhvcraft, an art technique DrugFreeInu created. To learn this technique, visit <a href="https://luhvcraft.art" target="_blank">luhvcraft.art</a>
+  </p>
+</div>
+
+<script>
+  const descEl = document.getElementById('description');
+  
+  // Load cached description if exists
+  const cachedDesc = localStorage.getItem('dfiDescription');
+  if(cachedDesc) {
+    descEl.innerHTML = cachedDesc;
+  } else {
+    localStorage.setItem('dfiDescription', descEl.innerHTML);
+  }
+</script>
+
 </body>
 </html>
