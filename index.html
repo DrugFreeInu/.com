@@ -14,19 +14,11 @@
     align-items: center;
     font-family: "Arial Rounded MT Bold", sans-serif;
     flex-direction: column;
-  }
-
-  .border-box {
-    border: 2px solid white;
-    padding: 20px 40px;
-    border-radius: 15px;
+    color: white;
     text-align: center;
-    display: inline-block;
-    position: relative;
   }
 
   h1 {
-    color: white;
     font-size: clamp(40px, 10vw, 80px);
     font-weight: normal;
     font-style: italic;
@@ -36,14 +28,13 @@
 
   /* horizontal line under title */
   .line {
-    height: 2px; /* thickness */
-    width: 80%;  /* adjust length as needed */
+    height: 2px;
+    width: 80%;
     margin: 0 auto 15px auto;
     background: linear-gradient(to right, transparent, white, transparent);
   }
 
   p {
-    color: white;
     font-size: 22px;
     font-weight: normal;
     letter-spacing: 1px;
@@ -51,22 +42,20 @@
     line-height: 1.2;
   }
 
-  .subline {
+  .bottom-words {
     font-size: 16px;
-    margin-top: 20px;
-    color: white;
-    max-width: 90%;       /* keep it from overflowing screen */
-    text-align: center;
-    overflow-wrap: break-word; /* wrap long text */
+    margin-top: 40px;
+    max-width: 90%;
+    overflow-wrap: break-word;
   }
 
-  .subline + .subline {
-    margin-top: 15px; /* spacing between first and second part */
+  .bottom-words + .bottom-words {
+    margin-top: 15px;
   }
 
-  /* Make sure the subline scrolls on very small screens */
+  /* Make sure the bottom words scroll on very small screens */
   @media (max-height: 500px) {
-    .subline {
+    .bottom-words {
       overflow-y: auto;
       max-height: 40vh;
     }
@@ -79,17 +68,20 @@
 </style>
 </head>
 <body>
-  <div class="border-box">
-    <h1>DrugFreeInu</h1>
-    <p>an opportunity to<br>learn and create</p>
-  </div>
+  <h1>DrugFreeInu</h1>
+  <p>an opportunity to<br>learn and create</p>
 
-  <p class="subline">
-    DrugFreeInu exists to help people. You may find value in the tools and insights DrugFreeInu provides.
+  <p class="bottom-words">
+    Noun:
   </p>
-
-  <p class="subline">
-    DrugFreeInu was built with Luhvcraft, an art technique DrugFreeInu created. To learn this technique, visit <a href="https://luhvcraft.art" target="_blank">luhvcraft.art</a>
+  <p class="bottom-words">
+    Adjective:
+  </p>
+  <p class="bottom-words">
+    Adverb:
+  </p>
+  <p class="bottom-words">
+    Verb:
   </p>
 </body>
 </html>
