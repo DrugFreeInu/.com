@@ -34,14 +34,6 @@
     margin: 0 0 20px 0;
   }
 
-  /* horizontal line under title */
-  .line {
-    height: 2px; /* thickness */
-    width: 80%;  /* adjust length as needed */
-    margin: 0 auto 15px auto;
-    background: linear-gradient(to right, transparent, white, transparent);
-  }
-
   p {
     color: white;
     font-size: 22px;
@@ -55,13 +47,13 @@
     font-size: 16px;
     margin-top: 20px;
     color: white;
-    max-width: 90%;       /* keep it from overflowing screen */
+    max-width: 90%;
     text-align: center;
-    overflow-wrap: break-word; /* wrap long text */
+    overflow-wrap: break-word;
   }
 
   .subline + .subline {
-    margin-top: 15px; /* spacing between first and second part */
+    margin-top: 15px;
   }
 
   .new-words {
@@ -69,11 +61,14 @@
     margin-top: 30px;
     color: white;
     max-width: 90%;
-    text-align: center;
-    line-height: 1.5;
+    text-align: left; /* left align for typing after words */
+    line-height: 1.8;
   }
 
-  /* Make sure the subline and new words scroll on very small screens */
+  .new-words p {
+    margin: 5px 0;
+  }
+
   @media (max-height: 500px) {
     .subline, .new-words {
       overflow-y: auto;
@@ -102,10 +97,10 @@
   </p>
 
   <div class="new-words">
-    <p>Noun:</p>
-    <p>Adjective:</p>
-    <p>Adverb:</p>
-    <p>Verb:</p>
+    <p><span style="display:inline-block; width:90px;">Noun:</span></p>
+    <p><span style="display:inline-block; width:90px;">Adjective:</span></p>
+    <p><span style="display:inline-block; width:90px;">Adverb:</span></p>
+    <p><span style="display:inline-block; width:90px;">Verb:</span></p>
   </div>
 </body>
 </html>
