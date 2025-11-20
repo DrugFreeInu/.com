@@ -19,11 +19,12 @@
 
   .border-box {
     border: 2px solid white;
-    padding: 10px 20px; /* tightened from 20px 40px */
+    padding: 5px 15px; /* ultra-tight padding */
     border-radius: 15px;
     text-align: center;
     display: inline-block;
     position: relative;
+    line-height: 1.1; /* reduce line-height for the box */
   }
 
   h1 {
@@ -32,16 +33,17 @@
     font-weight: normal;
     font-style: italic;
     letter-spacing: 1.5px;
-    margin: 0 0 5px 0; /* tighter space below h1 */
+    margin: 0;
+    line-height: 1.05; /* tighten spacing above and below text */
   }
 
   .border-box p {
-    margin-top: 0; /* remove default top margin */
+    margin: 0;
     color: white;
     font-size: 22px;
     font-weight: normal;
     letter-spacing: 1px;
-    line-height: 1.2;
+    line-height: 1.1; /* tighter inside the box */
   }
 
   .subline {
@@ -72,7 +74,7 @@
 
   .new-words .title {
     font-weight: bold;
-    font-size: 2em; /* 2x size */
+    font-size: 2em;
     margin-bottom: 15px;
   }
 
@@ -97,7 +99,6 @@
     color: white;
     text-decoration: underline;
   }
-
 </style>
 </head>
 <body>
