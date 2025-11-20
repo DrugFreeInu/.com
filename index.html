@@ -9,12 +9,12 @@
     height: 100%;
     margin: 0;
     background-color: black;
-    font-family: "Arial Rounded MT Bold", sans-serif;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
+    font-family: "Arial Rounded MT Bold", sans-serif;
     padding: 40px 20px;
-    box-sizing: border-box;
   }
 
   .border-box {
@@ -23,7 +23,7 @@
     border-radius: 15px;
     text-align: center;
     display: inline-block;
-    margin-bottom: 20px;
+    position: relative;
   }
 
   h1 {
@@ -91,14 +91,14 @@
     border-radius: 12px;
     padding: 15px 40px;
     cursor: pointer;
+    margin-top: 40px;
     transition: transform 0.2s ease;
-    position: fixed;
-    bottom: 30px;
   }
 
   .dfi-button:hover {
     transform: scale(1.05);
   }
+
 </style>
 </head>
 <body>
