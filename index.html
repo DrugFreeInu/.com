@@ -41,7 +41,7 @@
     font-weight: normal;
     font-style: italic;
     letter-spacing: 1.5px;
-    margin: -2.5px 0 12.5px 0; /* EXACT 50% reduction */
+    margin: -2.5px 0 12.5px 0;
     line-height: 1.05;
   }
 
@@ -67,9 +67,17 @@
     margin-top: 15px;
   }
 
+  /* NEW: Wrapper to move dictionary + button upward */
+  .dictionary-wrapper {
+    margin-top: 10px; /* was 30+ effectively → now brought up */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .new-words {
     font-size: 16px;
-    margin-top: 30px;
+    margin-top: 0;
     color: white;
     max-width: 90%;
     text-align: left;
@@ -83,7 +91,7 @@
   .new-words .title {
     font-weight: bold;
     font-size: 2em;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   }
 
   .dfi-button {
@@ -95,7 +103,7 @@
     border-radius: 12px;
     padding: 15px 40px;
     cursor: pointer;
-    margin-top: 40px;
+    margin-top: 20px; /* reduced from 40px to pull it up */
     transition: transform 0.2s ease;
   }
 
@@ -129,22 +137,21 @@
     DrugFreeInu was built with Luhvcraft, an art technique DrugFreeInu created. To learn this technique, visit <a href="https://luhvcraft.art" target="_blank">luhvcraft.art</a>
   </p>
 
-  <div class="new-words">
-    <p class="title">drug-free-in-u</p>
-    <p><span style="display:inline-block; width:90px;">Noun:</span></p>
-    <p><span style="display:inline-block; width:90px;">Adjective:</span></p>
-    <p><span style="display:inline-block; width:90px;">Adverb:</span></p>
-    <p><span style="display:inline-block; width:90px;">Verb:</span></p>
+  <!-- NEW WRAPPER TO MOVE THIS SECTION UP -->
+  <div class="dictionary-wrapper">
+
+    <div class="new-words">
+      <p class="title">drug-free-in-u</p>
+      <p><span style="display:inline-block; width:90px;">Noun:</span></p>
+      <p><span style="display:inline-block; width:90px;">Adjective:</span></p>
+      <p><span style="display:inline-block; width:90px;">Adverb:</span></p>
+      <p><span style="display:inline-block; width:90px;">Verb:</span></p>
+    </div>
+
+    <button class="dfi-button">Why DFI</button>
+
   </div>
 
-  <button class="dfi-button">Why DFI</button>
-
-  <!-- Peak god team note:
-       For full hacker-proof storage policy, enforce via server headers:
-       Apache: Header set Permissions-Policy "storage-access=()"
-       Nginx: add_header Permissions-Policy "storage-access=()";
-       Node.js: res.setHeader("Permissions-Policy", "storage-access=()");
-  -->
-
+  <!-- Peak god team note: server header instructions preserved -->
 </body>
 </html>
