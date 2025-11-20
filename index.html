@@ -22,19 +22,22 @@
   }
 
   .border-box {
+    width: 100%;                 /* NEW: full width */
+    max-width: 100%;             /* ensures no shrinking */
     border: 2px solid white;
-    padding: 5px 12px; /* ultra-tight, equal for everyone */
-    border-radius: 15px;
+    padding: 6px 20px;           /* slightly increased padding (~10% more) */
+    border-radius: 0;            /* full-width boxes look cleaner without curved corners */
     text-align: center;
-    display: inline-block;
+    display: block;              /* full-width block element */
     position: relative;
     line-height: 1.05;
-    background: black; /* ensures box size doesn’t shift visually */
+    background: black;
+    box-sizing: border-box;      /* ensures padding fits inside width */
   }
 
   h1 {
     color: white;
-    font-size: 60px; /* fixed size for everyone */
+    font-size: 60px;
     font-weight: normal;
     font-style: italic;
     letter-spacing: 1.5px;
@@ -45,7 +48,7 @@
   .border-box p {
     margin: 0;
     color: white;
-    font-size: 22px; /* fixed for everyone */
+    font-size: 22px;
     font-weight: normal;
     letter-spacing: 1px;
     line-height: 1.1;
@@ -87,7 +90,7 @@
     background: linear-gradient(90deg, #ffcc00, #000);
     color: black;
     font-weight: bold;
-    font-size: 24px; /* fixed for everyone */
+    font-size: 24px;
     border: none;
     border-radius: 12px;
     padding: 15px 40px;
@@ -105,7 +108,6 @@
     text-decoration: underline;
   }
 
-  /* Optional: make mobile slightly smaller but still equal for everyone */
   @media (max-width: 400px) {
     h1 { font-size: 45px; }
     .dfi-button { font-size: 20px; }
