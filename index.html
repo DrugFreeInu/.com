@@ -10,10 +10,11 @@
     margin: 0;
     background-color: black;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
     font-family: "Arial Rounded MT Bold", sans-serif;
-    flex-direction: column;
+    padding: 40px 20px;
   }
 
   .border-box {
@@ -61,7 +62,7 @@
     margin-top: 30px;
     color: white;
     max-width: 90%;
-    text-align: left; /* left align for typing after words */
+    text-align: left;
     line-height: 1.8;
   }
 
@@ -80,6 +81,24 @@
     color: white;
     text-decoration: underline;
   }
+
+  .dfi-button {
+    background: linear-gradient(90deg, #ffcc00, #000);
+    color: black;
+    font-weight: bold;
+    font-size: clamp(20px, 5vw, 32px);
+    border: none;
+    border-radius: 12px;
+    padding: 15px 40px;
+    cursor: pointer;
+    margin-top: 40px;
+    transition: transform 0.2s ease;
+  }
+
+  .dfi-button:hover {
+    transform: scale(1.05);
+  }
+
 </style>
 </head>
 <body>
@@ -102,5 +121,7 @@
     <p><span style="display:inline-block; width:90px;">Adverb:</span></p>
     <p><span style="display:inline-block; width:90px;">Verb:</span></p>
   </div>
+
+  <button class="dfi-button">Why DFI</button>
 </body>
 </html>
