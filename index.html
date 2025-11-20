@@ -64,12 +64,12 @@
   }
 
   .subline + .subline {
-    margin-top: 15px;
+    margin-top: 12px; /* slightly reduced */
   }
 
-  /* NEW: Wrapper to move dictionary + button upward */
+  /* UPDATED: tighten spacing above the dictionary */
   .dictionary-wrapper {
-    margin-top: 10px; /* was 30+ effectively → now brought up */
+    margin-top: -5px; /* pulled upward for perfect spacing */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -77,7 +77,6 @@
 
   .new-words {
     font-size: 16px;
-    margin-top: 0;
     color: white;
     max-width: 90%;
     text-align: left;
@@ -103,7 +102,7 @@
     border-radius: 12px;
     padding: 15px 40px;
     cursor: pointer;
-    margin-top: 20px; /* reduced from 40px to pull it up */
+    margin-top: 20px;
     transition: transform 0.2s ease;
   }
 
@@ -137,7 +136,6 @@
     DrugFreeInu was built with Luhvcraft, an art technique DrugFreeInu created. To learn this technique, visit <a href="https://luhvcraft.art" target="_blank">luhvcraft.art</a>
   </p>
 
-  <!-- NEW WRAPPER TO MOVE THIS SECTION UP -->
   <div class="dictionary-wrapper">
 
     <div class="new-words">
@@ -152,6 +150,5 @@
 
   </div>
 
-  <!-- Peak god team note: server header instructions preserved -->
 </body>
 </html>
