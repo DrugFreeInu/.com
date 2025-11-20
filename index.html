@@ -64,12 +64,11 @@
   }
 
   .subline + .subline {
-    margin-top: 12px; /* slightly reduced */
+    margin-top: 12px;
   }
 
-  /* UPDATED: tighten spacing above the dictionary */
   .dictionary-wrapper {
-    margin-top: -5px; /* pulled upward for perfect spacing */
+    margin-top: -5px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -91,6 +90,9 @@
     font-weight: bold;
     font-size: 2em;
     margin-bottom: 10px;
+
+    /* 🔥 FIXED: prevent breaking into two lines */
+    white-space: nowrap;
   }
 
   .dfi-button {
