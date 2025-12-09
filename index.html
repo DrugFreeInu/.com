@@ -18,6 +18,12 @@
     align-items: center;
     font-family: "Arial Rounded MT Bold", sans-serif;
     padding: 20px 20px 40px 20px;
+    transition: filter 0.3s ease;
+  }
+
+  /* 🔥 BLUR EFFECT WHILE LIGHTBOX IS OPEN */
+  .blurred {
+    filter: blur(1.5px); /* lowest blur that blocks reading */
   }
 
   /* 🔥 LIGHTBOX POPUP */
@@ -27,7 +33,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.95);
+    background: rgba(0,0,0,0.92);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -75,7 +81,6 @@
     color: white;
     max-width: 90%;
     text-align: center;
-    overflow-wrap: break-word;
   }
 
   .dictionary-wrapper {
@@ -112,7 +117,7 @@
   }
 </style>
 </head>
-<body>
+<body class="blurred">
 
 <!-- 🔥 FIRST-THING LIGHTBOX -->
 <div id="lightbox" onclick="closeLightbox()">
@@ -122,6 +127,7 @@
 <script>
   function closeLightbox() {
     document.getElementById('lightbox').style.display = 'none';
+    document.body.classList.remove('blurred');
   }
 </script>
 
