@@ -68,10 +68,27 @@
     text-align:left;
   }
 
-  .legal-links a {
-    color:#4ea3ff;
+  /* 🔥 EXIT POPUP */
+  #exitPopup {
+    display:none;
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(0,0,0,0.85);
+    color:white;
+    font-family:'Arial Rounded MT Bold', sans-serif;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+    z-index:99999;
   }
 
+  #exitPopup button {
+    cursor:pointer;
+  }
 </style>
 </head>
 
@@ -80,10 +97,17 @@
 <h1>DrugFreeInu</h1>
 <p>an opportunity to<br>learn and create</p>
 
+<!-- PRIVACY BUTTON -->
 <button class="policy-button" onclick="document.getElementById('policy').style.display='block'">
   Privacy Policy
 </button>
 
+<!-- TERMS BUTTON -->
+<button class="policy-button" onclick="document.getElementById('terms').style.display='block'">
+  Terms & Conditions
+</button>
+
+<!-- PRIVACY POLICY BOX -->
 <div id="policy" class="policy-box">
 
   <p>
@@ -92,19 +116,12 @@
   </p>
 
   <p>
-    drugfreeinu.com uses <strong>GitHub.com</strong> to host the website's code.
-    drugfreeinu.com uses <strong>Namecheap.com</strong> to host the domain address.
-    These companies may collect your data because drugfreeinu.com is using their services.
-    <br><br>
-    Refer to these links for more information:
+    drugfreeinu.com uses <strong><a href="https://github.com" class="external">GitHub.com</a></strong>
+    to host the website's code.
+    drugfreeinu.com uses <strong><a href="https://www.namecheap.com" class="external">Namecheap.com</a></strong>
+    to host the domain address.
+    These companies may collect data because drugfreeinu.com is using their services.
   </p>
-
-  <div class="legal-links" style="margin-left:20px; line-height:1.6;">
-    <p><a href="https://docs.github.com/en/site-policy/github-terms/github-terms-of-service" target="_blank">GitHub Terms of Service</a></p>
-    <p><a href="https://docs.github.com/en/site-policy/privacy-policies" target="_blank">GitHub Privacy Policies</a></p>
-    <p><a href="https://www.namecheap.com/legal/" target="_blank">Namecheap Legal Page</a></p>
-    <p><a href="https://www.namecheap.com/legal/general/privacy-policy/" target="_blank">Namecheap Privacy Policy</a></p>
-  </div>
 
   <p>
     The website DrugFreeInu.com has information and data collecting prevention built
@@ -121,8 +138,39 @@
     following the instructions in this link and it will be removed promptly.
   </p>
 
+  <p>
+    Refer to these links for more information:<br>
+    <a href="https://docs.github.com/en/site-policy/github-terms/github-terms-of-service" class="external">GitHub Terms of Service</a><br>
+    <a href="https://docs.github.com/en/site-policy/privacy-policies" class="external">GitHub Privacy Policy</a><br>
+    <a href="https://www.namecheap.com/legal/" class="external">Namecheap Legal</a><br>
+    <a href="https://www.namecheap.com/legal/general/privacy-policy/" class="external">Namecheap Privacy Policy</a>
+  </p>
+
 </div>
 
+<!-- TERMS & CONDITIONS BOX -->
+<div id="terms" class="policy-box">
+  <p><strong>Terms & Conditions</strong></p>
+
+  <p>
+    By using drugfreeinu.com, you agree that this website is provided for general
+    informational and creative purposes only. No warranties, guarantees, or promises
+    of any kind are made about the content or its future direction.
+  </p>
+
+  <p>
+    drugfreeinu.com does not collect personal information. Hosting and domain
+    services are provided by third-party companies which may collect data.
+    Refer to their legal pages for more information.
+  </p>
+
+  <p>
+    All content is provided “as is.” You agree to use this website at your own discretion.
+    drugfreeinu.com is not responsible for actions taken outside this website.
+  </p>
+</div>
+
+<!-- CODE EXPLANATION POPUP -->
 <div id="popupWindow" class="popup">
   <p><strong>What this code does:</strong></p>
   <p>
@@ -130,11 +178,48 @@
     cookies, or tracking mechanisms. It blocks outside sites from storing or reading
     data through your browser when visiting drugfreeinu.com.
   </p>
-  <p>
-    In simple terms:  
-    <strong>It helps protect visitors from unwanted data collection.</strong>
-  </p>
 </div>
+
+<!-- EXIT POPUP -->
+<div id="exitPopup">
+  <p style="font-size:22px; margin-bottom:20px;">
+    You are about to leave DrugFreeInu.com
+  </p>
+
+  <button id="confirmExit" style="
+    background:white; color:black; padding:12px 25px;
+    font-size:18px; border:none; border-radius:10px; font-weight:bold;
+    margin-bottom:10px;
+  ">Continue</button>
+
+  <button onclick="closeExitPopup()" style="
+    background:#444; color:white; padding:10px 20px;
+    font-size:16px; border:none; border-radius:10px;
+  ">Cancel</button>
+</div>
+
+<script>
+let pendingURL = null;
+
+function closeExitPopup() {
+  document.getElementById("exitPopup").style.display = "none";
+  pendingURL = null;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("a.external").forEach(link => {
+    link.addEventListener("click", function(e) {
+      e.preventDefault();
+      pendingURL = this.href;
+      document.getElementById("exitPopup").style.display = "flex";
+    });
+  });
+
+  document.getElementById("confirmExit").onclick = () => {
+    if (pendingURL) window.location.href = pendingURL;
+  };
+});
+</script>
 
 </body>
 </html>
