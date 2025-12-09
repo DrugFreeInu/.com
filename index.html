@@ -13,7 +13,7 @@
     text-align:center;
   }
 
-  button {
+  .policy-button {
     background:white;
     color:black;
     border:none;
@@ -22,20 +22,37 @@
     border-radius:12px;
     font-weight:bold;
     cursor:pointer;
-    margin-top:20px;
+    margin:20px auto 10px auto;
+    display:block;
+    width:260px;
   }
 
   .policy-box {
-    background:#111;
+    background:#0d0d0d;
     border:2px solid white;
-    padding:20px;
-    border-radius:12px;
+    padding:25px;
+    border-radius:14px;
     max-width:600px;
     margin:20px auto;
     line-height:1.6;
-    display:none; /* hidden until button pressed */
+    display:none; /* stays hidden */
     text-align:left;
+    box-shadow:0 0 20px rgba(255,255,255,0.1);
   }
+
+  .policy-box p {
+    margin-bottom:15px;
+  }
+
+  .code-block {
+    background:#1a1a1a;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #333;
+    font-size:14px;
+    white-space:pre-wrap;
+  }
+
 </style>
 </head>
 
@@ -44,37 +61,36 @@
 <h1>DrugFreeInu</h1>
 <p>an opportunity to<br>learn and create</p>
 
-<!-- BUTTON -->
-<button onclick="document.getElementById('policy').style.display='block'">
+<button class="policy-button" onclick="document.getElementById('policy').style.display='block'">
   Privacy Policy
 </button>
 
-<!-- POLICY BOX -->
 <div id="policy" class="policy-box">
 
   <p>
-  The website for the domain <strong>drugfreeinu.com</strong> does not have a use for collecting
-  information or data from all visitors.
+    The website for the domain <strong>drugfreeinu.com</strong> does not have a use for
+    collecting information or data from all visitors.
   </p>
 
   <p>
-  Drugfreeinu.com uses <strong>GitHub.com</strong> to host the website's code.
-  Drugfreeinu.com uses <strong>Namecheap.com</strong> to host the domain address.
-  These websites may collect your data because drugfreeinu.com is using their services.
+    drugfreeinu.com uses <strong>GitHub.com</strong> to host the website's code.
+    drugfreeinu.com uses <strong>Namecheap.com</strong> to host the domain address.
+    These companies may collect your data because drugfreeinu.com is using their services.
   </p>
 
   <p>
-  The website DrugFreeInu.com has information and data collecting prevention built into
-  the code that makes the website run:
+    The website DrugFreeInu.com has information and data collecting prevention built
+    into the code that makes the website run:
   </p>
 
-  <pre style="white-space:pre-wrap; background:#222; padding:10px; border-radius:8px;">
+  <div class="code-block">
 &lt;meta http-equiv="Permissions-Policy" content="storage-access=()"&gt;
-  </pre>
+  </div>
 
   <p>
-  Despite everything, drugfreeinu.com may collect data unknowingly.  
-  If you found drugfreeinu.com collecting information or data, report it by following the instructions in the given link and it will be removed promptly.
+    Despite everything, drugfreeinu.com may collect data unknowingly.
+    If you found drugfreeinu.com collecting information or data, report it by
+    following the instructions in this link and it will be removed promptly.
   </p>
 
 </div>
