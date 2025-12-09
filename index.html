@@ -1,195 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DrugFreeInu</title>
 
-<meta http-equiv="Permissions-Policy" content="storage-access=()">
-
 <style>
-  html, body {
-    height: 100%;
-    margin: 0;
-    background-color: black;
+  body {
+    background:black;
+    color:white;
     font-family: "Arial Rounded MT Bold", sans-serif;
-    padding: 20px 20px 40px 20px;
+    padding:20px;
+    text-align:center;
   }
 
-  /* 🔥 BLUR OVERLAY — 3px */
-  #pageblur {
-    position: fixed;
-    inset: 0;
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
-    pointer-events: none;
-    z-index: 9000;
-    display: none;
+  button {
+    background:white;
+    color:black;
+    border:none;
+    padding:12px 22px;
+    font-size:18px;
+    border-radius:12px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:20px;
   }
 
-  /* 🔥 LIGHTBOX */
-  #lightbox {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.92);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    cursor: pointer;
-  }
-
-  #lightbox img {
-    max-width: 90%;
-    max-height: 90%;
-    border-radius: 10px;
-  }
-
-  .border-box {
-    width: 100%;
-    max-width: 100%;
-    border: 2px solid white;
-    padding: 20px 30px;
-    border-radius: 15px;
-    text-align: center;
-    background: black;
-    box-sizing: border-box;
-  }
-
-  h1 {
-    color: white;
-    font-size: 60px;
-    font-weight: normal;
-    font-style: italic;
-    margin: -2.5px 0 12.5px 0;
-    line-height: 1.05;
-  }
-
-  .border-box p {
-    margin: 0;
-    color: white;
-    font-size: 22px;
-    letter-spacing: 1px;
-  }
-
-  /* 🔥 Buttons under header */
-  .top-buttons {
-    margin-top: 18px;
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-  }
-
-  .top-buttons button {
-    background: white;
-    color: black;
-    border: none;
-    padding: 10px 18px;
-    font-size: 16px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-
-  .dictionary-wrapper {
-    margin-top: 25px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .new-words {
-    font-size: 16px;
-    color: white;
-    max-width: 90%;
-    text-align: left;
-    line-height: 1.8;
-  }
-
-  .new-words .title {
-    font-weight: bold;
-    font-size: 2em;
-    white-space: nowrap;
-  }
-
-  .dfi-button {
-    background: linear-gradient(90deg, #ffcc00, #000);
-    color: black;
-    font-weight: bold;
-    font-size: 24px;
-    border: none;
-    border-radius: 12px;
-    padding: 15px 40px;
-    cursor: pointer;
-    margin-top: 20px;
+  .policy-box {
+    background:#111;
+    border:2px solid white;
+    padding:20px;
+    border-radius:12px;
+    max-width:600px;
+    margin:20px auto;
+    line-height:1.6;
+    display:none; /* hidden until button pressed */
+    text-align:left;
   }
 </style>
 </head>
 
 <body>
 
-<!-- 🔥 BLUR LAYER -->
-<div id="pageblur"></div>
+<h1>DrugFreeInu</h1>
+<p>an opportunity to<br>learn and create</p>
 
-<!-- 🔥 LIGHTBOX -->
-<div id="lightbox" onclick="closeLightbox()">
-  <img src="610F92FA-FAD4-4ED3-AEF3-77FAA4693E06.png" alt="Lightbox Image">
+<!-- BUTTON -->
+<button onclick="document.getElementById('policy').style.display='block'">
+  Privacy Policy
+</button>
+
+<!-- POLICY BOX -->
+<div id="policy" class="policy-box">
+
+  <p>
+  The website for the domain <strong>drugfreeinu.com</strong> does not have a use for collecting
+  information or data from all visitors.
+  </p>
+
+  <p>
+  Drugfreeinu.com uses <strong>GitHub.com</strong> to host the website's code.
+  Drugfreeinu.com uses <strong>Namecheap.com</strong> to host the domain address.
+  These websites may collect your data because drugfreeinu.com is using their services.
+  </p>
+
+  <p>
+  The website DrugFreeInu.com has information and data collecting prevention built into
+  the code that makes the website run:
+  </p>
+
+  <pre style="white-space:pre-wrap; background:#222; padding:10px; border-radius:8px;">
+&lt;meta http-equiv="Permissions-Policy" content="storage-access=()"&gt;
+  </pre>
+
+  <p>
+  Despite everything, drugfreeinu.com may collect data unknowingly.  
+  If you found drugfreeinu.com collecting information or data, report it by following the instructions in the given link and it will be removed promptly.
+  </p>
+
 </div>
-
-<!-- 🔥 HEADER CONTENT -->
-<div class="border-box">
-  <h1>DrugFreeInu</h1>
-  <p>an opportunity to<br>learn and create</p>
-</div>
-
-<!-- 🔥 BUTTONS -->
-<div class="top-buttons">
-
-  <!-- Terms Button -->
-  <button onclick="window.location.href='#'">
-    Terms & Conditions
-  </button>
-
-  <!-- UPDATED PRIVACY POLICY BUTTON -->
-  <button onclick="alert(
-'The website for the domain drugfreeinu.com does not have a use for collecting information or data from all visitors.\n\n'+
-'drugfreeinu.com uses Github.com to host the website\'s code. Drugfreeinu.com uses Namecheap.com to host the domain address. These websites may collect your data because drugfreeinu.com is using their services.\n\n'+
-'The website DrugFreeInu.com has information and data collecting prevention built into the code that makes the website run:\n<meta http-equiv=\"Permissions-Policy\" content=\"storage-access=()\">\n\n'+
-'Despite everything, drugfreeinu.com may collect data unknowingly. If you found drugfreeinu.com collecting information or data, report it by following the instructions in this link and it will be removed promptly.'
-)">
-    Privacy Policy
-  </button>
-
-</div>
-
-<!-- 🔥 DICTIONARY SECTION -->
-<div class="dictionary-wrapper">
-  <div class="new-words">
-    <p class="title">drug-free-in-u</p>
-    <p><span style="display:inline-block;width:90px;">Noun:</span></p>
-    <p><span style="display:inline-block;width:90px;">Adjective:</span></p>
-    <p><span style="display:inline-block;width:90px;">Adverb:</span></p>
-    <p><span style="display:inline-block;width:90px;">Verb:</span></p>
-  </div>
-
-  <button class="dfi-button">Why DFI</button>
-</div>
-
-<script>
-  // Blur shows on load
-  window.onload = () => {
-    document.getElementById('pageblur').style.display = 'block';
-  };
-
-  // Close lightbox + remove blur
-  function closeLightbox() {
-    document.getElementById('lightbox').style.display = 'none';
-    document.getElementById('pageblur').style.display = 'none';
-  }
-</script>
 
 </body>
 </html>
