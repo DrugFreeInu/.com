@@ -16,12 +16,12 @@
     padding: 20px 20px 40px 20px;
   }
 
-  /* 🔥 BLUR OVERLAY — now 3px (was 2px) */
+  /* 🔥 BLUR OVERLAY — 3px */
   #pageblur {
     position: fixed;
     inset: 0;
     backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px); /* iPhone support */
+    -webkit-backdrop-filter: blur(3px);
     pointer-events: none;
     z-index: 9000;
     display: none;
@@ -76,14 +76,6 @@
     letter-spacing: 1px;
   }
 
-  .subline {
-    font-size: 16px;
-    margin-top: 20px;
-    color: white;
-    max-width: 90%;
-    text-align: center;
-  }
-
   .dictionary-wrapper {
     margin-top: -5px;
     display: flex;
@@ -135,15 +127,7 @@
   <p>an opportunity to<br>learn and create</p>
 </div>
 
-<p class="subline">
-  DrugFreeInu exists to help people. You may find value in the tools and insights DrugFreeInu provides.
-</p>
-
-<p class="subline">
-  DrugFreeInu was built with Luhvcraft, an art technique DrugFreeInu created.
-  To learn this technique, visit
-  <a href="https://luhvcraft.art" target="_blank">luhvcraft.art</a>
-</p>
+<!-- ❌ Removed the two paragraphs here -->
 
 <div class="dictionary-wrapper">
   <div class="new-words">
@@ -158,7 +142,7 @@
 </div>
 
 <script>
-  // Blur appears immediately on load
+  // Blur shows on load
   window.onload = () => {
     document.getElementById('pageblur').style.display = 'block';
   };
