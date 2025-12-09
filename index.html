@@ -44,7 +44,6 @@
     margin-bottom:15px;
   }
 
-  /* CODE BLOCK — selectable + clickable */
   .code-block {
     background:#1a1a1a;
     padding:12px;
@@ -53,10 +52,9 @@
     font-size:14px;
     white-space:pre-wrap;
     cursor:pointer;
-    user-select:text; /* make selectable */
+    user-select:text;
   }
 
-  /* POPUP WINDOW */
   .popup {
     display:none;
     background:#111;
@@ -68,6 +66,10 @@
     margin:20px auto;
     line-height:1.6;
     text-align:left;
+  }
+
+  .legal-links a {
+    color:#4ea3ff;
   }
 
 </style>
@@ -93,16 +95,24 @@
     drugfreeinu.com uses <strong>GitHub.com</strong> to host the website's code.
     drugfreeinu.com uses <strong>Namecheap.com</strong> to host the domain address.
     These companies may collect your data because drugfreeinu.com is using their services.
+    <br><br>
+    Refer to these links for more information:
   </p>
+
+  <div class="legal-links" style="margin-left:20px; line-height:1.6;">
+    <p><a href="https://docs.github.com/en/site-policy/github-terms/github-terms-of-service" target="_blank">GitHub Terms of Service</a></p>
+    <p><a href="https://docs.github.com/en/site-policy/privacy-policies" target="_blank">GitHub Privacy Policies</a></p>
+    <p><a href="https://www.namecheap.com/legal/" target="_blank">Namecheap Legal Page</a></p>
+    <p><a href="https://www.namecheap.com/legal/general/privacy-policy/" target="_blank">Namecheap Privacy Policy</a></p>
+  </div>
 
   <p>
     The website DrugFreeInu.com has information and data collecting prevention built
     into the code that makes the website run:
   </p>
 
-  <!-- CLICKABLE CODE BLOCK -->
   <div class="code-block" onclick="document.getElementById('popupWindow').style.display='block'">
-&lt;meta http-equiv="Permissions-Policy" content="storage-access=()"&gt;
+1: &lt;meta http-equiv="Permissions-Policy" content="storage-access=()"&gt;
   </div>
 
   <p>
@@ -113,7 +123,6 @@
 
 </div>
 
-<!-- POPUP EXPLANATION -->
 <div id="popupWindow" class="popup">
   <p><strong>What this code does:</strong></p>
   <p>
