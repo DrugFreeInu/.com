@@ -35,7 +35,7 @@
     max-width:600px;
     margin:20px auto;
     line-height:1.6;
-    display:none; /* stays hidden */
+    display:none;
     text-align:left;
     box-shadow:0 0 20px rgba(255,255,255,0.1);
   }
@@ -44,6 +44,7 @@
     margin-bottom:15px;
   }
 
+  /* CODE BLOCK — selectable + clickable */
   .code-block {
     background:#1a1a1a;
     padding:12px;
@@ -51,6 +52,22 @@
     border:1px solid #333;
     font-size:14px;
     white-space:pre-wrap;
+    cursor:pointer;
+    user-select:text; /* make selectable */
+  }
+
+  /* POPUP WINDOW */
+  .popup {
+    display:none;
+    background:#111;
+    color:white;
+    border:2px solid white;
+    padding:20px;
+    border-radius:12px;
+    max-width:500px;
+    margin:20px auto;
+    line-height:1.6;
+    text-align:left;
   }
 
 </style>
@@ -83,7 +100,8 @@
     into the code that makes the website run:
   </p>
 
-  <div class="code-block">
+  <!-- CLICKABLE CODE BLOCK -->
+  <div class="code-block" onclick="document.getElementById('popupWindow').style.display='block'">
 &lt;meta http-equiv="Permissions-Policy" content="storage-access=()"&gt;
   </div>
 
@@ -93,6 +111,20 @@
     following the instructions in this link and it will be removed promptly.
   </p>
 
+</div>
+
+<!-- POPUP EXPLANATION -->
+<div id="popupWindow" class="popup">
+  <p><strong>What this code does:</strong></p>
+  <p>
+    This meta tag prevents the browser from allowing websites to access storage,
+    cookies, or tracking mechanisms. It blocks outside sites from storing or reading
+    data through your browser when visiting drugfreeinu.com.
+  </p>
+  <p>
+    In simple terms:  
+    <strong>It helps protect visitors from unwanted data collection.</strong>
+  </p>
 </div>
 
 </body>
