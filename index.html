@@ -16,12 +16,12 @@
     padding: 20px 20px 40px 20px;
   }
 
-  /* 🔥 BLUR OVERLAY (separate layer — no shifting, no distortion) */
+  /* 🔥 BLUR OVERLAY — now 3px (was 2px) */
   #pageblur {
     position: fixed;
     inset: 0;
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px); /* iPhone support */
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px); /* iPhone support */
     pointer-events: none;
     z-index: 9000;
     display: none;
@@ -129,7 +129,7 @@
   <img src="610F92FA-FAD4-4ED3-AEF3-77FAA4693E06.png" alt="Lightbox Image">
 </div>
 
-<!-- 🔥 MAIN CONTENT (unchanged) -->
+<!-- 🔥 MAIN CONTENT -->
 <div class="border-box">
   <h1>DrugFreeInu</h1>
   <p>an opportunity to<br>learn and create</p>
@@ -158,7 +158,7 @@
 </div>
 
 <script>
-  // BLUR appears immediately on load
+  // Blur appears immediately on load
   window.onload = () => {
     document.getElementById('pageblur').style.display = 'block';
   };
