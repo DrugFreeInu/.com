@@ -8,9 +8,15 @@
   body {
     background:black;
     color:white;
-    font-family: "Arial Rounded MT Bold", sans-serif;
+    font-family:"Arial Rounded MT Bold", sans-serif;
     padding:20px;
     text-align:center;
+    filter:blur(8px);
+    transition:filter 0.4s ease;
+  }
+
+  body.unlocked {
+    filter:none;
   }
 
   .policy-button {
@@ -68,25 +74,48 @@
     text-align:left;
   }
 
-  /* 🔥 EXIT POPUP */
-  #exitPopup {
-    display:none;
+  /* OVERLAY */
+  #contentWarning {
     position:fixed;
     top:0; left:0;
-    width:100%; height:100%;
+    width:100%;
+    height:100%;
     background:rgba(0,0,0,0.85);
-    color:white;
-    font-family:'Arial Rounded MT Bold', sans-serif;
     display:flex;
-    flex-direction:column;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
+    z-index:99999;
     text-align:center;
     padding:20px;
-    z-index:99999;
   }
 
-  #exitPopup button {
+  #contentWarningBox {
+    background:#0b0b0b;
+    border:2px solid white;
+    border-radius:14px;
+    padding:30px;
+    max-width:420px;
+  }
+
+  #contentWarningBox h2 {
+    margin-top:0;
+    margin-bottom:15px;
+    font-size:24px;
+  }
+
+  #contentWarningBox p {
+    margin-bottom:20px;
+    line-height:1.5;
+  }
+
+  #contentWarningBox button {
+    background:white;
+    color:black;
+    border:none;
+    padding:12px 26px;
+    font-size:18px;
+    border-radius:12px;
+    font-weight:bold;
     cursor:pointer;
   }
 </style>
@@ -97,128 +126,50 @@
 <h1>DrugFreeInu</h1>
 <p>an opportunity to<br>learn and create</p>
 
-<!-- PRIVACY BUTTON -->
 <button class="policy-button" onclick="document.getElementById('policy').style.display='block'">
   Privacy Policy
 </button>
 
-<!-- TERMS BUTTON -->
 <button class="policy-button" onclick="document.getElementById('terms').style.display='block'">
   Terms & Conditions
 </button>
 
-<!-- PRIVACY POLICY BOX -->
 <div id="policy" class="policy-box">
-
   <p>
-    The website for the domain <strong>drugfreeinu.com</strong> does not have a use for
-    collecting information or data from all visitors.
+    drugfreeinu.com does not intentionally collect personal information.
+    Hosting and domain services may collect data.
   </p>
-
-  <p>
-    drugfreeinu.com uses <strong><a href="https://github.com" class="external">GitHub.com</a></strong>
-    to host the website's code.
-    drugfreeinu.com uses <strong><a href="https://www.namecheap.com" class="external">Namecheap.com</a></strong>
-    to host the domain address.
-    These companies may collect data because drugfreeinu.com is using their services.
-  </p>
-
-  <p>
-    The website DrugFreeInu.com has information and data collecting prevention built
-    into the code that makes the website run:
-  </p>
-
-  <div class="code-block" onclick="document.getElementById('popupWindow').style.display='block'">
-1: &lt;meta http-equiv="Permissions-Policy" content="storage-access=()"&gt;
-  </div>
-
-  <p>
-    Despite everything, drugfreeinu.com may collect data unknowingly.
-    If you found drugfreeinu.com collecting information or data, report it by
-    following the instructions in this link and it will be removed promptly.
-  </p>
-
-  <p>
-    Refer to these links for more information:<br>
-    <a href="https://docs.github.com/en/site-policy/github-terms/github-terms-of-service" class="external">GitHub Terms of Service</a><br>
-    <a href="https://docs.github.com/en/site-policy/privacy-policies" class="external">GitHub Privacy Policy</a><br>
-    <a href="https://www.namecheap.com/legal/" class="external">Namecheap Legal</a><br>
-    <a href="https://www.namecheap.com/legal/general/privacy-policy/" class="external">Namecheap Privacy Policy</a>
-  </p>
-
 </div>
 
-<!-- TERMS & CONDITIONS BOX -->
 <div id="terms" class="policy-box">
-  <p><strong>Terms & Conditions</strong></p>
-
   <p>
-    By using drugfreeinu.com, you agree that this website is provided for general
-    informational and creative purposes only. No warranties, guarantees, or promises
-    of any kind are made about the content or its future direction.
-  </p>
-
-  <p>
-    drugfreeinu.com does not collect personal information. Hosting and domain
-    services are provided by third-party companies which may collect data.
-    Refer to their legal pages for more information.
-  </p>
-
-  <p>
-    All content is provided “as is.” You agree to use this website at your own discretion.
-    drugfreeinu.com is not responsible for actions taken outside this website.
+    All content is provided as-is for informational and creative purposes only.
   </p>
 </div>
 
-<!-- CODE EXPLANATION POPUP -->
 <div id="popupWindow" class="popup">
-  <p><strong>What this code does:</strong></p>
   <p>
-    This meta tag prevents the browser from allowing websites to access storage,
-    cookies, or tracking mechanisms. It blocks outside sites from storing or reading
-    data through your browser when visiting drugfreeinu.com.
+    Browser permissions are restricted to reduce tracking.
   </p>
 </div>
 
-<!-- EXIT POPUP -->
-<div id="exitPopup">
-  <p style="font-size:22px; margin-bottom:20px;">
-    You are about to leave DrugFreeInu.com
-  </p>
-
-  <button id="confirmExit" style="
-    background:white; color:black; padding:12px 25px;
-    font-size:18px; border:none; border-radius:10px; font-weight:bold;
-    margin-bottom:10px;
-  ">Continue</button>
-
-  <button onclick="closeExitPopup()" style="
-    background:#444; color:white; padding:10px 20px;
-    font-size:16px; border:none; border-radius:10px;
-  ">Cancel</button>
+<!-- CONTENT WARNING -->
+<div id="contentWarning">
+  <div id="contentWarningBox">
+    <h2>Explicit Content</h2>
+    <p>
+      This site may contain strong language, themes, or material
+      that some viewers may find explicit or uncomfortable.
+    </p>
+    <button onclick="unlockSite()">Continue</button>
+  </div>
 </div>
 
 <script>
-let pendingURL = null;
-
-function closeExitPopup() {
-  document.getElementById("exitPopup").style.display = "none";
-  pendingURL = null;
+function unlockSite() {
+  document.body.classList.add("unlocked");
+  document.getElementById("contentWarning").style.display = "none";
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll("a.external").forEach(link => {
-    link.addEventListener("click", function(e) {
-      e.preventDefault();
-      pendingURL = this.href;
-      document.getElementById("exitPopup").style.display = "flex";
-    });
-  });
-
-  document.getElementById("confirmExit").onclick = () => {
-    if (pendingURL) window.location.href = pendingURL;
-  };
-});
 </script>
 
 </body>
