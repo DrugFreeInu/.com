@@ -9,13 +9,19 @@
     background:black;
     color:white;
     font-family:"Arial Rounded MT Bold", sans-serif;
-    padding:20px;
+    margin:0;
+    padding:0;
     text-align:center;
+  }
+
+  /* BLUR TARGET */
+  #site {
+    padding:20px;
     filter:blur(8px);
     transition:filter 0.4s ease;
   }
 
-  body.unlocked {
+  #site.unlocked {
     filter:none;
   }
 
@@ -50,37 +56,14 @@
     margin-bottom:15px;
   }
 
-  .code-block {
-    background:#1a1a1a;
-    padding:12px;
-    border-radius:10px;
-    border:1px solid #333;
-    font-size:14px;
-    white-space:pre-wrap;
-    cursor:pointer;
-    user-select:text;
-  }
-
-  .popup {
-    display:none;
-    background:#111;
-    color:white;
-    border:2px solid white;
-    padding:20px;
-    border-radius:12px;
-    max-width:500px;
-    margin:20px auto;
-    line-height:1.6;
-    text-align:left;
-  }
-
   /* OVERLAY */
   #contentWarning {
     position:fixed;
-    top:0; left:0;
+    top:0;
+    left:0;
     width:100%;
     height:100%;
-    background:rgba(0,0,0,0.85);
+    background:rgba(0,0,0,0.88);
     display:flex;
     align-items:center;
     justify-content:center;
@@ -123,43 +106,42 @@
 
 <body>
 
-<h1>DrugFreeInu</h1>
-<p>an opportunity to<br>learn and create</p>
+<!-- BLURRABLE SITE CONTENT -->
+<div id="site">
 
-<button class="policy-button" onclick="document.getElementById('policy').style.display='block'">
-  Privacy Policy
-</button>
+  <h1>DrugFreeInu</h1>
+  <p>an opportunity to<br>learn and create</p>
 
-<button class="policy-button" onclick="document.getElementById('terms').style.display='block'">
-  Terms & Conditions
-</button>
+  <button class="policy-button" onclick="document.getElementById('policy').style.display='block'">
+    Privacy Policy
+  </button>
 
-<div id="policy" class="policy-box">
-  <p>
-    drugfreeinu.com does not intentionally collect personal information.
-    Hosting and domain services may collect data.
-  </p>
+  <button class="policy-button" onclick="document.getElementById('terms').style.display='block'">
+    Terms & Conditions
+  </button>
+
+  <div id="policy" class="policy-box">
+    <p>
+      drugfreeinu.com does not intentionally collect personal information.
+      Hosting and domain services may collect data.
+    </p>
+  </div>
+
+  <div id="terms" class="policy-box">
+    <p>
+      All content is provided as-is for informational and creative purposes only.
+    </p>
+  </div>
+
 </div>
 
-<div id="terms" class="policy-box">
-  <p>
-    All content is provided as-is for informational and creative purposes only.
-  </p>
-</div>
-
-<div id="popupWindow" class="popup">
-  <p>
-    Browser permissions are restricted to reduce tracking.
-  </p>
-</div>
-
-<!-- CONTENT WARNING -->
+<!-- CONTENT WARNING (NOT BLURRED) -->
 <div id="contentWarning">
   <div id="contentWarningBox">
     <h2>Explicit Content</h2>
     <p>
-      This site may contain strong language, themes, or material
-      that some viewers may find explicit or uncomfortable.
+      This site may contain strong language, themes,
+      or material some viewers may find explicit.
     </p>
     <button onclick="unlockSite()">Continue</button>
   </div>
@@ -167,7 +149,7 @@
 
 <script>
 function unlockSite() {
-  document.body.classList.add("unlocked");
+  document.getElementById("site").classList.add("unlocked");
   document.getElementById("contentWarning").style.display = "none";
 }
 </script>
