@@ -29,7 +29,6 @@
     filter:none;
   }
 
-  /* OVERLAY */
   #contentWarning {
     position:fixed;
     inset:0;
@@ -47,7 +46,7 @@
     transition:opacity 0.5s ease;
   }
 
-  /* BOKEH */
+  /* DARK PURPLE BOKEH */
   .bokeh {
     position:absolute;
     inset:0;
@@ -59,75 +58,66 @@
     position:absolute;
     bottom:-400px;
     border-radius:50%;
-    filter:blur(14px);
-    opacity:0;
-    animation-fill-mode:forwards;
+    filter:blur(16px);
     background:radial-gradient(
       circle,
       rgba(90,30,160,0.35),
       rgba(0,0,0,0)
     );
+    opacity:0;
+    animation-fill-mode:forwards;
   }
 
   @keyframes floatChaos {
-    0% {
-      transform:translate(0,0);
-      opacity:0;
-    }
-    8% {
-      opacity:1;
-    }
-    100% {
-      transform:translate(var(--dx), var(--dy));
-      opacity:0;
-    }
+    0% { opacity:0; transform:translate(0,0); }
+    10% { opacity:1; }
+    100% { opacity:0; transform:translate(var(--dx), var(--dy)); }
   }
 
-  /* FLOATING GRAPHIC TEXT */
+  /* TYPEWRITER ART TEXT */
   .policy-type {
     position:absolute;
-    top:15%;
+    top:14%;
     left:50%;
-    transform:translateX(-50%);
-    font-size:20px;
+    transform:translateX(-50%) rotate(-6deg);
+    font-size:34px;
     font-weight:500;
-    letter-spacing:0.6px;
-    color:rgba(255,255,255,0.85);
+    letter-spacing:0.8px;
+    color:rgba(255,255,255,0.75);
     text-shadow:
-      0 0 10px rgba(120,60,200,0.45),
-      0 0 22px rgba(90,30,160,0.35),
-      0 0 40px rgba(60,20,120,0.25);
+      0 0 18px rgba(120,60,200,0.55),
+      0 0 40px rgba(90,30,160,0.45),
+      0 0 80px rgba(60,20,120,0.35);
     z-index:1;
     pointer-events:none;
     white-space:nowrap;
+    opacity:1;
+    transition:opacity 2.5s ease;
   }
 
-  .policy-type span.char {
+  .policy-type.fade-out {
     opacity:0;
-    animation: charIn 1s forwards;
   }
 
-  @keyframes charIn {
-    from {
-      opacity:0;
-      filter:blur(6px);
-    }
-    to {
-      opacity:1;
-      filter:blur(0);
-    }
+  .policy-type span {
+    opacity:0;
+    animation: typeIn 0.25s forwards;
+  }
+
+  @keyframes typeIn {
+    from { opacity:0; filter:blur(6px); }
+    to { opacity:1; filter:blur(0); }
   }
 
   /* GATE BOX */
   #contentWarningBox {
     position:relative;
-    z-index:1;
+    z-index:2;
     background:#0b0b0b;
     border:2px solid rgba(255,255,255,0.9);
     border-radius:16px;
     padding:30px;
     width:340px;
-    box-shadow:0 0 30px rgba(120,60,200,0.15);
   }
 
   select {
@@ -192,92 +182,57 @@
 <div id="contentWarning">
   <div class="bokeh" id="bokehLayer"></div>
 
-  <!-- FLOATING GRAPHIC LINE -->
+  <!-- BACKGROUND TYPE SIGNAL -->
   <div class="policy-type" id="policyType"></div>
 
   <div id="contentWarningBox">
-    <select onchange="setLanguage(this.value)">
-      <option value="en">English</option>
-      <option value="es">Español</option>
-      <option value="fr">Français</option>
-      <option value="de">Deutsch</option>
-      <option value="pt">Português</option>
-      <option value="it">Italiano</option>
-      <option value="ru">Русский</option>
-      <option value="ja">日本語</option>
-      <option value="ko">한국어</option>
-      <option value="zh">中文</option>
-      <option value="ar">العربية</option>
-      <option value="he">עברית</option>
-      <option value="tr">Türkçe</option>
+    <select>
+      <option>English</option>
     </select>
 
-    <div class="explicit-text" id="explicitText">explicit</div>
+    <div class="explicit-text">explicit</div>
 
-    <button class="gate-btn" id="acceptBtn" onclick="unlockSite()">accept</button>
+    <button class="gate-btn">accept</button>
     <button class="policy-link">privacy policy</button>
   </div>
 </div>
 
 <script>
-const translations = {
-  en:{e:"explicit",a:"accept"},
-  es:{e:"explícito",a:"aceptar"},
-  fr:{e:"explicite",a:"accepter"},
-  de:{e:"explizit",a:"akzeptieren"},
-  pt:{e:"explícito",a:"aceitar"},
-  it:{e:"esplicito",a:"accetta"},
-  ru:{e:"откровенный",a:"принять"},
-  ja:{e:"露骨な内容",a:"同意する"},
-  ko:{e:"노골적인",a:"동의"},
-  zh:{e:"露骨内容",a:"接受"},
-  ar:{e:"محتوى صريح",a:"قبول"},
-  he:{e:"תוכן מפורש",a:"קבל"},
-  tr:{e:"açık içerik",a:"kabul et"}
-};
-
-function setLanguage(lang){
-  const t = translations[lang] || translations.en;
-  explicitText.innerText = t.e;
-  acceptBtn.innerText = t.a;
-}
-
-function unlockSite(){
-  site.classList.add("unlocked");
-  contentWarning.classList.add("hidden");
-  document.body.style.overflow="auto";
-}
-
-/* GRAPHIC TYPE EFFECT */
+/* TYPEWRITER SIGNAL */
 const line = '<meta http-equiv="Permissions-Policy" content="storage-access=()">';
 const target = document.getElementById("policyType");
 let i = 0;
 
-(function type(){
+function typeChar(){
   if(i < line.length){
     const span = document.createElement("span");
-    span.className = "char";
     span.textContent = line[i];
     target.appendChild(span);
     i++;
-    setTimeout(type, 55 + Math.random()*90);
+    setTimeout(typeChar, 70 + Math.random()*120);
+  } else {
+    setTimeout(() => {
+      target.classList.add("fade-out");
+      setTimeout(() => target.remove(), 2600);
+    }, 2200);
   }
-})();
+}
+typeChar();
 
-/* CHAOS BOKEH (DARK PURPLE ONLY) */
+/* CHAOTIC DARK PURPLE BOKEH */
 const layer = document.getElementById("bokehLayer");
 const count = Math.floor(Math.random()*101);
 
 for(let i=0;i<count;i++){
   const s = document.createElement("span");
-  const size = 60 + Math.random()*420;
-  const dur = 25 + Math.random()*160;
-  const delay = Math.random()*50;
+  const size = 80 + Math.random()*480;
+  const dur = 20 + Math.random()*180;
+  const delay = Math.random()*60;
   s.style.width = s.style.height = size+"px";
   s.style.left = Math.random()*100+"%";
   s.style.animation = `floatChaos ${dur}s linear ${delay}s infinite`;
-  s.style.setProperty("--dx",(Math.random()*800-400)+"px");
-  s.style.setProperty("--dy",(-(140+Math.random()*260))+"vh");
+  s.style.setProperty("--dx",(Math.random()*900-450)+"px");
+  s.style.setProperty("--dy",(-(160+Math.random()*300))+"vh");
   layer.appendChild(s);
 }
 </script>
