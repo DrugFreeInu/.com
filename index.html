@@ -43,7 +43,7 @@
   #contentWarning.hidden {
     opacity:0;
     pointer-events:none;
-    transition:opacity 0.5s ease;
+    transition:opacity 0.6s ease;
   }
 
   /* DARK PURPLE BOKEH */
@@ -56,9 +56,9 @@
 
   .bokeh span {
     position:absolute;
-    bottom:-500px;
+    bottom:-600px;
     border-radius:50%;
-    filter:blur(18px);
+    filter:blur(22px);
     background:radial-gradient(
       circle,
       rgba(90,30,160,0.35),
@@ -70,30 +70,31 @@
 
   @keyframes floatChaos {
     0% { opacity:0; transform:translate(0,0); }
-    12% { opacity:1; }
+    15% { opacity:1; }
     100% { opacity:0; transform:translate(var(--dx), var(--dy)); }
   }
 
-  /* MASSIVE BACKGROUND CODE TEXT */
+  /* MASSIVE BACKGROUND CODE PROJECTION */
   .policy-type {
     position:absolute;
-    top:12%;
+    top:10%;
     left:50%;
     transform:translateX(-50%) rotate(-6deg);
-    font-size:clamp(64px, 9vw, 120px); /* ~10x feel */
+    font-size:clamp(280px, 28vw, 520px); /* ~5× larger */
     font-weight:500;
-    letter-spacing:1.2px;
-    color:rgba(255,255,255,0.55);
+    letter-spacing:2.5px;
+    color:rgba(220,235,255,0.35);
     text-shadow:
-      0 0 30px rgba(120,60,200,0.45),
-      0 0 80px rgba(90,30,160,0.45),
-      0 0 140px rgba(60,20,120,0.35);
-    filter:blur(1.8px); /* slight blur */
+      0 0 80px rgba(120,120,255,0.55),
+      0 0 160px rgba(120,60,255,0.45),
+      0 0 280px rgba(90,30,160,0.35),
+      0 0 420px rgba(40,10,120,0.25);
+    filter:blur(6px); /* softer blur */
     z-index:1;
     pointer-events:none;
     white-space:nowrap;
     opacity:1;
-    transition:opacity 3s ease;
+    transition:opacity 4s ease;
   }
 
   .policy-type.fade-out {
@@ -102,7 +103,7 @@
 
   .policy-type span {
     opacity:0;
-    animation: typeIn 0.35s forwards;
+    animation: typeIn 0.45s forwards;
   }
 
   @keyframes typeIn {
@@ -110,7 +111,7 @@
     to { opacity:1; }
   }
 
-  /* EXPLICIT BOX (2× SCALE) */
+  /* EXPLICIT BOX (2× SCALE — unchanged) */
   #contentWarningBox {
     position:relative;
     z-index:2;
@@ -118,7 +119,7 @@
     border:2px solid rgba(255,255,255,0.9);
     border-radius:22px;
     padding:48px;
-    width:520px; /* ~2x */
+    width:520px;
     box-shadow:0 0 40px rgba(120,60,200,0.2);
   }
 
@@ -143,7 +144,7 @@
   }
 
   .explicit-text {
-    font-size:48px; /* ~2x */
+    font-size:48px;
     margin-bottom:26px;
     letter-spacing:2px;
   }
@@ -184,7 +185,7 @@
 <div id="contentWarning">
   <div class="bokeh" id="bokehLayer"></div>
 
-  <!-- MASSIVE BACKGROUND CODE -->
+  <!-- MASSIVE SOFT CODE PROJECTION -->
   <div class="policy-type" id="policyType"></div>
 
   <div id="contentWarningBox">
@@ -200,7 +201,7 @@
 </div>
 
 <script>
-/* TYPEWRITER SIGNAL */
+/* TYPEWRITER PROJECTION */
 const line = '<meta http-equiv="Permissions-Policy" content="storage-access=()">';
 const target = document.getElementById("policyType");
 let i = 0;
@@ -211,12 +212,12 @@ function typeChar(){
     span.textContent = line[i];
     target.appendChild(span);
     i++;
-    setTimeout(typeChar, 90 + Math.random()*160);
+    setTimeout(typeChar, 120 + Math.random()*220);
   } else {
     setTimeout(() => {
       target.classList.add("fade-out");
-      setTimeout(() => target.remove(), 3200);
-    }, 2600);
+      setTimeout(() => target.remove(), 4500);
+    }, 3200);
   }
 }
 typeChar();
@@ -227,14 +228,14 @@ const count = Math.floor(Math.random()*101);
 
 for(let i=0;i<count;i++){
   const s = document.createElement("span");
-  const size = 100 + Math.random()*600;
-  const dur = 25 + Math.random()*200;
-  const delay = Math.random()*70;
+  const size = 160 + Math.random()*900;
+  const dur = 30 + Math.random()*260;
+  const delay = Math.random()*90;
   s.style.width = s.style.height = size+"px";
   s.style.left = Math.random()*100+"%";
   s.style.animation = `floatChaos ${dur}s linear ${delay}s infinite`;
-  s.style.setProperty("--dx",(Math.random()*1000-500)+"px");
-  s.style.setProperty("--dy",(-(180+Math.random()*340))+"vh");
+  s.style.setProperty("--dx",(Math.random()*1400-700)+"px");
+  s.style.setProperty("--dy",(-(220+Math.random()*480))+"vh");
   layer.appendChild(s);
 }
 </script>
