@@ -56,9 +56,9 @@
 
   .bokeh span {
     position:absolute;
-    bottom:-400px;
+    bottom:-500px;
     border-radius:50%;
-    filter:blur(16px);
+    filter:blur(18px);
     background:radial-gradient(
       circle,
       rgba(90,30,160,0.35),
@@ -70,29 +70,30 @@
 
   @keyframes floatChaos {
     0% { opacity:0; transform:translate(0,0); }
-    10% { opacity:1; }
+    12% { opacity:1; }
     100% { opacity:0; transform:translate(var(--dx), var(--dy)); }
   }
 
-  /* TYPEWRITER ART TEXT */
+  /* MASSIVE BACKGROUND CODE TEXT */
   .policy-type {
     position:absolute;
-    top:14%;
+    top:12%;
     left:50%;
     transform:translateX(-50%) rotate(-6deg);
-    font-size:34px;
+    font-size:clamp(64px, 9vw, 120px); /* ~10x feel */
     font-weight:500;
-    letter-spacing:0.8px;
-    color:rgba(255,255,255,0.75);
+    letter-spacing:1.2px;
+    color:rgba(255,255,255,0.55);
     text-shadow:
-      0 0 18px rgba(120,60,200,0.55),
-      0 0 40px rgba(90,30,160,0.45),
-      0 0 80px rgba(60,20,120,0.35);
+      0 0 30px rgba(120,60,200,0.45),
+      0 0 80px rgba(90,30,160,0.45),
+      0 0 140px rgba(60,20,120,0.35);
+    filter:blur(1.8px); /* slight blur */
     z-index:1;
     pointer-events:none;
     white-space:nowrap;
     opacity:1;
-    transition:opacity 2.5s ease;
+    transition:opacity 3s ease;
   }
 
   .policy-type.fade-out {
@@ -101,49 +102,50 @@
 
   .policy-type span {
     opacity:0;
-    animation: typeIn 0.25s forwards;
+    animation: typeIn 0.35s forwards;
   }
 
   @keyframes typeIn {
-    from { opacity:0; filter:blur(6px); }
-    to { opacity:1; filter:blur(0); }
+    from { opacity:0; }
+    to { opacity:1; }
   }
 
-  /* GATE BOX */
+  /* EXPLICIT BOX (2× SCALE) */
   #contentWarningBox {
     position:relative;
     z-index:2;
     background:#0b0b0b;
     border:2px solid rgba(255,255,255,0.9);
-    border-radius:16px;
-    padding:30px;
-    width:340px;
+    border-radius:22px;
+    padding:48px;
+    width:520px; /* ~2x */
+    box-shadow:0 0 40px rgba(120,60,200,0.2);
   }
 
   select {
     width:100%;
-    padding:10px 38px 10px 12px;
-    margin-bottom:18px;
+    padding:16px 44px 16px 16px;
+    margin-bottom:28px;
     background:black;
     color:white;
     border:1px solid white;
-    border-radius:8px;
-    font-size:14px;
+    border-radius:12px;
+    font-size:18px;
     appearance:none;
     background-image:
       linear-gradient(45deg, transparent 50%, white 50%),
       linear-gradient(135deg, white 50%, transparent 50%);
     background-position:
-      calc(100% - 18px) 50%,
-      calc(100% - 12px) 50%;
-    background-size:6px 6px;
+      calc(100% - 22px) 50%,
+      calc(100% - 14px) 50%;
+    background-size:8px 8px;
     background-repeat:no-repeat;
   }
 
   .explicit-text {
-    font-size:26px;
-    margin-bottom:16px;
-    letter-spacing:1px;
+    font-size:48px; /* ~2x */
+    margin-bottom:26px;
+    letter-spacing:2px;
   }
 
   .gate-btn {
@@ -151,21 +153,21 @@
     background:white;
     color:black;
     border:none;
-    padding:12px;
-    font-size:18px;
-    border-radius:12px;
+    padding:18px;
+    font-size:24px;
+    border-radius:16px;
     font-weight:bold;
     cursor:pointer;
-    margin-bottom:10px;
+    margin-bottom:14px;
   }
 
   .policy-link {
     background:transparent;
     border:1px solid white;
     color:white;
-    padding:8px;
-    font-size:14px;
-    border-radius:10px;
+    padding:12px;
+    font-size:18px;
+    border-radius:14px;
     cursor:pointer;
     width:100%;
   }
@@ -182,7 +184,7 @@
 <div id="contentWarning">
   <div class="bokeh" id="bokehLayer"></div>
 
-  <!-- BACKGROUND TYPE SIGNAL -->
+  <!-- MASSIVE BACKGROUND CODE -->
   <div class="policy-type" id="policyType"></div>
 
   <div id="contentWarningBox">
@@ -209,12 +211,12 @@ function typeChar(){
     span.textContent = line[i];
     target.appendChild(span);
     i++;
-    setTimeout(typeChar, 70 + Math.random()*120);
+    setTimeout(typeChar, 90 + Math.random()*160);
   } else {
     setTimeout(() => {
       target.classList.add("fade-out");
-      setTimeout(() => target.remove(), 2600);
-    }, 2200);
+      setTimeout(() => target.remove(), 3200);
+    }, 2600);
   }
 }
 typeChar();
@@ -225,14 +227,14 @@ const count = Math.floor(Math.random()*101);
 
 for(let i=0;i<count;i++){
   const s = document.createElement("span");
-  const size = 80 + Math.random()*480;
-  const dur = 20 + Math.random()*180;
-  const delay = Math.random()*60;
+  const size = 100 + Math.random()*600;
+  const dur = 25 + Math.random()*200;
+  const delay = Math.random()*70;
   s.style.width = s.style.height = size+"px";
   s.style.left = Math.random()*100+"%";
   s.style.animation = `floatChaos ${dur}s linear ${delay}s infinite`;
-  s.style.setProperty("--dx",(Math.random()*900-450)+"px");
-  s.style.setProperty("--dy",(-(160+Math.random()*300))+"vh");
+  s.style.setProperty("--dx",(Math.random()*1000-500)+"px");
+  s.style.setProperty("--dy",(-(180+Math.random()*340))+"vh");
   layer.appendChild(s);
 }
 </script>
