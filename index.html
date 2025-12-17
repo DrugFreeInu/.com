@@ -55,27 +55,37 @@
 
   .bokeh span {
     position:absolute;
-    bottom:-240px;
+    bottom:-300px;
     border-radius:50%;
     filter:blur(8px);
-    animation: floatUp linear infinite;
+    opacity:0;
+    animation-fill-mode:forwards;
   }
 
-  .bokeh span.light {
+  .light {
     background:radial-gradient(circle,
-      rgba(170,90,255,0.38),
+      rgba(180,90,255,0.4),
       rgba(0,0,0,0));
   }
 
-  .bokeh span.dark {
+  .dark {
     background:radial-gradient(circle,
-      rgba(90,30,160,0.28),
+      rgba(90,30,160,0.35),
       rgba(0,0,0,0));
   }
 
-  @keyframes floatUp {
-    from { transform:translateY(0); }
-    to   { transform:translateY(-160vh); }
+  @keyframes floatChaos {
+    0% {
+      transform:translate(0,0);
+      opacity:0;
+    }
+    5% {
+      opacity:1;
+    }
+    100% {
+      transform:translate(var(--driftX), var(--driftY));
+      opacity:0;
+    }
   }
 
   #contentWarningBox {
@@ -88,7 +98,6 @@
     width:340px;
   }
 
-  /* DROPDOWN */
   select {
     width:100%;
     padding:10px 38px 10px 12px;
@@ -139,7 +148,6 @@
     width:100%;
   }
 
-  /* PRIVACY MODAL */
   #policyModal {
     position:fixed;
     inset:0;
@@ -218,7 +226,6 @@
 </div>
 
 <script>
-/* TRANSLATIONS */
 const translations = {
   en:{e:"explicit",a:"accept"},
   es:{e:"explícito",a:"aceptar"},
@@ -247,27 +254,30 @@ function unlockSite(){
   document.body.style.overflow="auto";
 }
 
-function openPolicy(){
-  policyModal.style.display="flex";
-}
+function openPolicy(){ policyModal.style.display="flex"; }
+function closePolicy(){ policyModal.style.display="none"; }
 
-function closePolicy(){
-  policyModal.style.display="none";
-}
-
-/* BOKEH GENERATOR (0–100) */
-const bokehLayer = document.getElementById("bokehLayer");
+/* PURE CHAOS BOKEH */
+const layer = document.getElementById("bokehLayer");
 const count = Math.floor(Math.random() * 101); // 0–100
 
-for(let i = 0; i < count; i++){
+for(let i=0;i<count;i++){
   const s = document.createElement("span");
-  const size = 100 + Math.random() * 220;
-  s.style.width = s.style.height = size + "px";
-  s.style.left = Math.random() * 100 + "%";
-  s.style.animationDuration = (80 + Math.random() * 120) + "s";
-  s.style.animationDelay = (-Math.random() * 200) + "s";
-  s.className = Math.random() > 0.55 ? "light" : "dark";
-  bokehLayer.appendChild(s);
+
+  const size = 40 + Math.random()*360;
+  const duration = 20 + Math.random()*160; // slow → light speed
+  const delay = Math.random()*40; // start black
+  const driftX = (Math.random()*2-1)*300 + "px";
+  const driftY = -(120 + Math.random()*200) + "vh";
+
+  s.style.width = s.style.height = size+"px";
+  s.style.left = Math.random()*100+"%";
+  s.style.animation = `floatChaos ${duration}s linear ${delay}s infinite`;
+  s.style.setProperty("--driftX", driftX);
+  s.style.setProperty("--driftY", driftY);
+  s.className = Math.random()>0.5 ? "light" : "dark";
+
+  layer.appendChild(s);
 }
 </script>
 
