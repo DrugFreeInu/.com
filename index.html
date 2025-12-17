@@ -25,10 +25,6 @@
     z-index:1;
   }
 
-  #site.unlocked {
-    filter:none;
-  }
-
   #contentWarning {
     position:fixed;
     inset:0;
@@ -38,12 +34,6 @@
     justify-content:center;
     z-index:99999;
     overflow:hidden;
-  }
-
-  #contentWarning.hidden {
-    opacity:0;
-    pointer-events:none;
-    transition:opacity 0.6s ease;
   }
 
   /* DARK PURPLE BOKEH */
@@ -74,34 +64,35 @@
     100% { opacity:0; transform:translate(var(--dx), var(--dy)); }
   }
 
-  /* MASSIVE BACKGROUND CODE PROJECTION */
+  /* MASSIVE SOFT CODE PROJECTION */
   .policy-type {
     position:absolute;
-    top:10%;
+    top:12%;
     left:50%;
     transform:translateX(-50%) rotate(-6deg);
-    font-size:clamp(280px, 28vw, 520px);
+    font-size:clamp(260px, 26vw, 480px);
     font-weight:500;
-    letter-spacing:2.5px;
-    color:rgba(220,235,255,0.35);
+    letter-spacing:2px;
+    color:rgba(235,240,255,0.45); /* soft white */
     text-shadow:
-      0 0 80px rgba(120,120,255,0.55),
-      0 0 160px rgba(120,60,255,0.45),
-      0 0 280px rgba(90,30,160,0.35),
-      0 0 420px rgba(40,10,120,0.25);
-    filter:blur(6px);
-    z-index:1;
-    pointer-events:none;
+      0 0 60px rgba(140,170,255,0.35),
+      0 0 140px rgba(120,80,255,0.35),
+      0 0 260px rgba(90,30,160,0.30);
+    filter:blur(10px); /* blurrier */
     white-space:nowrap;
-    opacity:1;
-    transition:opacity 4s ease;
+    pointer-events:none;
+    will-change:transform, opacity;
+    transition:
+      transform 18s linear,
+      opacity 4s ease;
   }
 
-  .policy-type.fade-out {
+  .policy-type.scroll {
+    transform:translate(-50%, -180vh) rotate(-6deg);
     opacity:0;
   }
 
-  /* EXPLICIT BOX */
+  /* EXPLICIT BOX (unchanged) */
   #contentWarningBox {
     position:relative;
     z-index:2;
@@ -110,27 +101,6 @@
     border-radius:22px;
     padding:48px;
     width:520px;
-    box-shadow:0 0 40px rgba(120,60,200,0.2);
-  }
-
-  select {
-    width:100%;
-    padding:16px 44px 16px 16px;
-    margin-bottom:28px;
-    background:black;
-    color:white;
-    border:1px solid white;
-    border-radius:12px;
-    font-size:18px;
-    appearance:none;
-    background-image:
-      linear-gradient(45deg, transparent 50%, white 50%),
-      linear-gradient(135deg, white 50%, transparent 50%);
-    background-position:
-      calc(100% - 22px) 50%,
-      calc(100% - 14px) 50%;
-    background-size:8px 8px;
-    background-repeat:no-repeat;
   }
 
   .explicit-text {
@@ -149,18 +119,6 @@
     border-radius:16px;
     font-weight:bold;
     cursor:pointer;
-    margin-bottom:14px;
-  }
-
-  .policy-link {
-    background:transparent;
-    border:1px solid white;
-    color:white;
-    padding:12px;
-    font-size:18px;
-    border-radius:14px;
-    cursor:pointer;
-    width:100%;
   }
 </style>
 </head>
@@ -175,37 +133,31 @@
 <div id="contentWarning">
   <div class="bokeh" id="bokehLayer"></div>
 
-  <!-- MASSIVE SOFT CODE PROJECTION -->
+  <!-- MASSIVE CODE PROJECTION -->
   <div class="policy-type" id="policyType"></div>
 
   <div id="contentWarningBox">
-    <select>
-      <option>English</option>
-    </select>
-
     <div class="explicit-text">explicit</div>
-
     <button class="gate-btn">accept</button>
-    <button class="policy-link">privacy policy</button>
   </div>
 </div>
 
 <script>
-/* TRUE TYPEWRITER — VISUAL = LOGIC */
+/* SMOOTH TYPEWRITER + SCROLL */
 const line = '<meta http-equiv="Permissions-Policy" content="storage-access=()">';
 const target = document.getElementById("policyType");
 let i = 0;
 
-function typeChar(){
-  if(i < line.length){
-    target.textContent += line[i]; // appears exactly when typed
+function typeChar() {
+  if (i < line.length) {
+    target.textContent += line[i];
     i++;
-    setTimeout(typeChar, 140 + Math.random()*260);
+    setTimeout(typeChar, 110 + Math.random()*180);
   } else {
+    // pause, then scroll away
     setTimeout(() => {
-      target.classList.add("fade-out");
-      setTimeout(() => target.remove(), 4500);
-    }, 3200);
+      target.classList.add("scroll");
+    }, 1600);
   }
 }
 typeChar();
@@ -214,16 +166,16 @@ typeChar();
 const layer = document.getElementById("bokehLayer");
 const count = Math.floor(Math.random()*101);
 
-for(let i=0;i<count;i++){
+for (let i = 0; i < count; i++) {
   const s = document.createElement("span");
   const size = 160 + Math.random()*900;
   const dur = 30 + Math.random()*260;
   const delay = Math.random()*90;
-  s.style.width = s.style.height = size+"px";
-  s.style.left = Math.random()*100+"%";
+  s.style.width = s.style.height = size + "px";
+  s.style.left = Math.random()*100 + "%";
   s.style.animation = `floatChaos ${dur}s linear ${delay}s infinite`;
-  s.style.setProperty("--dx",(Math.random()*1400-700)+"px");
-  s.style.setProperty("--dy",(-(220+Math.random()*480))+"vh");
+  s.style.setProperty("--dx", (Math.random()*1400 - 700) + "px");
+  s.style.setProperty("--dy", (-(220 + Math.random()*480)) + "vh");
   layer.appendChild(s);
 }
 </script>
