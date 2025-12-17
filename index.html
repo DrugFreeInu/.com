@@ -50,20 +50,32 @@
     position:absolute;
     inset:0;
     z-index:0;
+    pointer-events:none;
   }
 
   .bokeh span {
     position:absolute;
-    bottom:-200px;
-    background:radial-gradient(circle, rgba(160,80,255,0.35), rgba(0,0,0,0));
+    bottom:-240px;
     border-radius:50%;
-    filter:blur(6px);
+    filter:blur(8px);
     animation: floatUp linear infinite;
+  }
+
+  .bokeh span.light {
+    background:radial-gradient(circle,
+      rgba(170,90,255,0.38),
+      rgba(0,0,0,0));
+  }
+
+  .bokeh span.dark {
+    background:radial-gradient(circle,
+      rgba(90,30,160,0.28),
+      rgba(0,0,0,0));
   }
 
   @keyframes floatUp {
     from { transform:translateY(0); }
-    to { transform:translateY(-140vh); }
+    to   { transform:translateY(-160vh); }
   }
 
   #contentWarningBox {
@@ -76,6 +88,7 @@
     width:340px;
   }
 
+  /* DROPDOWN */
   select {
     width:100%;
     padding:10px 38px 10px 12px;
@@ -126,7 +139,7 @@
     width:100%;
   }
 
-  /* POLICY MODAL */
+  /* PRIVACY MODAL */
   #policyModal {
     position:fixed;
     inset:0;
@@ -194,7 +207,6 @@
   </div>
 </div>
 
-<!-- PRIVACY POLICY MODAL -->
 <div id="policyModal">
   <div id="policyBox">
     <p>
@@ -206,7 +218,7 @@
 </div>
 
 <script>
-/* translations */
+/* TRANSLATIONS */
 const translations = {
   en:{e:"explicit",a:"accept"},
   es:{e:"explícito",a:"aceptar"},
@@ -243,16 +255,19 @@ function closePolicy(){
   policyModal.style.display="none";
 }
 
-/* bokeh generator */
-const layer=document.getElementById("bokehLayer");
-for(let i=0;i<18;i++){
-  const s=document.createElement("span");
-  const size=120+Math.random()*180;
-  s.style.width=s.style.height=size+"px";
-  s.style.left=Math.random()*100+"%";
-  s.style.animationDuration=(60+Math.random()*60)+"s";
-  s.style.animationDelay=(-Math.random()*120)+"s";
-  layer.appendChild(s);
+/* BOKEH GENERATOR (0–100) */
+const bokehLayer = document.getElementById("bokehLayer");
+const count = Math.floor(Math.random() * 101); // 0–100
+
+for(let i = 0; i < count; i++){
+  const s = document.createElement("span");
+  const size = 100 + Math.random() * 220;
+  s.style.width = s.style.height = size + "px";
+  s.style.left = Math.random() * 100 + "%";
+  s.style.animationDuration = (80 + Math.random() * 120) + "s";
+  s.style.animationDelay = (-Math.random() * 200) + "s";
+  s.className = Math.random() > 0.55 ? "light" : "dark";
+  bokehLayer.appendChild(s);
 }
 </script>
 
