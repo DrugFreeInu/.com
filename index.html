@@ -73,12 +73,12 @@
     font-size:clamp(260px, 26vw, 480px);
     font-weight:500;
     letter-spacing:2px;
-    color:rgba(235,240,255,0.45); /* soft white */
+    color:rgba(235,240,255,0.45);
     text-shadow:
       0 0 60px rgba(140,170,255,0.35),
       0 0 140px rgba(120,80,255,0.35),
       0 0 260px rgba(90,30,160,0.30);
-    filter:blur(10px); /* blurrier */
+    filter:blur(10px);
     white-space:nowrap;
     pointer-events:none;
     will-change:transform, opacity;
@@ -87,12 +87,18 @@
       opacity 4s ease;
   }
 
+  /* EXTRA BLUR FOR "meta" ONLY */
+  .policy-type .meta-blur {
+    filter:blur(18px);
+    opacity:0.35;
+  }
+
   .policy-type.scroll {
     transform:translate(-50%, -180vh) rotate(-6deg);
     opacity:0;
   }
 
-  /* EXPLICIT BOX (unchanged) */
+  /* EXPLICIT BOX */
   #contentWarningBox {
     position:relative;
     z-index:2;
@@ -143,21 +149,32 @@
 </div>
 
 <script>
-/* SMOOTH TYPEWRITER + SCROLL */
+/* SLOW TRUE TYPEWRITER + META BLUR */
 const line = '<meta http-equiv="Permissions-Policy" content="storage-access=()">';
 const target = document.getElementById("policyType");
+
 let i = 0;
+let buffer = "";
 
 function typeChar() {
   if (i < line.length) {
-    target.textContent += line[i];
+    buffer += line[i];
+
+    // Replace "meta" with blurred span once complete
+    const safe = buffer.replace(
+      /\bmeta\b/i,
+      '<span class="meta-blur">meta</span>'
+    );
+
+    target.innerHTML = safe;
     i++;
-    setTimeout(typeChar, 110 + Math.random()*180);
+
+    // Slower cadence so each letter is seen
+    setTimeout(typeChar, 260 + Math.random() * 180);
   } else {
-    // pause, then scroll away
     setTimeout(() => {
       target.classList.add("scroll");
-    }, 1600);
+    }, 1800);
   }
 }
 typeChar();
