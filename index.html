@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <title>DrugFreeInu</title>
 
+<!-- PERMISSIONS POLICY -->
+<meta http-equiv="Permissions-Policy" content="storage-access=()">
+
 <style>
   body {
     background:black;
@@ -63,29 +66,17 @@
   }
 
   .light {
-    background:radial-gradient(circle,
-      rgba(180,90,255,0.4),
-      rgba(0,0,0,0));
+    background:radial-gradient(circle, rgba(180,90,255,0.4), rgba(0,0,0,0));
   }
 
   .dark {
-    background:radial-gradient(circle,
-      rgba(90,30,160,0.35),
-      rgba(0,0,0,0));
+    background:radial-gradient(circle, rgba(90,30,160,0.35), rgba(0,0,0,0));
   }
 
   @keyframes floatChaos {
-    0% {
-      transform:translate(0,0);
-      opacity:0;
-    }
-    5% {
-      opacity:1;
-    }
-    100% {
-      transform:translate(var(--driftX), var(--driftY));
-      opacity:0;
-    }
+    0% { transform:translate(0,0); opacity:0; }
+    5% { opacity:1; }
+    100% { transform:translate(var(--dx), var(--dy)); opacity:0; }
   }
 
   #contentWarningBox {
@@ -120,8 +111,29 @@
 
   .explicit-text {
     font-size:26px;
-    margin-bottom:16px;
+    margin-bottom:14px;
     letter-spacing:1px;
+  }
+
+  /* TYPING LINE */
+  .policy-type {
+    font-family:monospace;
+    font-size:12px;
+    color:rgba(255,255,255,0.65);
+    margin-bottom:14px;
+    min-height:16px;
+  }
+
+  .caret {
+    display:inline-block;
+    width:6px;
+    margin-left:2px;
+    animation: blink 1.2s infinite;
+  }
+
+  @keyframes blink {
+    0%,50%,100% { opacity:1; }
+    25%,75% { opacity:0; }
   }
 
   .gate-btn {
@@ -210,6 +222,9 @@
 
     <div class="explicit-text" id="explicitText">explicit</div>
 
+    <!-- TYPING POLICY -->
+    <div class="policy-type" id="policyType"></div>
+
     <button class="gate-btn" id="acceptBtn" onclick="unlockSite()">accept</button>
     <button class="policy-link" onclick="openPolicy()">privacy policy</button>
   </div>
@@ -226,6 +241,7 @@
 </div>
 
 <script>
+/* TRANSLATIONS */
 const translations = {
   en:{e:"explicit",a:"accept"},
   es:{e:"explícito",a:"aceptar"},
@@ -257,26 +273,35 @@ function unlockSite(){
 function openPolicy(){ policyModal.style.display="flex"; }
 function closePolicy(){ policyModal.style.display="none"; }
 
-/* PURE CHAOS BOKEH */
+/* TYPING EFFECT */
+const line = '<meta http-equiv="Permissions-Policy" content="storage-access=()">';
+let i = 0;
+const target = document.getElementById("policyType");
+
+(function type(){
+  if(i <= line.length){
+    target.innerHTML =
+      line.slice(0,i) + '<span class="caret">|</span>';
+    i++;
+    setTimeout(type, 45 + Math.random()*80);
+  }
+})();
+
+/* CHAOS BOKEH */
 const layer = document.getElementById("bokehLayer");
-const count = Math.floor(Math.random() * 101); // 0–100
+const count = Math.floor(Math.random()*101);
 
 for(let i=0;i<count;i++){
   const s = document.createElement("span");
-
   const size = 40 + Math.random()*360;
-  const duration = 20 + Math.random()*160; // slow → light speed
-  const delay = Math.random()*40; // start black
-  const driftX = (Math.random()*2-1)*300 + "px";
-  const driftY = -(120 + Math.random()*200) + "vh";
-
+  const dur = 20 + Math.random()*160;
+  const delay = Math.random()*50;
   s.style.width = s.style.height = size+"px";
   s.style.left = Math.random()*100+"%";
-  s.style.animation = `floatChaos ${duration}s linear ${delay}s infinite`;
-  s.style.setProperty("--driftX", driftX);
-  s.style.setProperty("--driftY", driftY);
+  s.style.animation = `floatChaos ${dur}s linear ${delay}s infinite`;
+  s.style.setProperty("--dx", (Math.random()*600-300)+"px");
+  s.style.setProperty("--dy", (-(120+Math.random()*220))+"vh");
   s.className = Math.random()>0.5 ? "light" : "dark";
-
   layer.appendChild(s);
 }
 </script>
