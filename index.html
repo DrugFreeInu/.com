@@ -27,6 +27,7 @@
     filter:none;
   }
 
+  /* OVERLAY */
   #contentWarning {
     position:fixed;
     inset:0;
@@ -53,23 +54,16 @@
 
   .bokeh span {
     position:absolute;
-    width:160px;
-    height:160px;
-    background:radial-gradient(circle, rgba(150,70,255,0.35), rgba(0,0,0,0));
+    bottom:-200px;
+    background:radial-gradient(circle, rgba(160,80,255,0.35), rgba(0,0,0,0));
     border-radius:50%;
-    animation: float 24s linear infinite;
-    filter:blur(4px);
+    filter:blur(6px);
+    animation: floatUp linear infinite;
   }
 
-  .bokeh span:nth-child(1){left:5%;}
-  .bokeh span:nth-child(2){left:25%;animation-duration:30s;}
-  .bokeh span:nth-child(3){left:45%;animation-duration:26s;}
-  .bokeh span:nth-child(4){left:65%;animation-duration:32s;}
-  .bokeh span:nth-child(5){left:85%;animation-duration:28s;}
-
-  @keyframes float {
-    from { transform:translateY(110vh); }
-    to { transform:translateY(-130vh); }
+  @keyframes floatUp {
+    from { transform:translateY(0); }
+    to { transform:translateY(-140vh); }
   }
 
   #contentWarningBox {
@@ -84,22 +78,31 @@
 
   select {
     width:100%;
-    padding:10px;
+    padding:10px 38px 10px 12px;
     margin-bottom:18px;
     background:black;
     color:white;
     border:1px solid white;
     border-radius:8px;
     font-size:14px;
+    appearance:none;
+    background-image:
+      linear-gradient(45deg, transparent 50%, white 50%),
+      linear-gradient(135deg, white 50%, transparent 50%);
+    background-position:
+      calc(100% - 18px) 50%,
+      calc(100% - 12px) 50%;
+    background-size:6px 6px;
+    background-repeat:no-repeat;
   }
 
   .explicit-text {
     font-size:26px;
-    margin-bottom:18px;
+    margin-bottom:16px;
     letter-spacing:1px;
   }
 
-  #contentWarningBox button {
+  .gate-btn {
     width:100%;
     background:white;
     color:black;
@@ -109,6 +112,50 @@
     border-radius:12px;
     font-weight:bold;
     cursor:pointer;
+    margin-bottom:10px;
+  }
+
+  .policy-link {
+    background:transparent;
+    border:1px solid white;
+    color:white;
+    padding:8px;
+    font-size:14px;
+    border-radius:10px;
+    cursor:pointer;
+    width:100%;
+  }
+
+  /* POLICY MODAL */
+  #policyModal {
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.9);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:100000;
+  }
+
+  #policyBox {
+    background:#0d0d0d;
+    border:2px solid white;
+    border-radius:14px;
+    padding:24px;
+    max-width:420px;
+    text-align:left;
+    line-height:1.6;
+  }
+
+  #policyBox button {
+    margin-top:15px;
+    background:white;
+    color:black;
+    border:none;
+    padding:8px 16px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
   }
 </style>
 </head>
@@ -121,100 +168,91 @@
 </div>
 
 <div id="contentWarning">
-  <div class="bokeh">
-    <span></span><span></span><span></span><span></span><span></span>
-  </div>
+  <div class="bokeh" id="bokehLayer"></div>
 
   <div id="contentWarningBox">
-    <select id="langSelect" onchange="setLanguage(this.value)">
-      <optgroup label="Guaranteed">
-        <option value="en">English</option>
-        <option value="es">Español</option>
-        <option value="fr">Français</option>
-        <option value="de">Deutsch</option>
-        <option value="it">Italiano</option>
-        <option value="pt">Português</option>
-        <option value="nl">Nederlands</option>
-        <option value="sv">Svenska</option>
-        <option value="pl">Polski</option>
-        <option value="ru">Русский</option>
-        <option value="ja">日本語</option>
-        <option value="ko">한국어</option>
-        <option value="zh">中文</option>
-        <option value="ar">العربية</option>
-        <option value="he">עברית</option>
-        <option value="tr">Türkçe</option>
-      </optgroup>
-
-      <optgroup label="Additional (Best Effort)">
-        <option value="hi">हिन्दी</option>
-        <option value="bn">বাংলা</option>
-        <option value="vi">Tiếng Việt</option>
-        <option value="th">ไทย</option>
-        <option value="id">Bahasa Indonesia</option>
-        <option value="ms">Bahasa Melayu</option>
-        <option value="uk">Українська</option>
-        <option value="ro">Română</option>
-        <option value="hu">Magyar</option>
-        <option value="fi">Suomi</option>
-        <option value="da">Dansk</option>
-        <option value="no">Norsk</option>
-        <option value="cs">Čeština</option>
-        <option value="el">Ελληνικά</option>
-      </optgroup>
+    <select onchange="setLanguage(this.value)">
+      <option value="en">English</option>
+      <option value="es">Español</option>
+      <option value="fr">Français</option>
+      <option value="de">Deutsch</option>
+      <option value="pt">Português</option>
+      <option value="it">Italiano</option>
+      <option value="ru">Русский</option>
+      <option value="ja">日本語</option>
+      <option value="ko">한국어</option>
+      <option value="zh">中文</option>
+      <option value="ar">العربية</option>
+      <option value="he">עברית</option>
+      <option value="tr">Türkçe</option>
     </select>
 
     <div class="explicit-text" id="explicitText">explicit</div>
-    <button id="acceptBtn" onclick="unlockSite()">accept</button>
+
+    <button class="gate-btn" id="acceptBtn" onclick="unlockSite()">accept</button>
+    <button class="policy-link" onclick="openPolicy()">privacy policy</button>
+  </div>
+</div>
+
+<!-- PRIVACY POLICY MODAL -->
+<div id="policyModal">
+  <div id="policyBox">
+    <p>
+      drugfreeinu.com does not intentionally collect personal information.
+      Hosting and domain services may collect limited data.
+    </p>
+    <button onclick="closePolicy()">close</button>
   </div>
 </div>
 
 <script>
+/* translations */
 const translations = {
   en:{e:"explicit",a:"accept"},
   es:{e:"explícito",a:"aceptar"},
   fr:{e:"explicite",a:"accepter"},
   de:{e:"explizit",a:"akzeptieren"},
-  it:{e:"esplicito",a:"accetta"},
   pt:{e:"explícito",a:"aceitar"},
-  nl:{e:"expliciet",a:"accepteren"},
-  sv:{e:"explicit",a:"acceptera"},
-  pl:{e:"treści jawne",a:"akceptuj"},
+  it:{e:"esplicito",a:"accetta"},
   ru:{e:"откровенный",a:"принять"},
   ja:{e:"露骨な内容",a:"同意する"},
   ko:{e:"노골적인",a:"동의"},
   zh:{e:"露骨内容",a:"接受"},
   ar:{e:"محتوى صريح",a:"قبول"},
   he:{e:"תוכן מפורש",a:"קבל"},
-  tr:{e:"açık içerik",a:"kabul et"},
-
-  /* best effort */
-  hi:{e:"स्पष्ट सामग्री",a:"स्वीकार करें"},
-  bn:{e:"স্পষ্ট বিষয়বস্তু",a:"গ্রহণ করুন"},
-  vi:{e:"nội dung rõ ràng",a:"chấp nhận"},
-  th:{e:"เนื้อหาชัดเจน",a:"ยอมรับ"},
-  id:{e:"konten eksplisit",a:"terima"},
-  ms:{e:"kandungan eksplisit",a:"terima"},
-  uk:{e:"відвертий вміст",a:"прийняти"},
-  ro:{e:"conținut explicit",a:"acceptă"},
-  hu:{e:"explicit tartalom",a:"elfogad"},
-  fi:{e:"eksplisiittinen sisältö",a:"hyväksy"},
-  da:{e:"eksplicit indhold",a:"accepter"},
-  no:{e:"eksplisitt innhold",a:"godta"},
-  cs:{e:"explicitní obsah",a:"přijmout"},
-  el:{e:"ρητό περιεχόμενο",a:"αποδοχή"}
+  tr:{e:"açık içerik",a:"kabul et"}
 };
 
 function setLanguage(lang){
   const t = translations[lang] || translations.en;
-  document.getElementById("explicitText").innerText = t.e;
-  document.getElementById("acceptBtn").innerText = t.a;
+  explicitText.innerText = t.e;
+  acceptBtn.innerText = t.a;
 }
 
 function unlockSite(){
-  document.getElementById("site").classList.add("unlocked");
-  document.getElementById("contentWarning").classList.add("hidden");
+  site.classList.add("unlocked");
+  contentWarning.classList.add("hidden");
   document.body.style.overflow="auto";
+}
+
+function openPolicy(){
+  policyModal.style.display="flex";
+}
+
+function closePolicy(){
+  policyModal.style.display="none";
+}
+
+/* bokeh generator */
+const layer=document.getElementById("bokehLayer");
+for(let i=0;i<18;i++){
+  const s=document.createElement("span");
+  const size=120+Math.random()*180;
+  s.style.width=s.style.height=size+"px";
+  s.style.left=Math.random()*100+"%";
+  s.style.animationDuration=(60+Math.random()*60)+"s";
+  s.style.animationDelay=(-Math.random()*120)+"s";
+  layer.appendChild(s);
 }
 </script>
 
