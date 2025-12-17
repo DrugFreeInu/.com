@@ -4,14 +4,13 @@
 <meta charset="UTF-8">
 <title>DrugFreeInu</title>
 
-<!-- PERMISSIONS POLICY -->
 <meta http-equiv="Permissions-Policy" content="storage-access=()">
 
 <style>
   body {
     background:black;
     color:white;
-    font-family:"Arial Rounded MT Bold", sans-serif;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
     margin:0;
     padding:0;
     text-align:center;
@@ -45,7 +44,7 @@
   #contentWarning.hidden {
     opacity:0;
     pointer-events:none;
-    transition:opacity 0.4s ease;
+    transition:opacity 0.5s ease;
   }
 
   /* BOKEH */
@@ -58,35 +57,77 @@
 
   .bokeh span {
     position:absolute;
-    bottom:-300px;
+    bottom:-400px;
     border-radius:50%;
-    filter:blur(8px);
+    filter:blur(14px);
     opacity:0;
     animation-fill-mode:forwards;
-  }
-
-  .light {
-    background:radial-gradient(circle, rgba(180,90,255,0.4), rgba(0,0,0,0));
-  }
-
-  .dark {
-    background:radial-gradient(circle, rgba(90,30,160,0.35), rgba(0,0,0,0));
+    background:radial-gradient(
+      circle,
+      rgba(90,30,160,0.35),
+      rgba(0,0,0,0)
+    );
   }
 
   @keyframes floatChaos {
-    0% { transform:translate(0,0); opacity:0; }
-    5% { opacity:1; }
-    100% { transform:translate(var(--dx), var(--dy)); opacity:0; }
+    0% {
+      transform:translate(0,0);
+      opacity:0;
+    }
+    8% {
+      opacity:1;
+    }
+    100% {
+      transform:translate(var(--dx), var(--dy));
+      opacity:0;
+    }
   }
 
+  /* FLOATING GRAPHIC TEXT */
+  .policy-type {
+    position:absolute;
+    top:15%;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:20px;
+    font-weight:500;
+    letter-spacing:0.6px;
+    color:rgba(255,255,255,0.85);
+    text-shadow:
+      0 0 10px rgba(120,60,200,0.45),
+      0 0 22px rgba(90,30,160,0.35),
+      0 0 40px rgba(60,20,120,0.25);
+    z-index:1;
+    pointer-events:none;
+    white-space:nowrap;
+  }
+
+  .policy-type span.char {
+    opacity:0;
+    animation: charIn 1s forwards;
+  }
+
+  @keyframes charIn {
+    from {
+      opacity:0;
+      filter:blur(6px);
+    }
+    to {
+      opacity:1;
+      filter:blur(0);
+    }
+  }
+
+  /* GATE BOX */
   #contentWarningBox {
     position:relative;
     z-index:1;
     background:#0b0b0b;
-    border:2px solid white;
-    border-radius:14px;
+    border:2px solid rgba(255,255,255,0.9);
+    border-radius:16px;
     padding:30px;
     width:340px;
+    box-shadow:0 0 30px rgba(120,60,200,0.15);
   }
 
   select {
@@ -111,29 +152,8 @@
 
   .explicit-text {
     font-size:26px;
-    margin-bottom:14px;
+    margin-bottom:16px;
     letter-spacing:1px;
-  }
-
-  /* TYPING LINE */
-  .policy-type {
-    font-family:monospace;
-    font-size:12px;
-    color:rgba(255,255,255,0.65);
-    margin-bottom:14px;
-    min-height:16px;
-  }
-
-  .caret {
-    display:inline-block;
-    width:6px;
-    margin-left:2px;
-    animation: blink 1.2s infinite;
-  }
-
-  @keyframes blink {
-    0%,50%,100% { opacity:1; }
-    25%,75% { opacity:0; }
   }
 
   .gate-btn {
@@ -159,37 +179,6 @@
     cursor:pointer;
     width:100%;
   }
-
-  #policyModal {
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.9);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:100000;
-  }
-
-  #policyBox {
-    background:#0d0d0d;
-    border:2px solid white;
-    border-radius:14px;
-    padding:24px;
-    max-width:420px;
-    text-align:left;
-    line-height:1.6;
-  }
-
-  #policyBox button {
-    margin-top:15px;
-    background:white;
-    color:black;
-    border:none;
-    padding:8px 16px;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:bold;
-  }
 </style>
 </head>
 
@@ -202,6 +191,9 @@
 
 <div id="contentWarning">
   <div class="bokeh" id="bokehLayer"></div>
+
+  <!-- FLOATING GRAPHIC LINE -->
+  <div class="policy-type" id="policyType"></div>
 
   <div id="contentWarningBox">
     <select onchange="setLanguage(this.value)">
@@ -222,26 +214,12 @@
 
     <div class="explicit-text" id="explicitText">explicit</div>
 
-    <!-- TYPING POLICY -->
-    <div class="policy-type" id="policyType"></div>
-
     <button class="gate-btn" id="acceptBtn" onclick="unlockSite()">accept</button>
-    <button class="policy-link" onclick="openPolicy()">privacy policy</button>
-  </div>
-</div>
-
-<div id="policyModal">
-  <div id="policyBox">
-    <p>
-      drugfreeinu.com does not intentionally collect personal information.
-      Hosting and domain services may collect limited data.
-    </p>
-    <button onclick="closePolicy()">close</button>
+    <button class="policy-link">privacy policy</button>
   </div>
 </div>
 
 <script>
-/* TRANSLATIONS */
 const translations = {
   en:{e:"explicit",a:"accept"},
   es:{e:"explícito",a:"aceptar"},
@@ -270,38 +248,36 @@ function unlockSite(){
   document.body.style.overflow="auto";
 }
 
-function openPolicy(){ policyModal.style.display="flex"; }
-function closePolicy(){ policyModal.style.display="none"; }
-
-/* TYPING EFFECT */
+/* GRAPHIC TYPE EFFECT */
 const line = '<meta http-equiv="Permissions-Policy" content="storage-access=()">';
-let i = 0;
 const target = document.getElementById("policyType");
+let i = 0;
 
 (function type(){
-  if(i <= line.length){
-    target.innerHTML =
-      line.slice(0,i) + '<span class="caret">|</span>';
+  if(i < line.length){
+    const span = document.createElement("span");
+    span.className = "char";
+    span.textContent = line[i];
+    target.appendChild(span);
     i++;
-    setTimeout(type, 45 + Math.random()*80);
+    setTimeout(type, 55 + Math.random()*90);
   }
 })();
 
-/* CHAOS BOKEH */
+/* CHAOS BOKEH (DARK PURPLE ONLY) */
 const layer = document.getElementById("bokehLayer");
 const count = Math.floor(Math.random()*101);
 
 for(let i=0;i<count;i++){
   const s = document.createElement("span");
-  const size = 40 + Math.random()*360;
-  const dur = 20 + Math.random()*160;
+  const size = 60 + Math.random()*420;
+  const dur = 25 + Math.random()*160;
   const delay = Math.random()*50;
   s.style.width = s.style.height = size+"px";
   s.style.left = Math.random()*100+"%";
   s.style.animation = `floatChaos ${dur}s linear ${delay}s infinite`;
-  s.style.setProperty("--dx", (Math.random()*600-300)+"px");
-  s.style.setProperty("--dy", (-(120+Math.random()*220))+"vh");
-  s.className = Math.random()>0.5 ? "light" : "dark";
+  s.style.setProperty("--dx",(Math.random()*800-400)+"px");
+  s.style.setProperty("--dy",(-(140+Math.random()*260))+"vh");
   layer.appendChild(s);
 }
 </script>
