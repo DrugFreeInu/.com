@@ -27,34 +27,6 @@
     filter:none;
   }
 
-  .policy-button {
-    background:white;
-    color:black;
-    border:none;
-    padding:12px 22px;
-    font-size:18px;
-    border-radius:12px;
-    font-weight:bold;
-    cursor:pointer;
-    margin:20px auto 10px auto;
-    display:block;
-    width:260px;
-  }
-
-  .policy-box {
-    background:#0d0d0d;
-    border:2px solid white;
-    padding:25px;
-    border-radius:14px;
-    max-width:600px;
-    margin:20px auto;
-    line-height:1.6;
-    display:none;
-    text-align:left;
-    box-shadow:0 0 20px rgba(255,255,255,0.1);
-  }
-
-  /* OVERLAY */
   #contentWarning {
     position:fixed;
     inset:0;
@@ -72,34 +44,32 @@
     transition:opacity 0.4s ease;
   }
 
-  /* BOKEH LAYER */
+  /* BOKEH */
   .bokeh {
     position:absolute;
     inset:0;
-    overflow:hidden;
     z-index:0;
   }
 
   .bokeh span {
     position:absolute;
-    display:block;
-    width:120px;
-    height:120px;
-    background:radial-gradient(circle, rgba(160,80,255,0.35), rgba(0,0,0,0));
+    width:160px;
+    height:160px;
+    background:radial-gradient(circle, rgba(150,70,255,0.35), rgba(0,0,0,0));
     border-radius:50%;
-    animation: float 18s linear infinite;
-    filter:blur(2px);
+    animation: float 24s linear infinite;
+    filter:blur(4px);
   }
 
-  .bokeh span:nth-child(1) { left:10%; animation-duration:22s; }
-  .bokeh span:nth-child(2) { left:30%; width:180px; height:180px; animation-duration:26s; }
-  .bokeh span:nth-child(3) { left:50%; animation-duration:20s; }
-  .bokeh span:nth-child(4) { left:70%; width:200px; height:200px; animation-duration:28s; }
-  .bokeh span:nth-child(5) { left:85%; animation-duration:24s; }
+  .bokeh span:nth-child(1){left:5%;}
+  .bokeh span:nth-child(2){left:25%;animation-duration:30s;}
+  .bokeh span:nth-child(3){left:45%;animation-duration:26s;}
+  .bokeh span:nth-child(4){left:65%;animation-duration:32s;}
+  .bokeh span:nth-child(5){left:85%;animation-duration:28s;}
 
   @keyframes float {
     from { transform:translateY(110vh); }
-    to   { transform:translateY(-120vh); }
+    to { transform:translateY(-130vh); }
   }
 
   #contentWarningBox {
@@ -109,14 +79,33 @@
     border:2px solid white;
     border-radius:14px;
     padding:30px;
+    width:340px;
+  }
+
+  select {
+    width:100%;
+    padding:10px;
+    margin-bottom:18px;
+    background:black;
+    color:white;
+    border:1px solid white;
+    border-radius:8px;
+    font-size:14px;
+  }
+
+  .explicit-text {
+    font-size:26px;
+    margin-bottom:18px;
+    letter-spacing:1px;
   }
 
   #contentWarningBox button {
+    width:100%;
     background:white;
     color:black;
     border:none;
-    padding:14px 30px;
-    font-size:20px;
+    padding:12px;
+    font-size:18px;
     border-radius:12px;
     font-weight:bold;
     cursor:pointer;
@@ -129,27 +118,6 @@
 <div id="site">
   <h1>DrugFreeInu</h1>
   <p>an opportunity to<br>learn and create</p>
-
-  <button class="policy-button" onclick="document.getElementById('policy').style.display='block'">
-    Privacy Policy
-  </button>
-
-  <button class="policy-button" onclick="document.getElementById('terms').style.display='block'">
-    Terms & Conditions
-  </button>
-
-  <div id="policy" class="policy-box">
-    <p>
-      drugfreeinu.com does not intentionally collect personal information.
-      Hosting and domain services may collect data.
-    </p>
-  </div>
-
-  <div id="terms" class="policy-box">
-    <p>
-      All content is provided as-is for informational and creative purposes only.
-    </p>
-  </div>
 </div>
 
 <div id="contentWarning">
@@ -158,18 +126,95 @@
   </div>
 
   <div id="contentWarningBox">
-    <button onclick="unlockSite()">Explicit</button>
+    <select id="langSelect" onchange="setLanguage(this.value)">
+      <optgroup label="Guaranteed">
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="de">Deutsch</option>
+        <option value="it">Italiano</option>
+        <option value="pt">Português</option>
+        <option value="nl">Nederlands</option>
+        <option value="sv">Svenska</option>
+        <option value="pl">Polski</option>
+        <option value="ru">Русский</option>
+        <option value="ja">日本語</option>
+        <option value="ko">한국어</option>
+        <option value="zh">中文</option>
+        <option value="ar">العربية</option>
+        <option value="he">עברית</option>
+        <option value="tr">Türkçe</option>
+      </optgroup>
+
+      <optgroup label="Additional (Best Effort)">
+        <option value="hi">हिन्दी</option>
+        <option value="bn">বাংলা</option>
+        <option value="vi">Tiếng Việt</option>
+        <option value="th">ไทย</option>
+        <option value="id">Bahasa Indonesia</option>
+        <option value="ms">Bahasa Melayu</option>
+        <option value="uk">Українська</option>
+        <option value="ro">Română</option>
+        <option value="hu">Magyar</option>
+        <option value="fi">Suomi</option>
+        <option value="da">Dansk</option>
+        <option value="no">Norsk</option>
+        <option value="cs">Čeština</option>
+        <option value="el">Ελληνικά</option>
+      </optgroup>
+    </select>
+
+    <div class="explicit-text" id="explicitText">explicit</div>
+    <button id="acceptBtn" onclick="unlockSite()">accept</button>
   </div>
 </div>
 
 <script>
-const site = document.getElementById("site");
-const overlay = document.getElementById("contentWarning");
+const translations = {
+  en:{e:"explicit",a:"accept"},
+  es:{e:"explícito",a:"aceptar"},
+  fr:{e:"explicite",a:"accepter"},
+  de:{e:"explizit",a:"akzeptieren"},
+  it:{e:"esplicito",a:"accetta"},
+  pt:{e:"explícito",a:"aceitar"},
+  nl:{e:"expliciet",a:"accepteren"},
+  sv:{e:"explicit",a:"acceptera"},
+  pl:{e:"treści jawne",a:"akceptuj"},
+  ru:{e:"откровенный",a:"принять"},
+  ja:{e:"露骨な内容",a:"同意する"},
+  ko:{e:"노골적인",a:"동의"},
+  zh:{e:"露骨内容",a:"接受"},
+  ar:{e:"محتوى صريح",a:"قبول"},
+  he:{e:"תוכן מפורש",a:"קבל"},
+  tr:{e:"açık içerik",a:"kabul et"},
 
-function unlockSite() {
-  site.classList.add("unlocked");
-  overlay.classList.add("hidden");
-  document.body.style.overflow = "auto";
+  /* best effort */
+  hi:{e:"स्पष्ट सामग्री",a:"स्वीकार करें"},
+  bn:{e:"স্পষ্ট বিষয়বস্তু",a:"গ্রহণ করুন"},
+  vi:{e:"nội dung rõ ràng",a:"chấp nhận"},
+  th:{e:"เนื้อหาชัดเจน",a:"ยอมรับ"},
+  id:{e:"konten eksplisit",a:"terima"},
+  ms:{e:"kandungan eksplisit",a:"terima"},
+  uk:{e:"відвертий вміст",a:"прийняти"},
+  ro:{e:"conținut explicit",a:"acceptă"},
+  hu:{e:"explicit tartalom",a:"elfogad"},
+  fi:{e:"eksplisiittinen sisältö",a:"hyväksy"},
+  da:{e:"eksplicit indhold",a:"accepter"},
+  no:{e:"eksplisitt innhold",a:"godta"},
+  cs:{e:"explicitní obsah",a:"přijmout"},
+  el:{e:"ρητό περιεχόμενο",a:"αποδοχή"}
+};
+
+function setLanguage(lang){
+  const t = translations[lang] || translations.en;
+  document.getElementById("explicitText").innerText = t.e;
+  document.getElementById("acceptBtn").innerText = t.a;
+}
+
+function unlockSite(){
+  document.getElementById("site").classList.add("unlocked");
+  document.getElementById("contentWarning").classList.add("hidden");
+  document.body.style.overflow="auto";
 }
 </script>
 
