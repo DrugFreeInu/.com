@@ -15,7 +15,6 @@
     overflow:hidden;
   }
 
-  /* BLUR TARGET */
   #site {
     padding:20px;
     filter:blur(8px);
@@ -57,7 +56,6 @@
     margin-bottom:15px;
   }
 
-  /* OVERLAY */
   #contentWarning {
     position:fixed;
     inset:0;
@@ -66,7 +64,6 @@
     align-items:center;
     justify-content:center;
     z-index:99999;
-    text-align:center;
     padding:20px;
     opacity:1;
     transition:opacity 0.4s ease;
@@ -82,17 +79,7 @@
     border:2px solid white;
     border-radius:14px;
     padding:30px;
-    max-width:420px;
-  }
-
-  #contentWarningBox h2 {
-    margin:0 0 15px 0;
-    font-size:24px;
-  }
-
-  #contentWarningBox p {
-    margin-bottom:20px;
-    line-height:1.5;
+    max-width:320px;
   }
 
   #contentWarningBox button {
@@ -110,7 +97,6 @@
 
 <body>
 
-<!-- BLURRABLE SITE CONTENT -->
 <div id="site">
   <h1>DrugFreeInu</h1>
   <p>an opportunity to<br>learn and create</p>
@@ -137,15 +123,9 @@
   </div>
 </div>
 
-<!-- CONTENT WARNING -->
 <div id="contentWarning">
   <div id="contentWarningBox">
-    <h2>Explicit Content</h2>
-    <p>
-      This site may contain strong language, themes,
-      or material some viewers may find explicit.
-    </p>
-    <button onclick="unlockSite()">Continue</button>
+    <button onclick="unlockSite()">Explicit</button>
   </div>
 </div>
 
