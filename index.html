@@ -19,6 +19,8 @@
     padding:20px;
     filter:blur(8px);
     transition:filter 0.4s ease;
+    position:relative;
+    z-index:1;
   }
 
   #site.unlocked {
@@ -52,42 +54,69 @@
     box-shadow:0 0 20px rgba(255,255,255,0.1);
   }
 
-  .policy-box p {
-    margin-bottom:15px;
-  }
-
+  /* OVERLAY */
   #contentWarning {
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.88);
+    background:black;
     display:flex;
     align-items:center;
     justify-content:center;
     z-index:99999;
-    padding:20px;
-    opacity:1;
-    transition:opacity 0.4s ease;
+    overflow:hidden;
   }
 
   #contentWarning.hidden {
     opacity:0;
     pointer-events:none;
+    transition:opacity 0.4s ease;
+  }
+
+  /* BOKEH LAYER */
+  .bokeh {
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+    z-index:0;
+  }
+
+  .bokeh span {
+    position:absolute;
+    display:block;
+    width:120px;
+    height:120px;
+    background:radial-gradient(circle, rgba(160,80,255,0.35), rgba(0,0,0,0));
+    border-radius:50%;
+    animation: float 18s linear infinite;
+    filter:blur(2px);
+  }
+
+  .bokeh span:nth-child(1) { left:10%; animation-duration:22s; }
+  .bokeh span:nth-child(2) { left:30%; width:180px; height:180px; animation-duration:26s; }
+  .bokeh span:nth-child(3) { left:50%; animation-duration:20s; }
+  .bokeh span:nth-child(4) { left:70%; width:200px; height:200px; animation-duration:28s; }
+  .bokeh span:nth-child(5) { left:85%; animation-duration:24s; }
+
+  @keyframes float {
+    from { transform:translateY(110vh); }
+    to   { transform:translateY(-120vh); }
   }
 
   #contentWarningBox {
+    position:relative;
+    z-index:1;
     background:#0b0b0b;
     border:2px solid white;
     border-radius:14px;
     padding:30px;
-    max-width:320px;
   }
 
   #contentWarningBox button {
     background:white;
     color:black;
     border:none;
-    padding:12px 26px;
-    font-size:18px;
+    padding:14px 30px;
+    font-size:20px;
     border-radius:12px;
     font-weight:bold;
     cursor:pointer;
@@ -124,6 +153,10 @@
 </div>
 
 <div id="contentWarning">
+  <div class="bokeh">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
   <div id="contentWarningBox">
     <button onclick="unlockSite()">Explicit</button>
   </div>
