@@ -80,7 +80,7 @@
     top:10%;
     left:50%;
     transform:translateX(-50%) rotate(-6deg);
-    font-size:clamp(280px, 28vw, 520px); /* ~5× larger */
+    font-size:clamp(280px, 28vw, 520px);
     font-weight:500;
     letter-spacing:2.5px;
     color:rgba(220,235,255,0.35);
@@ -89,7 +89,7 @@
       0 0 160px rgba(120,60,255,0.45),
       0 0 280px rgba(90,30,160,0.35),
       0 0 420px rgba(40,10,120,0.25);
-    filter:blur(6px); /* softer blur */
+    filter:blur(6px);
     z-index:1;
     pointer-events:none;
     white-space:nowrap;
@@ -101,17 +101,7 @@
     opacity:0;
   }
 
-  .policy-type span {
-    opacity:0;
-    animation: typeIn 0.45s forwards;
-  }
-
-  @keyframes typeIn {
-    from { opacity:0; }
-    to { opacity:1; }
-  }
-
-  /* EXPLICIT BOX (2× SCALE — unchanged) */
+  /* EXPLICIT BOX */
   #contentWarningBox {
     position:relative;
     z-index:2;
@@ -201,18 +191,16 @@
 </div>
 
 <script>
-/* TYPEWRITER PROJECTION */
+/* TRUE TYPEWRITER — VISUAL = LOGIC */
 const line = '<meta http-equiv="Permissions-Policy" content="storage-access=()">';
 const target = document.getElementById("policyType");
 let i = 0;
 
 function typeChar(){
   if(i < line.length){
-    const span = document.createElement("span");
-    span.textContent = line[i];
-    target.appendChild(span);
+    target.textContent += line[i]; // appears exactly when typed
     i++;
-    setTimeout(typeChar, 120 + Math.random()*220);
+    setTimeout(typeChar, 140 + Math.random()*260);
   } else {
     setTimeout(() => {
       target.classList.add("fade-out");
