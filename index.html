@@ -134,15 +134,8 @@ const site = document.getElementById("site");
 const overlay = document.getElementById("contentWarning");
 
 function unlockSite() {
-  localStorage.setItem("dfi_unlocked", "true");
   site.classList.add("unlocked");
   overlay.classList.add("hidden");
-  document.body.style.overflow = "auto";
-}
-
-if (localStorage.getItem("dfi_unlocked") === "true") {
-  site.classList.add("unlocked");
-  overlay.style.display = "none";
   document.body.style.overflow = "auto";
 }
 </script>
