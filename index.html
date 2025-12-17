@@ -25,6 +25,11 @@
     z-index:1;
   }
 
+  #site.unlocked {
+    filter:none;
+  }
+
+  /* OVERLAY */
   #contentWarning {
     position:fixed;
     inset:0;
@@ -34,6 +39,12 @@
     justify-content:center;
     z-index:99999;
     overflow:hidden;
+  }
+
+  #contentWarning.hidden {
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.5s ease;
   }
 
   /* DARK PURPLE BOKEH */
@@ -64,49 +75,36 @@
     100% { opacity:0; transform:translate(var(--dx), var(--dy)); }
   }
 
-  /* MASSIVE SOFT CODE PROJECTION */
-  .policy-type {
-    position:absolute;
-    top:12%;
-    left:50%;
-    transform:translateX(-50%) rotate(-6deg);
-    font-size:clamp(260px, 26vw, 480px);
-    font-weight:500;
-    letter-spacing:2px;
-    color:rgba(235,240,255,0.45);
-    text-shadow:
-      0 0 60px rgba(140,170,255,0.35),
-      0 0 140px rgba(120,80,255,0.35),
-      0 0 260px rgba(90,30,160,0.30);
-    filter:blur(10px);
-    white-space:nowrap;
-    pointer-events:none;
-    will-change:transform, opacity;
-    transition:
-      transform 18s linear,
-      opacity 4s ease;
-  }
-
-  /* EXTRA BLUR FOR "meta" ONLY */
-  .policy-type .meta-blur {
-    filter:blur(18px);
-    opacity:0.35;
-  }
-
-  .policy-type.scroll {
-    transform:translate(-50%, -180vh) rotate(-6deg);
-    opacity:0;
-  }
-
   /* EXPLICIT BOX */
   #contentWarningBox {
     position:relative;
-    z-index:2;
+    z-index:1;
     background:#0b0b0b;
     border:2px solid rgba(255,255,255,0.9);
     border-radius:22px;
     padding:48px;
     width:520px;
+    box-shadow:0 0 40px rgba(120,60,200,0.2);
+  }
+
+  select {
+    width:100%;
+    padding:16px 44px 16px 16px;
+    margin-bottom:28px;
+    background:black;
+    color:white;
+    border:1px solid white;
+    border-radius:12px;
+    font-size:18px;
+    appearance:none;
+    background-image:
+      linear-gradient(45deg, transparent 50%, white 50%),
+      linear-gradient(135deg, white 50%, transparent 50%);
+    background-position:
+      calc(100% - 22px) 50%,
+      calc(100% - 14px) 50%;
+    background-size:8px 8px;
+    background-repeat:no-repeat;
   }
 
   .explicit-text {
@@ -139,45 +137,35 @@
 <div id="contentWarning">
   <div class="bokeh" id="bokehLayer"></div>
 
-  <!-- MASSIVE CODE PROJECTION -->
-  <div class="policy-type" id="policyType"></div>
-
   <div id="contentWarningBox">
+    <select>
+      <option>English</option>
+      <option>Español</option>
+      <option>Français</option>
+      <option>Deutsch</option>
+      <option>Português</option>
+      <option>Italiano</option>
+      <option>Русский</option>
+      <option>日本語</option>
+      <option>한국어</option>
+      <option>中文</option>
+      <option>العربية</option>
+      <option>עברית</option>
+      <option>Türkçe</option>
+    </select>
+
     <div class="explicit-text">explicit</div>
-    <button class="gate-btn">accept</button>
+
+    <button class="gate-btn" onclick="unlockSite()">accept</button>
   </div>
 </div>
 
 <script>
-/* SLOW TRUE TYPEWRITER + META BLUR */
-const line = '<meta http-equiv="Permissions-Policy" content="storage-access=()">';
-const target = document.getElementById("policyType");
-
-let i = 0;
-let buffer = "";
-
-function typeChar() {
-  if (i < line.length) {
-    buffer += line[i];
-
-    // Replace "meta" with blurred span once complete
-    const safe = buffer.replace(
-      /\bmeta\b/i,
-      '<span class="meta-blur">meta</span>'
-    );
-
-    target.innerHTML = safe;
-    i++;
-
-    // Slower cadence so each letter is seen
-    setTimeout(typeChar, 260 + Math.random() * 180);
-  } else {
-    setTimeout(() => {
-      target.classList.add("scroll");
-    }, 1800);
-  }
+function unlockSite(){
+  document.getElementById("site").classList.add("unlocked");
+  document.getElementById("contentWarning").classList.add("hidden");
+  document.body.style.overflow="auto";
 }
-typeChar();
 
 /* CHAOTIC DARK PURPLE BOKEH */
 const layer = document.getElementById("bokehLayer");
