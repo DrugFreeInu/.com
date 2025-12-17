@@ -100,8 +100,6 @@
     appearance:none;
     -webkit-appearance:none;
     -moz-appearance:none;
-
-    /* custom arrow */
     background-image:
       linear-gradient(45deg, transparent 50%, white 50%),
       linear-gradient(135deg, white 50%, transparent 50%);
@@ -118,16 +116,33 @@
     letter-spacing:3px;
   }
 
+  /* CLEAN ACCEPT BUTTON + SOFT PURPLE GLOW */
   .gate-btn {
     width:100%;
-    background:white;
-    color:black;
-    border:none;
+    background:transparent;
+    color:white;
+    border:1.5px solid rgba(190,150,255,0.9);
     padding:24px;
     font-size:31px;
-    border-radius:20px;
-    font-weight:bold;
+    border-radius:18px;
+    font-weight:500;
+    letter-spacing:1.5px;
     cursor:pointer;
+    box-shadow:
+      0 0 10px rgba(150,90,255,0.35),
+      0 0 22px rgba(120,60,200,0.25);
+    transition:
+      background 0.25s ease,
+      box-shadow 0.25s ease,
+      border-color 0.25s ease;
+  }
+
+  .gate-btn:hover {
+    background:rgba(255,255,255,0.06);
+    box-shadow:
+      0 0 14px rgba(170,120,255,0.45),
+      0 0 30px rgba(140,80,220,0.35);
+    border-color:rgba(220,190,255,1);
   }
 </style>
 </head>
@@ -179,7 +194,7 @@ const translations = {
   ko:{e:"노골적인",a:"동의"},
   zh:{e:"露骨内容",a:"接受"},
   ar:{e:"محتوى صريح",a:"قبول"},
-  he:{e:"תוכן מפורש",a:"קבל"},
+  he:{e:"תוכן מפورש",a:"קבל"},
   tr:{e:"açık içerik",a:"kabul et"}
 };
 
