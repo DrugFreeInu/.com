@@ -7,122 +7,144 @@
 <meta http-equiv="Permissions-Policy" content="storage-access=()">
 
 <style>
-  body {
-    background:black;
-    color:white;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
-    margin:0;
-    padding:0;
-    text-align:center;
-    overflow:hidden;
-  }
+body {
+  background:black;
+  color:white;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+  margin:0;
+  padding:0;
+  text-align:center;
+  overflow:hidden;
+}
 
-  #contentWarning {
-    position:fixed;
-    inset:0;
-    background:black;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:99999;
-    overflow:hidden;
-  }
+#contentWarning {
+  position:fixed;
+  inset:0;
+  background:black;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:99999;
+  overflow:hidden;
+}
 
-  #contentWarningBox {
-    position:relative;
-    background:#0b0b0b;
-    border:2px solid rgba(255,255,255,0.9);
-    border-radius:28px;
-    padding:62px;
-    width:680px;
-    box-shadow:0 0 52px rgba(120,60,200,0.22);
-  }
+/* BOX */
+#contentWarningBox {
+  position:relative;
+  background:#0b0b0b;
+  border:2px solid rgba(255,255,255,0.9);
+  border-radius:28px;
+  padding:62px;
+  width:680px;
+  box-shadow:0 0 52px rgba(120,60,200,0.22);
+}
 
-  .earth-photo {
-    width:100%;
-    max-width:360px;
-    margin:0 auto 28px auto;
-    display:block;
-    filter:drop-shadow(0 0 28px rgba(140,80,220,0.45));
-  }
+/* PHOTO */
+.earth-photo {
+  width:100%;
+  max-width:360px;
+  margin:0 auto 28px auto;
+  display:block;
+  filter:drop-shadow(0 0 28px rgba(140,80,220,0.45));
+}
 
-  /* LOCKED WIDTH DROPDOWN */
-  .lang-select {
-    position:relative;
-    margin-bottom:22px;
-    text-align:left;
-  }
+/* LANGUAGE SELECTOR */
+.lang-select {
+  position:relative;
+  margin-bottom:22px;
+  text-align:left;
+}
 
-  .lang-current {
-    padding:14px 18px;
-    border:1px solid rgba(255,255,255,0.85);
-    border-radius:14px;
-    font-size:19px;
-    cursor:pointer;
-    user-select:none;
-    width:100%;
-    box-sizing:border-box;
-  }
+.lang-current {
+  position:relative;
+  padding:14px 18px;
+  border:1px solid rgba(255,255,255,0.85);
+  border-radius:14px;
+  font-size:19px;
+  cursor:pointer;
+  user-select:none;
+  width:100%;
+  box-sizing:border-box;
+  overflow:hidden;
+}
 
-  .lang-current::after {
-    content:"▾";
-    float:right;
-    opacity:0.8;
-  }
+.lang-current::after {
+  content:"▾";
+  position:absolute;
+  right:18px;
+  top:50%;
+  transform:translateY(-50%);
+  opacity:0.8;
+}
 
-  .lang-options {
-    max-height:0;
-    overflow:hidden;
-    opacity:0;
-    margin-top:8px;
-    border-radius:14px;
-    border:1px solid rgba(255,255,255,0.15);
-    background:#0b0b0b;
-    transition:max-height 0.35s ease, opacity 0.25s ease;
-  }
+/* ghost text locks width */
+.lang-ghost {
+  visibility:hidden;
+  white-space:nowrap;
+}
 
-  .lang-options.open {
-    max-height:260px;
-    opacity:1;
-    overflow-y:auto;
-    -webkit-overflow-scrolling:touch;
-  }
+.lang-label {
+  position:absolute;
+  left:18px;
+  top:50%;
+  transform:translateY(-50%);
+  white-space:nowrap;
+}
 
-  .lang-options div {
-    padding:12px 18px;
-    font-size:18px;
-    cursor:pointer;
-  }
+/* DROPDOWN */
+.lang-options {
+  max-height:0;
+  overflow:hidden;
+  opacity:0;
+  margin-top:8px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.15);
+  background:#0b0b0b;
+  transition:max-height 0.35s ease, opacity 0.25s ease;
+}
 
-  .lang-options div:hover {
-    background:rgba(255,255,255,0.08);
-  }
+.lang-options.open {
+  max-height:260px;
+  opacity:1;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
 
-  /* FIXED HEIGHT TEXT (NO JUMP) */
-  .explicit-text {
-    font-size:62px;
-    letter-spacing:3px;
-    height:80px;
-    line-height:80px;
-    margin-bottom:36px;
-    white-space:nowrap;
-  }
+.lang-options div {
+  padding:12px 18px;
+  font-size:18px;
+  cursor:pointer;
+}
 
-  .gate-btn {
-    width:100%;
-    background:rgba(255,255,255,0.10);
-    color:white;
-    border:1.5px solid rgba(190,150,255,0.9);
-    padding:24px;
-    font-size:31px;
-    border-radius:18px;
-    font-weight:500;
-    letter-spacing:1.5px;
-    cursor:pointer;
-    box-shadow:
-      0 0 10px rgba(150,90,255,0.35),
-      0 0 22px rgba(120,60,200,0.25);
-  }
+.lang-options div:hover {
+  background:rgba(255,255,255,0.08);
+}
+
+/* TEXT + BUTTON */
+.explicit-text {
+  font-size:62px;
+  height:80px;
+  line-height:80px;
+  letter-spacing:3px;
+  margin-bottom:36px;
+  white-space:nowrap;
+}
+
+.gate-btn {
+  width:100%;
+  background:rgba(255,255,255,0.10);
+  color:white;
+  border:1.5px solid rgba(190,150,255,0.9);
+  padding:24px;
+  font-size:31px;
+  border-radius:18px;
+  font-weight:500;
+  letter-spacing:1.5px;
+  cursor:pointer;
+  box-shadow:
+    0 0 10px rgba(150,90,255,0.35),
+    0 0 22px rgba(120,60,200,0.25);
+}
 </style>
 </head>
 
@@ -134,14 +156,25 @@
     <img src="E55C11BE-05AB-4197-8A2B-DA7C038992D8.png" class="earth-photo" alt="">
 
     <div class="lang-select">
-      <div class="lang-current" onclick="toggleLang()">English</div>
+      <div class="lang-current" onclick="toggleLang()">
+        <span class="lang-ghost">Português</span>
+        <span class="lang-label" id="langLabel"></span>
+      </div>
+
       <div class="lang-options" id="langOptions">
-        <div onclick="manualLang('en','English')">English</div>
-        <div onclick="manualLang('es','Español')">Español</div>
-        <div onclick="manualLang('fr','Français')">Français</div>
-        <div onclick="manualLang('de','Deutsch')">Deutsch</div>
-        <div onclick="manualLang('ru','Русский')">Русский</div>
-        <div onclick="manualLang('ja','日本語')">日本語</div>
+        <div onclick="setLang('ar')">العربية</div>
+        <div onclick="setLang('de')">Deutsch</div>
+        <div onclick="setLang('en')">English</div>
+        <div onclick="setLang('es')">Español</div>
+        <div onclick="setLang('fr')">Français</div>
+        <div onclick="setLang('he')">עברית</div>
+        <div onclick="setLang('it')">Italiano</div>
+        <div onclick="setLang('ja')">日本語</div>
+        <div onclick="setLang('ko')">한국어</div>
+        <div onclick="setLang('pt')">Português</div>
+        <div onclick="setLang('ru')">Русский</div>
+        <div onclick="setLang('tr')">Türkçe</div>
+        <div onclick="setLang('zh')">中文</div>
       </div>
     </div>
 
@@ -152,55 +185,74 @@
 </div>
 
 <script>
-const translations = [
-  {l:"English", e:"explicit", a:"accept"},
-  {l:"Español", e:"explícito", a:"aceptar"},
-  {l:"Français", e:"explicite", a:"accepter"},
-  {l:"Deutsch", e:"explizit", a:"akzeptieren"},
-  {l:"Русский", e:"откровенный", a:"принять"},
-  {l:"日本語", e:"露骨な内容", a:"同意する"}
+const languages = [
+  {c:"en",l:"English",e:"explicit",a:"accept"},
+  {c:"es",l:"Español",e:"explícito",a:"aceptar"},
+  {c:"fr",l:"Français",e:"explicite",a:"accepter"},
+  {c:"de",l:"Deutsch",e:"explizit",a:"akzeptieren"},
+  {c:"pt",l:"Português",e:"explícito",a:"aceitar"},
+  {c:"it",l:"Italiano",e:"esplicito",a:"accetta"},
+  {c:"ru",l:"Русский",e:"откровенный",a:"принять"},
+  {c:"ja",l:"日本語",e:"露骨な内容",a:"同意する"},
+  {c:"ko",l:"한국어",e:"노골적인",a:"동의"},
+  {c:"zh",l:"中文",e:"露骨内容",a:"接受"},
+  {c:"ar",l:"العربية",e:"محتوى صريح",a:"قبول"},
+  {c:"he",l:"עברית",e:"תוכן מפורש",a:"קבל"},
+  {c:"tr",l:"Türkçe",e:"açık içerik",a:"kabul et"}
 ];
 
-let index = 0;
-let typing = false;
+let auto = true;
+let lastIndex = -1;
 
-function toggleLang(){
-  document.getElementById("langOptions").classList.toggle("open");
+const label = document.getElementById("langLabel");
+const explicitText = document.getElementById("explicitText");
+const acceptBtn = document.getElementById("acceptBtn");
+
+function getRandomLang(){
+  let r;
+  do {
+    r = Math.floor(Math.random() * languages.length);
+  } while (r === lastIndex);
+  lastIndex = r;
+  return languages[r];
 }
 
-function manualLang(code,label){
-  document.querySelector(".lang-current").innerText = label;
-  document.getElementById("langOptions").classList.remove("open");
-}
-
-function typeText(text, el, callback){
-  el.textContent = "";
+function typeAndApply(lang, done){
   let i = 0;
-  typing = true;
+  label.textContent = "";
+  explicitText.textContent = lang.e;
+  acceptBtn.textContent = lang.a;
 
-  const interval = setInterval(() => {
-    el.textContent += text[i];
-    i++;
-    if(i >= text.length){
-      clearInterval(interval);
-      typing = false;
-      setTimeout(callback, 1000); // ⏸ 1 second pause
+  const t = setInterval(()=>{
+    label.textContent += lang.l[i++];
+    if(i === lang.l.length){
+      clearInterval(t);
+      setTimeout(done, 1000); // ⏸ pause for reading
     }
   }, 90);
 }
 
-function cycleLanguage(){
-  const t = translations[index];
-  document.querySelector(".lang-current").innerText = t.l;
-
-  typeText(t.e, document.getElementById("explicitText"), () => {
-    document.getElementById("acceptBtn").textContent = t.a;
-    index = (index + 1) % translations.length;
-    cycleLanguage();
-  });
+function cycle(){
+  if(!auto) return;
+  const lang = getRandomLang();
+  typeAndApply(lang, cycle);
 }
 
-cycleLanguage();
+cycle();
+
+function toggleLang(){
+  auto = false;
+  document.getElementById("langOptions").classList.toggle("open");
+}
+
+function setLang(code){
+  auto = false;
+  const l = languages.find(x => x.c === code);
+  label.textContent = l.l;
+  explicitText.textContent = l.e;
+  acceptBtn.textContent = l.a;
+  document.getElementById("langOptions").classList.remove("open");
+}
 </script>
 
 </body>
