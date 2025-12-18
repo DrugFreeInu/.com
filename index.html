@@ -118,7 +118,7 @@ body {
   background:rgba(255,255,255,0.08);
 }
 
-/* TEXT + BUTTON */
+/* TEXT */
 .explicit-text {
   font-size:62px;
   height:80px;
@@ -128,7 +128,9 @@ body {
   white-space:nowrap;
 }
 
+/* BUTTON */
 .gate-btn {
+  position:relative;
   width:100%;
   background:rgba(255,255,255,0.10);
   color:white;
@@ -142,6 +144,22 @@ body {
   box-shadow:
     0 0 10px rgba(150,90,255,0.35),
     0 0 22px rgba(120,60,200,0.25);
+  overflow:hidden;
+}
+
+/* ghost locks button width */
+.btn-ghost {
+  visibility:hidden;
+  white-space:nowrap;
+}
+
+/* typed text sits on top */
+.btn-label {
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 </style>
 </head>
@@ -177,7 +195,12 @@ body {
     </div>
 
     <div class="explicit-text" id="explicitText"></div>
-    <button class="gate-btn" id="acceptBtn"></button>
+
+    <button class="gate-btn">
+      <!-- longest accept text locks size -->
+      <span class="btn-ghost">akzeptieren</span>
+      <span class="btn-label" id="acceptBtn"></span>
+    </button>
 
   </div>
 </div>
@@ -214,39 +237,33 @@ function clearTimers(){
 
 function getRandomLang(){
   let r;
-  do {
-    r = Math.floor(Math.random() * languages.length);
-  } while (r === lastIndex);
+  do { r = Math.floor(Math.random()*languages.length); }
+  while(r === lastIndex);
   lastIndex = r;
   return languages[r];
 }
 
-function typeText(el, text, speed, cb){
-  el.textContent = "";
-  let i = 0;
-  const t = setInterval(() => {
-    if(!auto){
+function typeText(el,text,speed,cb){
+  el.textContent="";
+  let i=0;
+  const t=setInterval(()=>{
+    if(!auto){clearInterval(t);return;}
+    el.textContent+=text[i++];
+    if(i>=text.length){
       clearInterval(t);
-      return;
+      cb&&cb();
     }
-    el.textContent += text[i++];
-    if(i >= text.length){
-      clearInterval(t);
-      cb && cb();
-    }
-  }, speed);
+  },speed);
 }
 
 function cycle(){
   if(!auto) return;
   clearTimers();
-
-  const lang = getRandomLang();
-
-  typeText(langLabel, lang.l, 90, () => {
-    typeText(explicitText, lang.e, 70, () => {
-      typeText(acceptBtn, lang.a, 70, () => {
-        timers.push(setTimeout(cycle, 2000)); // ⏸ 2 sec pause
+  const lang=getRandomLang();
+  typeText(langLabel,lang.l,90,()=>{
+    typeText(explicitText,lang.e,70,()=>{
+      typeText(acceptBtn,lang.a,70,()=>{
+        timers.push(setTimeout(cycle,2000));
       });
     });
   });
@@ -255,18 +272,18 @@ function cycle(){
 cycle();
 
 function toggleLang(){
-  auto = false;
+  auto=false;
   clearTimers();
   document.getElementById("langOptions").classList.toggle("open");
 }
 
 function setLang(code){
-  auto = false;
+  auto=false;
   clearTimers();
-  const l = languages.find(x => x.c === code);
-  langLabel.textContent = l.l;
-  explicitText.textContent = l.e;
-  acceptBtn.textContent = l.a;
+  const l=languages.find(x=>x.c===code);
+  langLabel.textContent=l.l;
+  explicitText.textContent=l.e;
+  acceptBtn.textContent=l.a;
   document.getElementById("langOptions").classList.remove("open");
 }
 </script>
