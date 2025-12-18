@@ -7,7 +7,7 @@
 <meta http-equiv="Permissions-Policy" content="storage-access=()">
 
 <style>
-body {
+body{
   background:black;
   color:white;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
@@ -17,7 +17,7 @@ body {
   overflow:hidden;
 }
 
-#contentWarning {
+#contentWarning{
   position:fixed;
   inset:0;
   background:black;
@@ -28,7 +28,7 @@ body {
 }
 
 /* BOX */
-#contentWarningBox {
+#contentWarningBox{
   position:relative;
   background:#0b0b0b;
   border:2px solid rgba(255,255,255,0.9);
@@ -39,7 +39,7 @@ body {
 }
 
 /* PHOTO */
-.earth-photo {
+.earth-photo{
   width:100%;
   max-width:360px;
   margin:0 auto 28px auto;
@@ -48,26 +48,25 @@ body {
 }
 
 /* LANGUAGE SELECTOR */
-.lang-select {
+.lang-select{
   position:relative;
   margin-bottom:22px;
 }
 
-.lang-current {
+.lang-current{
   position:relative;
   padding:14px 18px;
   border:1px solid rgba(255,255,255,0.85);
   border-radius:14px;
   font-size:19px;
   cursor:pointer;
-  user-select:none;
   width:100%;
   box-sizing:border-box;
   overflow:hidden;
   text-align:center;
 }
 
-.lang-current::after {
+.lang-current::after{
   content:"▾";
   position:absolute;
   right:18px;
@@ -76,12 +75,12 @@ body {
   opacity:0.8;
 }
 
-.lang-ghost {
+.lang-ghost{
   visibility:hidden;
   white-space:nowrap;
 }
 
-.lang-label {
+.lang-label{
   position:absolute;
   left:50%;
   top:50%;
@@ -91,7 +90,7 @@ body {
 }
 
 /* DROPDOWN */
-.lang-options {
+.lang-options{
   max-height:0;
   overflow:hidden;
   opacity:0;
@@ -99,28 +98,27 @@ body {
   border-radius:14px;
   border:1px solid rgba(255,255,255,0.15);
   background:#0b0b0b;
-  transition:max-height 0.35s ease, opacity 0.25s ease;
+  transition:max-height .35s ease, opacity .25s ease;
 }
 
-.lang-options.open {
+.lang-options.open{
   max-height:260px;
   opacity:1;
   overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
 }
 
-.lang-options div {
+.lang-options div{
   padding:12px 18px;
   font-size:18px;
   cursor:pointer;
 }
 
-.lang-options div:hover {
+.lang-options div:hover{
   background:rgba(255,255,255,0.08);
 }
 
 /* TEXT */
-.explicit-text {
+.explicit-text{
   font-size:62px;
   height:80px;
   line-height:80px;
@@ -130,7 +128,7 @@ body {
 }
 
 /* BUTTON */
-.gate-btn {
+.gate-btn{
   position:relative;
   width:100%;
   background:rgba(255,255,255,0.10);
@@ -139,7 +137,6 @@ body {
   padding:24px;
   font-size:31px;
   border-radius:18px;
-  font-weight:500;
   letter-spacing:1.5px;
   cursor:pointer;
   box-shadow:
@@ -148,12 +145,12 @@ body {
   overflow:hidden;
 }
 
-.btn-ghost {
+.btn-ghost{
   visibility:hidden;
   white-space:nowrap;
 }
 
-.btn-label {
+.btn-label{
   position:absolute;
   inset:0;
   display:flex;
@@ -168,7 +165,9 @@ body {
 <div id="contentWarning">
   <div id="contentWarningBox">
 
-    <img src="E55C11BE-05AB-4197-8A2B-DA7C038992D8.png" class="earth-photo" alt="">
+    <!-- PHOTO (RESTORED) -->
+    <img src="E55C11BE-05AB-4197-8A2B-DA7C038992D8.png"
+         class="earth-photo" alt="">
 
     <div class="lang-select">
       <div class="lang-current" onclick="toggleLang()">
@@ -204,7 +203,7 @@ body {
 </div>
 
 <script>
-const languages = [
+const languages=[
   {c:"en",l:"English",e:"explicit",a:"accept"},
   {c:"es",l:"Español",e:"explícito",a:"aceptar"},
   {c:"fr",l:"Français",e:"explicite",a:"accepter"},
@@ -220,70 +219,62 @@ const languages = [
   {c:"tr",l:"Türkçe",e:"açık içerik",a:"kabul et"}
 ];
 
-let auto = true;
-let lastIndex = -1;
-let cycleTimeout = null;
+let auto=true,last=-1,timer=null;
+const langLabel=document.getElementById("langLabel");
+const explicitText=document.getElementById("explicitText");
+const acceptBtn=document.getElementById("acceptBtn");
 
-const langLabel   = document.getElementById("langLabel");
-const explicitTxt = document.getElementById("explicitText");
-const acceptBtn   = document.getElementById("acceptBtn");
-
-function getRandomLang(){
+function randLang(){
   let r;
-  do { r = Math.floor(Math.random()*languages.length); }
-  while (r === lastIndex);
-  lastIndex = r;
+  do{ r=Math.floor(Math.random()*languages.length); }
+  while(r===last);
+  last=r;
   return languages[r];
 }
 
-function typeText(el, text, speed){
-  el.textContent = "";
-  let i = 0;
-  return new Promise(resolve => {
-    const t = setInterval(() => {
-      if(!auto){ clearInterval(t); return; }
-      el.textContent += text[i++];
-      if(i >= text.length){
-        clearInterval(t);
-        resolve();
-      }
-    }, speed);
+function type(el,text,speed){
+  el.textContent="";
+  let i=0;
+  return new Promise(res=>{
+    const t=setInterval(()=>{
+      if(!auto){clearInterval(t);return;}
+      el.textContent+=text[i++];
+      if(i>=text.length){clearInterval(t);res();}
+    },speed);
   });
 }
 
 async function cycle(){
   if(!auto) return;
-
-  const lang = getRandomLang();
-
-  langLabel.textContent = "";
-  explicitTxt.textContent = "";
-  acceptBtn.textContent = "";
+  const l=randLang();
+  langLabel.textContent="";
+  explicitText.textContent="";
+  acceptBtn.textContent="";
 
   await Promise.all([
-    typeText(langLabel, lang.l, 108),
-    typeText(explicitTxt, lang.e, 84),
-    typeText(acceptBtn, lang.a, 84)
+    type(langLabel,l.l,108),
+    type(explicitText,l.e,84),
+    type(acceptBtn,l.a,84)
   ]);
 
-  cycleTimeout = setTimeout(cycle, 2400); // ⏱ 20% faster
+  timer=setTimeout(cycle,1680); // ⏱ 30% faster
 }
 
 cycle();
 
 function toggleLang(){
-  auto = false;
-  clearTimeout(cycleTimeout);
+  auto=false;
+  clearTimeout(timer);
   document.getElementById("langOptions").classList.toggle("open");
 }
 
-function setLang(code){
-  auto = false;
-  clearTimeout(cycleTimeout);
-  const l = languages.find(x => x.c === code);
-  langLabel.textContent = l.l;
-  explicitTxt.textContent = l.e;
-  acceptBtn.textContent = l.a;
+function setLang(c){
+  auto=false;
+  clearTimeout(timer);
+  const l=languages.find(x=>x.c===c);
+  langLabel.textContent=l.l;
+  explicitText.textContent=l.e;
+  acceptBtn.textContent=l.a;
   document.getElementById("langOptions").classList.remove("open");
 }
 </script>
