@@ -76,7 +76,6 @@ body {
   opacity:0.8;
 }
 
-/* ghost text locks width */
 .lang-ghost {
   visibility:hidden;
   white-space:nowrap;
@@ -160,7 +159,6 @@ body {
         <span class="lang-label" id="langLabel"></span>
       </div>
 
-      <!-- Alphabetical list (as you wanted) -->
       <div class="lang-options" id="langOptions">
         <div onclick="setLang('ar')">العربية</div>
         <div onclick="setLang('de')">Deutsch</div>
@@ -179,7 +177,7 @@ body {
     </div>
 
     <div class="explicit-text" id="explicitText"></div>
-    <button class="gate-btn" id="acceptBtn">accept</button>
+    <button class="gate-btn" id="acceptBtn"></button>
 
   </div>
 </div>
@@ -203,20 +201,15 @@ const languages = [
 
 let auto = true;
 let lastIndex = -1;
-
-// timers so we can cancel cleanly when user interacts
-let langTimer = null;
-let expTimer = null;
-let cycleTimer = null;
+let timers = [];
 
 const langLabel = document.getElementById("langLabel");
 const explicitText = document.getElementById("explicitText");
 const acceptBtn = document.getElementById("acceptBtn");
 
-function clearAllTimers(){
-  if(langTimer) { clearInterval(langTimer); langTimer = null; }
-  if(expTimer)  { clearInterval(expTimer);  expTimer  = null; }
-  if(cycleTimer){ clearTimeout(cycleTimer); cycleTimer = null; }
+function clearTimers(){
+  timers.forEach(t => clearTimeout(t));
+  timers = [];
 }
 
 function getRandomLang(){
@@ -228,11 +221,10 @@ function getRandomLang(){
   return languages[r];
 }
 
-function typeInto(el, text, speed, onDone){
+function typeText(el, text, speed, cb){
   el.textContent = "";
   let i = 0;
   const t = setInterval(() => {
-    // stop mid-typing if user interacted
     if(!auto){
       clearInterval(t);
       return;
@@ -240,57 +232,41 @@ function typeInto(el, text, speed, onDone){
     el.textContent += text[i++];
     if(i >= text.length){
       clearInterval(t);
-      onDone && onDone();
+      cb && cb();
     }
   }, speed);
-  return t;
 }
 
 function cycle(){
   if(!auto) return;
-
-  clearAllTimers();
+  clearTimers();
 
   const lang = getRandomLang();
 
-  // Start BOTH typings at the same time
-  let langDone = false;
-  let expDone = false;
-
-  const checkBothDone = () => {
-    if(!auto) return;
-    if(langDone && expDone){
-      acceptBtn.textContent = lang.a;
-
-      // ✅ wait 1 second AFTER the LAST one finishes
-      cycleTimer = setTimeout(() => {
-        cycle();
-      }, 1000);
-    }
-  };
-
-  langTimer = typeInto(langLabel, lang.l, 90, () => { langDone = true; checkBothDone(); });
-  expTimer  = typeInto(explicitText, lang.e, 70, () => { expDone  = true; checkBothDone(); });
+  typeText(langLabel, lang.l, 90, () => {
+    typeText(explicitText, lang.e, 70, () => {
+      typeText(acceptBtn, lang.a, 70, () => {
+        timers.push(setTimeout(cycle, 2000)); // ⏸ 2 sec pause
+      });
+    });
+  });
 }
 
-// start immediately
 cycle();
 
 function toggleLang(){
   auto = false;
-  clearAllTimers();
+  clearTimers();
   document.getElementById("langOptions").classList.toggle("open");
 }
 
 function setLang(code){
   auto = false;
-  clearAllTimers();
-
+  clearTimers();
   const l = languages.find(x => x.c === code);
   langLabel.textContent = l.l;
   explicitText.textContent = l.e;
   acceptBtn.textContent = l.a;
-
   document.getElementById("langOptions").classList.remove("open");
 }
 </script>
