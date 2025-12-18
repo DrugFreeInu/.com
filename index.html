@@ -51,7 +51,6 @@ body {
 .lang-select {
   position:relative;
   margin-bottom:22px;
-  text-align:left;
 }
 
 .lang-current {
@@ -65,6 +64,7 @@ body {
   width:100%;
   box-sizing:border-box;
   overflow:hidden;
+  text-align:center;
 }
 
 .lang-current::after {
@@ -76,17 +76,20 @@ body {
   opacity:0.8;
 }
 
+/* ghost locks width */
 .lang-ghost {
   visibility:hidden;
   white-space:nowrap;
 }
 
+/* centered typed label */
 .lang-label {
   position:absolute;
-  left:18px;
+  left:50%;
   top:50%;
-  transform:translateY(-50%);
+  transform:translate(-50%,-50%);
   white-space:nowrap;
+  pointer-events:none;
 }
 
 /* DROPDOWN */
@@ -229,13 +232,13 @@ const acceptBtn   = document.getElementById("acceptBtn");
 
 function getRandomLang(){
   let r;
-  do { r = Math.floor(Math.random() * languages.length); }
+  do { r = Math.floor(Math.random()*languages.length); }
   while (r === lastIndex);
   lastIndex = r;
   return languages[r];
 }
 
-function typeText(el, text, speed){
+function typeText(el, text){
   el.textContent = "";
   let i = 0;
   return new Promise(resolve => {
@@ -246,7 +249,7 @@ function typeText(el, text, speed){
         clearInterval(t);
         resolve();
       }
-    }, speed);
+    }, 1000); // ⏳ slowed by ~1 second per letter
   });
 }
 
@@ -255,19 +258,16 @@ async function cycle(){
 
   const lang = getRandomLang();
 
-  // clear text before typing
   langLabel.textContent = "";
   explicitTxt.textContent = "";
   acceptBtn.textContent = "";
 
-  // type ALL THREE at same time
   await Promise.all([
-    typeText(langLabel, lang.l, 90),
-    typeText(explicitTxt, lang.e, 70),
-    typeText(acceptBtn, lang.a, 70)
+    typeText(langLabel, lang.l),
+    typeText(explicitTxt, lang.e),
+    typeText(acceptBtn, lang.a)
   ]);
 
-  // wait 3 seconds after all finished
   cycleTimeout = setTimeout(cycle, 3000);
 }
 
