@@ -107,6 +107,10 @@ body {
   font-size:19px;
   cursor:pointer;
   user-select:none;
+
+  /* 🔒 FIX: prevent shrink during typing */
+  width:100%;
+  box-sizing:border-box;
 }
 
 .lang-current::after {
@@ -180,7 +184,11 @@ body {
 
   <div id="contentWarningBox">
 
-    <img src="E55C11BE-05AB-4197-8A2B-DA7C038992D8.png" class="earth-photo" alt="">
+    <img
+      src="E55C11BE-05AB-4197-8A2B-DA7C038992D8.png"
+      alt=""
+      class="earth-photo"
+    >
 
     <div class="lang-select">
       <div class="lang-current" onclick="toggleLang()">
@@ -243,7 +251,7 @@ function typeAndApply(lang, done){
     label.textContent += lang.l[i++];
     if(i === lang.l.length){
       clearInterval(t);
-      setTimeout(done, 700); // faster switch
+      setTimeout(done, 700);
     }
   }, 90);
 }
@@ -254,7 +262,7 @@ function cycle(){
   typeAndApply(lang, cycle);
 }
 
-cycle(); // START IMMEDIATELY ON LOAD
+cycle(); // start immediately
 
 function toggleLang(){
   auto = false;
