@@ -180,15 +180,11 @@ body {
 
   <div id="contentWarningBox">
 
-    <img
-      src="E55C11BE-05AB-4197-8A2B-DA7C038992D8.png"
-      alt=""
-      class="earth-photo"
-    >
+    <img src="E55C11BE-05AB-4197-8A2B-DA7C038992D8.png" class="earth-photo" alt="">
 
     <div class="lang-select">
       <div class="lang-current" onclick="toggleLang()">
-        <span id="langLabel">English</span>
+        <span id="langLabel"></span>
       </div>
 
       <div class="lang-options" id="langOptions">
@@ -208,8 +204,8 @@ body {
       </div>
     </div>
 
-    <div class="explicit-text" id="explicitText">explicit</div>
-    <button class="gate-btn" id="acceptBtn" onclick="unlockSite()">accept</button>
+    <div class="explicit-text" id="explicitText"></div>
+    <button class="gate-btn" id="acceptBtn" onclick="unlockSite()"></button>
   </div>
 </div>
 
@@ -234,28 +230,31 @@ let idx = 0;
 let auto = true;
 
 const label = document.getElementById("langLabel");
+const explicitText = document.getElementById("explicitText");
+const acceptBtn = document.getElementById("acceptBtn");
 
-function typeWord(word, cb){
-  label.textContent = "";
+function typeAndApply(lang, done){
   let i = 0;
+  label.textContent = "";
+  explicitText.textContent = lang.e;
+  acceptBtn.textContent = lang.a;
+
   const t = setInterval(()=>{
-    label.textContent += word[i++];
-    if(i === word.length){
+    label.textContent += lang.l[i++];
+    if(i === lang.l.length){
       clearInterval(t);
-      setTimeout(cb, 1400);
+      setTimeout(done, 700); // faster switch
     }
-  }, 120);
+  }, 90);
 }
 
 function cycle(){
   if(!auto) return;
   const lang = languages[idx++ % languages.length];
-  typeWord(lang.l, () => {
-    setTimeout(cycle, 600);
-  });
+  typeAndApply(lang, cycle);
 }
 
-setTimeout(cycle, 1500);
+cycle(); // START IMMEDIATELY ON LOAD
 
 function toggleLang(){
   auto = false;
@@ -266,8 +265,8 @@ function setLang(code){
   auto = false;
   const l = languages.find(x => x.c === code);
   label.textContent = l.l;
-  document.getElementById("explicitText").textContent = l.e;
-  document.getElementById("acceptBtn").textContent = l.a;
+  explicitText.textContent = l.e;
+  acceptBtn.textContent = l.a;
   document.getElementById("langOptions").classList.remove("open");
 }
 
