@@ -76,13 +76,11 @@ body {
   opacity:0.8;
 }
 
-/* ghost locks width */
 .lang-ghost {
   visibility:hidden;
   white-space:nowrap;
 }
 
-/* centered typed label */
 .lang-label {
   position:absolute;
   left:50%;
@@ -238,7 +236,7 @@ function getRandomLang(){
   return languages[r];
 }
 
-function typeText(el, text){
+function typeText(el, text, speed){
   el.textContent = "";
   let i = 0;
   return new Promise(resolve => {
@@ -249,7 +247,7 @@ function typeText(el, text){
         clearInterval(t);
         resolve();
       }
-    }, 1000); // ⏳ slowed by ~1 second per letter
+    }, speed);
   });
 }
 
@@ -263,9 +261,9 @@ async function cycle(){
   acceptBtn.textContent = "";
 
   await Promise.all([
-    typeText(langLabel, lang.l),
-    typeText(explicitTxt, lang.e),
-    typeText(acceptBtn, lang.a)
+    typeText(langLabel, lang.l, 108),
+    typeText(explicitTxt, lang.e, 84),
+    typeText(acceptBtn, lang.a, 84)
   ]);
 
   cycleTimeout = setTimeout(cycle, 3000);
