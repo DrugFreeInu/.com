@@ -21,26 +21,27 @@ body{
   justify-content:center;
 }
 
+/* MAIN WINDOW */
 .window{
   background:#0b0b0b;
   border:2px solid rgba(180,130,255,0.9);
   border-radius:28px;
-  padding:46px;
-  width:520px;
+  padding:56px;
+  width:680px;
   box-shadow:0 0 60px rgba(120,60,200,0.3);
   text-align:center;
 }
 
-/* SPHERE */
-.sphere{
-  width:220px;
-  height:220px;
+/* FLAT EARTH DISC */
+.disc{
+  width:240px;
+  height:240px;
   margin:0 auto 30px;
   border-radius:50%;
   background:
     radial-gradient(circle at center,
-      rgba(160,100,255,0.15),
-      rgba(40,0,80,0.9)
+      rgba(180,120,255,0.18),
+      rgba(40,0,80,0.95)
     );
   box-shadow:
     inset 0 0 40px rgba(180,120,255,0.4),
@@ -48,62 +49,73 @@ body{
   position:relative;
 }
 
-.sphere::before{
-  content:"";
+.continents{
   position:absolute;
-  inset:14px;
-  border-radius:50%;
-  border:1px dashed rgba(200,150,255,0.35);
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  flex-wrap:wrap;
 }
 
-/* REGIONS */
-.regions{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-}
-
-.region{
-  padding:14px;
+.continent{
+  font-size:13px;
+  padding:6px 10px;
   border:1px solid rgba(200,160,255,0.6);
-  border-radius:14px;
+  border-radius:999px;
   cursor:pointer;
   background:rgba(255,255,255,0.06);
 }
 
-.region:hover{
+.continent:hover{
   background:rgba(255,255,255,0.12);
 }
 
-/* LANGUAGE */
+/* CEREMONIAL TEXT */
+.lang-ceremony{
+  height:42px;
+  margin-bottom:18px;
+  font-size:28px;
+  letter-spacing:4px;
+  opacity:0.85;
+}
+
+/* DROPDOWN */
 .lang-select{
-  display:none;
-  margin-top:22px;
+  margin-bottom:28px;
+  text-align:left;
 }
 
 .lang-current{
-  padding:14px;
-  border:1px solid rgba(255,255,255,0.8);
+  padding:14px 18px;
+  border:1px solid rgba(255,255,255,0.85);
   border-radius:14px;
+  font-size:19px;
   cursor:pointer;
+}
+
+.lang-current::after{
+  content:"▾";
+  float:right;
 }
 
 .lang-options{
   max-height:0;
   overflow:hidden;
-  transition:max-height .3s ease;
   margin-top:8px;
   border-radius:14px;
   border:1px solid rgba(255,255,255,0.2);
+  transition:max-height .35s ease;
 }
 
 .lang-options.open{
-  max-height:240px;
+  max-height:260px;
   overflow-y:auto;
 }
 
 .lang-options div{
-  padding:12px;
+  padding:12px 18px;
   cursor:pointer;
 }
 
@@ -111,16 +123,18 @@ body{
   background:rgba(255,255,255,0.1);
 }
 
+/* EXPLICIT */
 .explicit{
-  font-size:56px;
-  margin:30px 0;
+  font-size:62px;
+  margin:36px 0;
+  letter-spacing:3px;
 }
 
 button{
   width:100%;
-  padding:20px;
-  font-size:28px;
-  background:rgba(255,255,255,0.1);
+  padding:22px;
+  font-size:30px;
+  background:rgba(255,255,255,0.10);
   color:white;
   border:1.5px solid rgba(180,140,255,0.9);
   border-radius:18px;
@@ -133,53 +147,53 @@ button{
 <div id="overlay">
   <div class="window">
 
-    <div class="sphere"></div>
-
-    <!-- REGIONS -->
-    <div class="regions" id="regions">
-      <div class="region" onclick="pickRegion('west')">Americas / Europe</div>
-      <div class="region" onclick="pickRegion('asia')">Asia</div>
-      <div class="region" onclick="pickRegion('mena')">Middle East</div>
-      <div class="region" onclick="pickRegion('global')">Global</div>
+    <!-- FLAT EARTH -->
+    <div class="disc">
+      <div class="continents">
+        <div class="continent" onclick="setRegion('west')">Americas</div>
+        <div class="continent" onclick="setRegion('europe')">Europe</div>
+        <div class="continent" onclick="setRegion('asia')">Asia</div>
+        <div class="continent" onclick="setRegion('mena')">MENA</div>
+      </div>
     </div>
 
-    <!-- LANGUAGES -->
-    <div class="lang-select" id="langSelect">
+    <!-- CEREMONY -->
+    <div class="lang-ceremony" id="ceremony"></div>
+
+    <!-- DROPDOWN -->
+    <div class="lang-select">
       <div class="lang-current" onclick="toggleLang()">English</div>
       <div class="lang-options" id="langOptions"></div>
     </div>
 
-    <div class="explicit" id="explicitText">explicit</div>
-
-    <button id="acceptBtn">accept</button>
+    <div class="explicit">explicit</div>
+    <button>accept</button>
   </div>
 </div>
 
 <script>
-const languages = {
-  west:[
-    ["en","English"],["es","Español"],["fr","Français"],
-    ["de","Deutsch"],["pt","Português"],["it","Italiano"]
-  ],
-  asia:[
-    ["ja","日本語"],["ko","한국어"],["zh","中文"]
-  ],
-  mena:[
-    ["ar","العربية"],["he","עברית"],["tr","Türkçe"]
-  ],
-  global:[
-    ["ru","Русский"],["en","English"],["es","Español"]
-  ]
+const regions = {
+  west:["English","Español","Français","Português"],
+  europe:["Deutsch","Italiano","Русский"],
+  asia:["日本語","한국어","中文"],
+  mena:["العربية","עברית","Türkçe"]
 };
 
-function pickRegion(region){
-  document.getElementById("langSelect").style.display="block";
+let ceremonyQueue=[];
+let ceremonyEl=document.getElementById("ceremony");
+
+function setRegion(region){
+  ceremonyQueue=[...regions[region]];
+  runCeremony();
+  populateDropdown(regions[region]);
+}
+
+function populateDropdown(list){
   const box=document.getElementById("langOptions");
   box.innerHTML="";
-  languages[region].forEach(l=>{
+  list.forEach(l=>{
     const d=document.createElement("div");
-    d.textContent=l[1];
-    d.onclick=()=>selectLang(l[0],l[1]);
+    d.textContent=l;
     box.appendChild(d);
   });
 }
@@ -188,11 +202,22 @@ function toggleLang(){
   document.getElementById("langOptions").classList.toggle("open");
 }
 
-function selectLang(code,label){
-  document.querySelector(".lang-current").textContent=label;
-  document.getElementById("langOptions").classList.remove("open");
+/* LETTER BY LETTER CEREMONY */
+async function runCeremony(){
+  for(const word of ceremonyQueue){
+    ceremonyEl.textContent="";
+    for(const char of word){
+      ceremonyEl.textContent+=char;
+      await sleep(120);
+    }
+    await sleep(900);
+    ceremonyEl.style.opacity=0;
+    await sleep(400);
+    ceremonyEl.style.opacity=1;
+  }
 }
 
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
 </script>
 
 </body>
