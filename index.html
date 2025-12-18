@@ -2,101 +2,268 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DrugFreeInu — Foundation</title>
+<title>DrugFreeInu</title>
+
+<meta http-equiv="Permissions-Policy" content="storage-access=()">
 
 <style>
-html, body {
-  margin:0;
-  padding:0;
-  width:100%;
-  height:100%;
-  background:black;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
-}
+  body {
+    background:black;
+    color:white;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+    margin:0;
+    padding:0;
+    text-align:center;
+    overflow:hidden;
+  }
 
-/* SUBTLE BREATHING */
-@keyframes breathe {
-  0%   { filter: drop-shadow(0 0 18px rgba(140,80,220,0.35)); }
-  50%  { filter: drop-shadow(0 0 30px rgba(160,110,255,0.55)); }
-  100% { filter: drop-shadow(0 0 18px rgba(140,80,220,0.35)); }
-}
+  #site {
+    padding:26px;
+    filter:blur(8px);
+    transition:filter 0.4s ease;
+    position:relative;
+    z-index:1;
+  }
 
-#earth {
-  animation: breathe 10s ease-in-out infinite;
-}
+  #site.unlocked {
+    filter:none;
+  }
+
+  #contentWarning {
+    position:fixed;
+    inset:0;
+    background:black;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:99999;
+    overflow:hidden;
+  }
+
+  #contentWarning.hidden {
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.5s ease;
+  }
+
+  /* BOKEH */
+  .bokeh {
+    position:absolute;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+  }
+
+  .bokeh span {
+    position:absolute;
+    bottom:-600px;
+    border-radius:50%;
+    filter:blur(22px);
+    background:radial-gradient(
+      circle,
+      rgba(90,30,160,0.35),
+      rgba(0,0,0,0)
+    );
+    opacity:0;
+    animation-fill-mode:forwards;
+  }
+
+  @keyframes floatChaos {
+    0% { opacity:0; transform:translate(0,0); }
+    15% { opacity:1; }
+    100% { opacity:0; transform:translate(var(--dx), var(--dy)); }
+  }
+
+  /* BOX */
+  #contentWarningBox {
+    position:relative;
+    z-index:1;
+    background:#0b0b0b;
+    border:2px solid rgba(255,255,255,0.9);
+    border-radius:28px;
+    padding:62px;
+    width:680px;
+    box-shadow:0 0 52px rgba(120,60,200,0.22);
+  }
+
+  /* PHOTO */
+  .earth-photo {
+    width:100%;
+    max-width:360px;
+    margin:0 auto 36px auto;
+    display:block;
+    filter:drop-shadow(0 0 28px rgba(140,80,220,0.45));
+  }
+
+  /* CUSTOM DROPDOWN */
+  .lang-select {
+    position:relative;
+    margin-bottom:22px;
+    text-align:left;
+  }
+
+  .lang-current {
+    padding:14px 18px;
+    border:1px solid rgba(255,255,255,0.85);
+    border-radius:14px;
+    font-size:19px;
+    cursor:pointer;
+    user-select:none;
+  }
+
+  .lang-current::after {
+    content:"▾";
+    float:right;
+    opacity:0.8;
+  }
+
+  .lang-options {
+    max-height:0;
+    overflow:hidden;
+    opacity:0;
+    margin-top:8px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,0.15);
+    background:#0b0b0b;
+    transition:max-height 0.35s ease, opacity 0.25s ease;
+  }
+
+  .lang-options.open {
+    max-height:260px;
+    opacity:1;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .lang-options div {
+    padding:12px 18px;
+    font-size:18px;
+    cursor:pointer;
+  }
+
+  .lang-options div:hover {
+    background:rgba(255,255,255,0.08);
+  }
+
+  .explicit-text {
+    font-size:62px;
+    margin-bottom:36px;
+    letter-spacing:3px;
+  }
+
+  .gate-btn {
+    width:100%;
+    background:rgba(255,255,255,0.10);
+    color:white;
+    border:1.5px solid rgba(190,150,255,0.9);
+    padding:24px;
+    font-size:31px;
+    border-radius:18px;
+    font-weight:500;
+    letter-spacing:1.5px;
+    cursor:pointer;
+    box-shadow:
+      0 0 10px rgba(150,90,255,0.35),
+      0 0 22px rgba(120,60,200,0.25);
+  }
 </style>
 </head>
 
 <body>
 
-<!-- FLAT EARTH DISC -->
-<svg
-  id="earth"
-  width="320"
-  height="320"
-  viewBox="0 0 260 260"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <!-- DISC -->
-  <circle
-    cx="130"
-    cy="130"
-    r="120"
-    fill="#050505"
-    stroke="rgba(160,110,255,0.65)"
-    stroke-width="2"
-  />
+<div id="site">
+  <h1>DrugFreeInu</h1>
+  <p>an opportunity to<br>learn and create</p>
+</div>
 
-  <!-- AMERICAS -->
-  <path
-    d="M70 50
-       C55 85, 55 140, 70 180
-       C85 210, 95 190, 95 150
-       C95 110, 100 80, 85 60"
-    fill="rgba(120,70,200,0.38)"
-  />
+<div id="contentWarning">
+  <div class="bokeh" id="bokehLayer"></div>
 
-  <!-- EURASIA -->
-  <path
-    d="M115 55
-       C155 45, 195 65, 210 90
-       C220 110, 200 130, 165 125
-       C145 120, 125 130, 115 115
-       C105 95, 105 65, 115 55"
-    fill="rgba(120,70,200,0.38)"
-  />
+  <div id="contentWarningBox">
 
-  <!-- AFRICA -->
-  <path
-    d="M135 120
-       C150 130, 160 155, 150 180
-       C140 205, 120 200, 115 175
-       C110 150, 120 130, 135 120"
-    fill="rgba(120,70,200,0.38)"
-  />
+    <!-- PHOTO ABOVE LANGUAGE SELECTOR -->
+    <img
+      src="E55C11BE-05AB-4197-8A2B-DA7C038992D8.png"
+      alt=""
+      class="earth-photo"
+    >
 
-  <!-- AUSTRALIA -->
-  <path
-    d="M185 165
-       C200 160, 215 170, 210 185
-       C205 200, 185 195, 182 180
-       C180 170, 180 168, 185 165"
-    fill="rgba(120,70,200,0.38)"
-  />
+    <div class="lang-select">
+      <div class="lang-current" onclick="toggleLang()">English</div>
+      <div class="lang-options" id="langOptions">
+        <div onclick="setLang('en','English')">English</div>
+        <div onclick="setLang('es','Español')">Español</div>
+        <div onclick="setLang('fr','Français')">Français</div>
+        <div onclick="setLang('de','Deutsch')">Deutsch</div>
+        <div onclick="setLang('pt','Português')">Português</div>
+        <div onclick="setLang('it','Italiano')">Italiano</div>
+        <div onclick="setLang('ru','Русский')">Русский</div>
+        <div onclick="setLang('ja','日本語')">日本語</div>
+        <div onclick="setLang('ko','한국어')">한국어</div>
+        <div onclick="setLang('zh','中文')">中文</div>
+        <div onclick="setLang('ar','العربية')">العربية</div>
+        <div onclick="setLang('he','עברית')">עברית</div>
+        <div onclick="setLang('tr','Türkçe')">Türkçe</div>
+      </div>
+    </div>
 
-  <!-- ANTARCTICA (FAINT ARC) -->
-  <path
-    d="M55 215
-       C130 235, 205 215, 205 215"
-    stroke="rgba(140,90,255,0.35)"
-    stroke-width="3"
-    fill="none"
-  />
-</svg>
+    <div class="explicit-text" id="explicitText">explicit</div>
+
+    <button class="gate-btn" id="acceptBtn" onclick="unlockSite()">accept</button>
+  </div>
+</div>
+
+<script>
+const translations = {
+  en:{e:"explicit",a:"accept"},
+  es:{e:"explícito",a:"aceptar"},
+  fr:{e:"explicite",a:"accepter"},
+  de:{e:"explizit",a:"akzeptieren"},
+  pt:{e:"explícito",a:"aceitar"},
+  it:{e:"esplicito",a:"accetta"},
+  ru:{e:"откровенный",a:"принять"},
+  ja:{e:"露骨な内容",a:"同意する"},
+  ko:{e:"노골적인",a:"동의"},
+  zh:{e:"露骨内容",a:"接受"},
+  ar:{e:"محتوى صريح",a:"قبول"},
+  he:{e:"תוכן מפורש",a:"קבל"},
+  tr:{e:"açık içerik",a:"kabul et"}
+};
+
+function toggleLang(){
+  document.getElementById("langOptions").classList.toggle("open");
+}
+
+function setLang(code,label){
+  document.querySelector(".lang-current").innerText = label;
+  document.getElementById("langOptions").classList.remove("open");
+  const t = translations[code] || translations.en;
+  document.getElementById("explicitText").innerText = t.e;
+  document.getElementById("acceptBtn").innerText = t.a;
+}
+
+function unlockSite(){
+  document.getElementById("site").classList.add("unlocked");
+  document.getElementById("contentWarning").classList.add("hidden");
+  document.body.style.overflow="auto";
+}
+
+/* BOKEH */
+const layer = document.getElementById("bokehLayer");
+const count = Math.floor(Math.random()*101);
+for(let i=0;i<count;i++){
+  const s=document.createElement("span");
+  const size=160+Math.random()*900;
+  const dur=30+Math.random()*260;
+  const delay=Math.random()*90;
+  s.style.width=s.style.height=size+"px";
+  s.style.left=Math.random()*100+"%";
+  s.style.animation=`floatChaos ${dur}s linear ${delay}s infinite`;
+  s.style.setProperty("--dx",(Math.random()*1400-700)+"px");
+  s.style.setProperty("--dy",(-(220+Math.random()*480))+"vh");
+  layer.appendChild(s);
+}
+</script>
 
 </body>
 </html>
