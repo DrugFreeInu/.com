@@ -38,52 +38,26 @@ body{
   box-shadow:0 0 52px rgba(120,60,200,0.22);
 }
 
-/* EARTH */
-.earth-wrap{
-  position:relative;
+/* PHOTO */
+.earth-photo{
   width:100%;
   max-width:360px;
   margin:0 auto 28px auto;
-}
-
-.earth-photo{
-  width:100%;
   display:block;
   filter:drop-shadow(0 0 28px rgba(140,80,220,0.45));
 }
 
-/* OVERLAY */
-.earth-overlay{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-}
-
-.earth-overlay path{
-  filter:blur(14px);
-  opacity:0;
-  transition:opacity .6s ease;
-}
-
-/* REGION COLORS */
-#americas { fill:rgba(120,160,255,0.45); }
-#europe   { fill:rgba(180,120,255,0.45); }
-#africa   { fill:rgba(255,140,200,0.45); }
-#asia     { fill:rgba(255,120,120,0.40); }
-#australia{ fill:rgba(140,255,200,0.40); }
-
-.earth-overlay path.active{
-  opacity:1;
-}
-
 /* LANGUAGE SELECTOR */
 .lang-select{
+  position:relative;
   margin-bottom:22px;
 }
 
 .lang-current{
   position:relative;
-  padding:14px 18px;
+  height:52px;                 /* 🔒 LOCKED */
+  line-height:52px;
+  padding:0 18px;
   border:1px solid rgba(255,255,255,0.85);
   border-radius:14px;
   font-size:19px;
@@ -91,6 +65,7 @@ body{
   width:100%;
   box-sizing:border-box;
   text-align:center;
+  overflow:hidden;
 }
 
 .lang-current::after{
@@ -102,6 +77,22 @@ body{
   opacity:0.8;
 }
 
+.lang-ghost{
+  visibility:hidden;
+  position:absolute;
+  white-space:nowrap;
+}
+
+.lang-label{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  white-space:nowrap;
+  pointer-events:none;
+}
+
+/* DROPDOWN */
 .lang-options{
   max-height:0;
   overflow:hidden;
@@ -132,7 +123,7 @@ body{
 /* TEXT */
 .explicit-text{
   font-size:62px;
-  height:80px;
+  height:80px;                /* 🔒 LOCKED */
   line-height:80px;
   letter-spacing:3px;
   margin-bottom:36px;
@@ -141,11 +132,12 @@ body{
 
 /* BUTTON */
 .gate-btn{
+  position:relative;
   width:100%;
+  height:88px;               /* 🔒 LOCKED */
   background:rgba(255,255,255,0.10);
   color:white;
   border:1.5px solid rgba(190,150,255,0.9);
-  padding:24px;
   font-size:31px;
   border-radius:18px;
   letter-spacing:1.5px;
@@ -153,6 +145,21 @@ body{
   box-shadow:
     0 0 10px rgba(150,90,255,0.35),
     0 0 22px rgba(120,60,200,0.25);
+  overflow:hidden;
+}
+
+.btn-ghost{
+  visibility:hidden;
+  position:absolute;
+  white-space:nowrap;
+}
+
+.btn-label{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 </style>
 </head>
@@ -162,22 +169,19 @@ body{
 <div id="contentWarning">
   <div id="contentWarningBox">
 
-    <!-- EARTH -->
-    <div class="earth-wrap">
-      <img src="E55C11BE-05AB-4197-8A2B-DA7C038992D8.png" class="earth-photo" alt="">
-
-      <svg class="earth-overlay" viewBox="0 0 1000 500">
-        <path id="americas" d="M120,90 C220,40 260,160 220,300 C180,420 90,350 80,220 C70,140 90,110 120,90Z"/>
-        <path id="europe" d="M420,120 C460,90 520,120 500,170 C480,210 430,190 420,150Z"/>
-        <path id="africa" d="M470,190 C530,210 560,300 510,360 C470,410 440,330 450,260Z"/>
-        <path id="asia" d="M540,90 C760,100 860,220 760,300 C650,360 560,260 560,160Z"/>
-        <path id="australia" d="M780,330 C830,330 860,360 830,400 C790,420 760,380 780,330Z"/>
-      </svg>
-    </div>
+    <!-- PHOTO -->
+    <img
+      src="E55C11BE-05AB-4197-8A2B-DA7C038992D8.png"
+      class="earth-photo"
+      alt=""
+    >
 
     <!-- LANGUAGE -->
     <div class="lang-select">
-      <div class="lang-current" onclick="toggleLang()" id="langLabel"></div>
+      <div class="lang-current" onclick="toggleLang()">
+        <span class="lang-ghost">Português</span>
+        <span class="lang-label" id="langLabel"></span>
+      </div>
 
       <div class="lang-options" id="langOptions">
         <div onclick="setLang('ar')">العربية</div>
@@ -197,40 +201,36 @@ body{
     </div>
 
     <div class="explicit-text" id="explicitText"></div>
-    <button class="gate-btn" id="acceptBtn"></button>
+
+    <button class="gate-btn">
+      <span class="btn-ghost">akzeptieren</span>
+      <span class="btn-label" id="acceptBtn"></span>
+    </button>
 
   </div>
 </div>
 
 <script>
 const languages=[
-  {c:"en",l:"English",e:"explicit",a:"accept",r:"americas"},
-  {c:"es",l:"Español",e:"explícito",a:"aceptar",r:"americas"},
-  {c:"pt",l:"Português",e:"explícito",a:"aceitar",r:"americas"},
-  {c:"fr",l:"Français",e:"explicite",a:"accepter",r:"europe"},
-  {c:"de",l:"Deutsch",e:"explizit",a:"akzeptieren",r:"europe"},
-  {c:"it",l:"Italiano",e:"esplicito",a:"accetta",r:"europe"},
-  {c:"ru",l:"Русский",e:"откровенный",a:"принять",r:"asia"},
-  {c:"ar",l:"العربية",e:"محتوى صريح",a:"قبول",r:"asia"},
-  {c:"he",l:"עברית",e:"תוכן מפורש",a:"קבל",r:"asia"},
-  {c:"ja",l:"日本語",e:"露骨な内容",a:"同意する",r:"asia"},
-  {c:"ko",l:"한국어",e:"노골적인",a:"동의",r:"asia"},
-  {c:"zh",l:"中文",e:"露骨内容",a:"接受",r:"asia"},
-  {c:"tr",l:"Türkçe",e:"açık içerik",a:"kabul et",r:"asia"}
+  {c:"en",l:"English",e:"explicit",a:"accept"},
+  {c:"es",l:"Español",e:"explícito",a:"aceptar"},
+  {c:"fr",l:"Français",e:"explicite",a:"accepter"},
+  {c:"de",l:"Deutsch",e:"explizit",a:"akzeptieren"},
+  {c:"pt",l:"Português",e:"explícito",a:"aceitar"},
+  {c:"it",l:"Italiano",e:"esplicito",a:"accetta"},
+  {c:"ru",l:"Русский",e:"откровенный",a:"принять"},
+  {c:"ja",l:"日本語",e:"露骨な内容",a:"同意する"},
+  {c:"ko",l:"한국어",e:"노골적인",a:"동의"},
+  {c:"zh",l:"中文",e:"露骨内容",a:"接受"},
+  {c:"ar",l:"العربية",e:"محتوى صريح",a:"قبول"},
+  {c:"he",l:"עברית",e:"תוכן מפורש",a:"קבל"},
+  {c:"tr",l:"Türkçe",e:"açık içerik",a:"kabul et"}
 ];
 
 let auto=true,last=-1,timer=null;
-
 const langLabel=document.getElementById("langLabel");
 const explicitText=document.getElementById("explicitText");
 const acceptBtn=document.getElementById("acceptBtn");
-const regions=document.querySelectorAll(".earth-overlay path");
-
-function highlight(region){
-  regions.forEach(p=>p.classList.remove("active"));
-  const el=document.getElementById(region);
-  if(el) el.classList.add("active");
-}
 
 function randLang(){
   let r;
@@ -255,7 +255,6 @@ function type(el,text,speed){
 async function cycle(){
   if(!auto) return;
   const l=randLang();
-  highlight(l.r);
 
   await Promise.all([
     type(langLabel,l.l,108),
@@ -281,7 +280,6 @@ function setLang(c){
   langLabel.textContent=l.l;
   explicitText.textContent=l.e;
   acceptBtn.textContent=l.a;
-  highlight(l.r);
   document.getElementById("langOptions").classList.remove("open");
 }
 </script>
