@@ -38,7 +38,7 @@ body{
   box-shadow:0 0 52px rgba(120,60,200,0.22);
 }
 
-/* EARTH WRAP */
+/* EARTH */
 .earth-wrap{
   position:relative;
   width:100%;
@@ -60,18 +60,26 @@ body{
 }
 
 .earth-overlay path{
-  fill:rgba(170,110,255,0.35);
   filter:blur(14px);
   opacity:0;
   transition:opacity .6s ease;
 }
+
+/* REGION COLORS */
+#americas { fill:rgba(120,160,255,0.45); }
+#europe   { fill:rgba(180,120,255,0.45); }
+#africa   { fill:rgba(255,140,200,0.45); }
+#asia     { fill:rgba(255,120,120,0.40); }
+#australia{ fill:rgba(140,255,200,0.40); }
 
 .earth-overlay path.active{
   opacity:1;
 }
 
 /* LANGUAGE SELECTOR */
-.lang-select{ margin-bottom:22px; }
+.lang-select{
+  margin-bottom:22px;
+}
 
 .lang-current{
   position:relative;
@@ -91,11 +99,7 @@ body{
   right:18px;
   top:50%;
   transform:translateY(-50%);
-  opacity:.8;
-}
-
-.lang-label{
-  pointer-events:none;
+  opacity:0.8;
 }
 
 .lang-options{
@@ -137,7 +141,6 @@ body{
 
 /* BUTTON */
 .gate-btn{
-  position:relative;
   width:100%;
   background:rgba(255,255,255,0.10);
   color:white;
@@ -163,7 +166,6 @@ body{
     <div class="earth-wrap">
       <img src="E55C11BE-05AB-4197-8A2B-DA7C038992D8.png" class="earth-photo" alt="">
 
-      <!-- REGION OVERLAY -->
       <svg class="earth-overlay" viewBox="0 0 1000 500">
         <path id="americas" d="M120,90 C220,40 260,160 220,300 C180,420 90,350 80,220 C70,140 90,110 120,90Z"/>
         <path id="europe" d="M420,120 C460,90 520,120 500,170 C480,210 430,190 420,150Z"/>
@@ -175,9 +177,7 @@ body{
 
     <!-- LANGUAGE -->
     <div class="lang-select">
-      <div class="lang-current" onclick="toggleLang()">
-        <span class="lang-label" id="langLabel"></span>
-      </div>
+      <div class="lang-current" onclick="toggleLang()" id="langLabel"></div>
 
       <div class="lang-options" id="langOptions">
         <div onclick="setLang('ar')">العربية</div>
@@ -255,7 +255,6 @@ function type(el,text,speed){
 async function cycle(){
   if(!auto) return;
   const l=randLang();
-
   highlight(l.r);
 
   await Promise.all([
