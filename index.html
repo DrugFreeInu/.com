@@ -2,223 +2,101 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DrugFreeInu</title>
+<title>DrugFreeInu — Foundation</title>
 
 <style>
-body{
+html, body {
   margin:0;
-  background:black;
-  color:white;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
-  overflow:hidden;
-}
-
-#overlay{
-  position:fixed;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-/* MAIN WINDOW */
-.window{
-  background:#0b0b0b;
-  border:2px solid rgba(180,130,255,0.9);
-  border-radius:28px;
-  padding:56px;
-  width:680px;
-  box-shadow:0 0 60px rgba(120,60,200,0.3);
-  text-align:center;
-}
-
-/* FLAT EARTH DISC */
-.disc{
-  width:240px;
-  height:240px;
-  margin:0 auto 30px;
-  border-radius:50%;
-  background:
-    radial-gradient(circle at center,
-      rgba(180,120,255,0.18),
-      rgba(40,0,80,0.95)
-    );
-  box-shadow:
-    inset 0 0 40px rgba(180,120,255,0.4),
-    0 0 50px rgba(120,60,200,0.4);
-  position:relative;
-}
-
-.continents{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:16px;
-  flex-wrap:wrap;
-}
-
-.continent{
-  font-size:13px;
-  padding:6px 10px;
-  border:1px solid rgba(200,160,255,0.6);
-  border-radius:999px;
-  cursor:pointer;
-  background:rgba(255,255,255,0.06);
-}
-
-.continent:hover{
-  background:rgba(255,255,255,0.12);
-}
-
-/* CEREMONIAL TEXT */
-.lang-ceremony{
-  height:42px;
-  margin-bottom:18px;
-  font-size:28px;
-  letter-spacing:4px;
-  opacity:0.85;
-}
-
-/* DROPDOWN */
-.lang-select{
-  margin-bottom:28px;
-  text-align:left;
-}
-
-.lang-current{
-  padding:14px 18px;
-  border:1px solid rgba(255,255,255,0.85);
-  border-radius:14px;
-  font-size:19px;
-  cursor:pointer;
-}
-
-.lang-current::after{
-  content:"▾";
-  float:right;
-}
-
-.lang-options{
-  max-height:0;
-  overflow:hidden;
-  margin-top:8px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,0.2);
-  transition:max-height .35s ease;
-}
-
-.lang-options.open{
-  max-height:260px;
-  overflow-y:auto;
-}
-
-.lang-options div{
-  padding:12px 18px;
-  cursor:pointer;
-}
-
-.lang-options div:hover{
-  background:rgba(255,255,255,0.1);
-}
-
-/* EXPLICIT */
-.explicit{
-  font-size:62px;
-  margin:36px 0;
-  letter-spacing:3px;
-}
-
-button{
+  padding:0;
   width:100%;
-  padding:22px;
-  font-size:30px;
-  background:rgba(255,255,255,0.10);
-  color:white;
-  border:1.5px solid rgba(180,140,255,0.9);
-  border-radius:18px;
+  height:100%;
+  background:black;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+}
+
+/* SUBTLE BREATHING */
+@keyframes breathe {
+  0%   { filter: drop-shadow(0 0 18px rgba(140,80,220,0.35)); }
+  50%  { filter: drop-shadow(0 0 30px rgba(160,110,255,0.55)); }
+  100% { filter: drop-shadow(0 0 18px rgba(140,80,220,0.35)); }
+}
+
+#earth {
+  animation: breathe 10s ease-in-out infinite;
 }
 </style>
 </head>
 
 <body>
 
-<div id="overlay">
-  <div class="window">
+<!-- FLAT EARTH DISC -->
+<svg
+  id="earth"
+  width="320"
+  height="320"
+  viewBox="0 0 260 260"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <!-- DISC -->
+  <circle
+    cx="130"
+    cy="130"
+    r="120"
+    fill="#050505"
+    stroke="rgba(160,110,255,0.65)"
+    stroke-width="2"
+  />
 
-    <!-- FLAT EARTH -->
-    <div class="disc">
-      <div class="continents">
-        <div class="continent" onclick="setRegion('west')">Americas</div>
-        <div class="continent" onclick="setRegion('europe')">Europe</div>
-        <div class="continent" onclick="setRegion('asia')">Asia</div>
-        <div class="continent" onclick="setRegion('mena')">MENA</div>
-      </div>
-    </div>
+  <!-- AMERICAS -->
+  <path
+    d="M70 50
+       C55 85, 55 140, 70 180
+       C85 210, 95 190, 95 150
+       C95 110, 100 80, 85 60"
+    fill="rgba(120,70,200,0.38)"
+  />
 
-    <!-- CEREMONY -->
-    <div class="lang-ceremony" id="ceremony"></div>
+  <!-- EURASIA -->
+  <path
+    d="M115 55
+       C155 45, 195 65, 210 90
+       C220 110, 200 130, 165 125
+       C145 120, 125 130, 115 115
+       C105 95, 105 65, 115 55"
+    fill="rgba(120,70,200,0.38)"
+  />
 
-    <!-- DROPDOWN -->
-    <div class="lang-select">
-      <div class="lang-current" onclick="toggleLang()">English</div>
-      <div class="lang-options" id="langOptions"></div>
-    </div>
+  <!-- AFRICA -->
+  <path
+    d="M135 120
+       C150 130, 160 155, 150 180
+       C140 205, 120 200, 115 175
+       C110 150, 120 130, 135 120"
+    fill="rgba(120,70,200,0.38)"
+  />
 
-    <div class="explicit">explicit</div>
-    <button>accept</button>
-  </div>
-</div>
+  <!-- AUSTRALIA -->
+  <path
+    d="M185 165
+       C200 160, 215 170, 210 185
+       C205 200, 185 195, 182 180
+       C180 170, 180 168, 185 165"
+    fill="rgba(120,70,200,0.38)"
+  />
 
-<script>
-const regions = {
-  west:["English","Español","Français","Português"],
-  europe:["Deutsch","Italiano","Русский"],
-  asia:["日本語","한국어","中文"],
-  mena:["العربية","עברית","Türkçe"]
-};
-
-let ceremonyQueue=[];
-let ceremonyEl=document.getElementById("ceremony");
-
-function setRegion(region){
-  ceremonyQueue=[...regions[region]];
-  runCeremony();
-  populateDropdown(regions[region]);
-}
-
-function populateDropdown(list){
-  const box=document.getElementById("langOptions");
-  box.innerHTML="";
-  list.forEach(l=>{
-    const d=document.createElement("div");
-    d.textContent=l;
-    box.appendChild(d);
-  });
-}
-
-function toggleLang(){
-  document.getElementById("langOptions").classList.toggle("open");
-}
-
-/* LETTER BY LETTER CEREMONY */
-async function runCeremony(){
-  for(const word of ceremonyQueue){
-    ceremonyEl.textContent="";
-    for(const char of word){
-      ceremonyEl.textContent+=char;
-      await sleep(120);
-    }
-    await sleep(900);
-    ceremonyEl.style.opacity=0;
-    await sleep(400);
-    ceremonyEl.style.opacity=1;
-  }
-}
-
-function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
-</script>
+  <!-- ANTARCTICA (FAINT ARC) -->
+  <path
+    d="M55 215
+       C130 235, 205 215, 205 215"
+    stroke="rgba(140,90,255,0.35)"
+    stroke-width="3"
+    fill="none"
+  />
+</svg>
 
 </body>
 </html>
