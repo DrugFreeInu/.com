@@ -25,7 +25,6 @@ body {
   align-items:center;
   justify-content:center;
   z-index:99999;
-  overflow:hidden;
 }
 
 /* BOX */
@@ -204,7 +203,7 @@ const languages = [
 let auto = true;
 let lastIndex = -1;
 
-const label = document.getElementById("langLabel");
+const langLabel = document.getElementById("langLabel");
 const explicitText = document.getElementById("explicitText");
 const acceptBtn = document.getElementById("acceptBtn");
 
@@ -217,25 +216,28 @@ function getRandomLang(){
   return languages[r];
 }
 
-function typeAndApply(lang, done){
+function typeText(el, text, speed, done){
+  el.textContent = "";
   let i = 0;
-  label.textContent = "";
-  explicitText.textContent = lang.e;
-  acceptBtn.textContent = lang.a;
-
   const t = setInterval(()=>{
-    label.textContent += lang.l[i++];
-    if(i === lang.l.length){
+    el.textContent += text[i++];
+    if(i === text.length){
       clearInterval(t);
-      setTimeout(done, 1000); // ⏸ pause for reading
+      done && done();
     }
-  }, 90);
+  }, speed);
 }
 
 function cycle(){
   if(!auto) return;
   const lang = getRandomLang();
-  typeAndApply(lang, cycle);
+
+  typeText(langLabel, lang.l, 90, () => {
+    typeText(explicitText, lang.e, 70, () => {
+      acceptBtn.textContent = lang.a;
+      setTimeout(cycle, 1000); // ⏸ pause for awareness
+    });
+  });
 }
 
 cycle();
@@ -248,7 +250,7 @@ function toggleLang(){
 function setLang(code){
   auto = false;
   const l = languages.find(x => x.c === code);
-  label.textContent = l.l;
+  langLabel.textContent = l.l;
   explicitText.textContent = l.e;
   acceptBtn.textContent = l.a;
   document.getElementById("langOptions").classList.remove("open");
