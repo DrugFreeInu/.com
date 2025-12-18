@@ -87,16 +87,16 @@
     box-shadow:0 0 52px rgba(120,60,200,0.22);
   }
 
-  /* LANGUAGE SELECT */
+  /* LANGUAGE SELECT — TIGHTER */
   select {
     width:100%;
-    padding:22px 58px 22px 22px;
-    margin-bottom:36px;
+    padding:14px 46px 14px 18px;
+    margin-bottom:22px;
     background:black;
     color:white;
-    border:1px solid white;
-    border-radius:16px;
-    font-size:23px;
+    border:1px solid rgba(255,255,255,0.85);
+    border-radius:14px;
+    font-size:19px;
     appearance:none;
     -webkit-appearance:none;
     -moz-appearance:none;
@@ -104,9 +104,9 @@
       linear-gradient(45deg, transparent 50%, white 50%),
       linear-gradient(135deg, white 50%, transparent 50%);
     background-position:
-      calc(100% - 30px) 50%,
-      calc(100% - 22px) 50%;
-    background-size:10px 10px;
+      calc(100% - 26px) 50%,
+      calc(100% - 18px) 50%;
+    background-size:8px 8px;
     background-repeat:no-repeat;
   }
 
@@ -116,10 +116,10 @@
     letter-spacing:3px;
   }
 
-  /* CLEAN ACCEPT BUTTON + SOFT PURPLE GLOW + 10% WHITE FILL */
+  /* ACCEPT BUTTON */
   .gate-btn {
     width:100%;
-    background:rgba(255,255,255,0.10); /* <-- here */
+    background:rgba(255,255,255,0.10);
     color:white;
     border:1.5px solid rgba(190,150,255,0.9);
     padding:24px;
@@ -194,7 +194,7 @@ const translations = {
   ko:{e:"노골적인",a:"동의"},
   zh:{e:"露骨内容",a:"接受"},
   ar:{e:"محتوى صريح",a:"قبول"},
-  he:{e:"תוכן מפורש",a:"קבל"},
+  he:{e:"תוכן מפورש",a:"קבל"},
   tr:{e:"açık içerik",a:"kabul et"}
 };
 
