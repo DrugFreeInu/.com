@@ -147,13 +147,11 @@ body {
   overflow:hidden;
 }
 
-/* ghost locks button width */
 .btn-ghost {
   visibility:hidden;
   white-space:nowrap;
 }
 
-/* typed text sits on top */
 .btn-label {
   position:absolute;
   inset:0;
@@ -197,7 +195,6 @@ body {
     <div class="explicit-text" id="explicitText"></div>
 
     <button class="gate-btn">
-      <!-- longest accept text locks size -->
       <span class="btn-ghost">akzeptieren</span>
       <span class="btn-label" id="acceptBtn"></span>
     </button>
@@ -224,66 +221,71 @@ const languages = [
 
 let auto = true;
 let lastIndex = -1;
-let timers = [];
+let cycleTimeout = null;
 
-const langLabel = document.getElementById("langLabel");
-const explicitText = document.getElementById("explicitText");
-const acceptBtn = document.getElementById("acceptBtn");
-
-function clearTimers(){
-  timers.forEach(t => clearTimeout(t));
-  timers = [];
-}
+const langLabel   = document.getElementById("langLabel");
+const explicitTxt = document.getElementById("explicitText");
+const acceptBtn   = document.getElementById("acceptBtn");
 
 function getRandomLang(){
   let r;
-  do { r = Math.floor(Math.random()*languages.length); }
-  while(r === lastIndex);
+  do { r = Math.floor(Math.random() * languages.length); }
+  while (r === lastIndex);
   lastIndex = r;
   return languages[r];
 }
 
-function typeText(el,text,speed,cb){
-  el.textContent="";
-  let i=0;
-  const t=setInterval(()=>{
-    if(!auto){clearInterval(t);return;}
-    el.textContent+=text[i++];
-    if(i>=text.length){
-      clearInterval(t);
-      cb&&cb();
-    }
-  },speed);
+function typeText(el, text, speed){
+  el.textContent = "";
+  let i = 0;
+  return new Promise(resolve => {
+    const t = setInterval(() => {
+      if(!auto){ clearInterval(t); return; }
+      el.textContent += text[i++];
+      if(i >= text.length){
+        clearInterval(t);
+        resolve();
+      }
+    }, speed);
+  });
 }
 
-function cycle(){
+async function cycle(){
   if(!auto) return;
-  clearTimers();
-  const lang=getRandomLang();
-  typeText(langLabel,lang.l,90,()=>{
-    typeText(explicitText,lang.e,70,()=>{
-      typeText(acceptBtn,lang.a,70,()=>{
-        timers.push(setTimeout(cycle,2000));
-      });
-    });
-  });
+
+  const lang = getRandomLang();
+
+  // clear text before typing
+  langLabel.textContent = "";
+  explicitTxt.textContent = "";
+  acceptBtn.textContent = "";
+
+  // type ALL THREE at same time
+  await Promise.all([
+    typeText(langLabel, lang.l, 90),
+    typeText(explicitTxt, lang.e, 70),
+    typeText(acceptBtn, lang.a, 70)
+  ]);
+
+  // wait 3 seconds after all finished
+  cycleTimeout = setTimeout(cycle, 3000);
 }
 
 cycle();
 
 function toggleLang(){
-  auto=false;
-  clearTimers();
+  auto = false;
+  clearTimeout(cycleTimeout);
   document.getElementById("langOptions").classList.toggle("open");
 }
 
 function setLang(code){
-  auto=false;
-  clearTimers();
-  const l=languages.find(x=>x.c===code);
-  langLabel.textContent=l.l;
-  explicitText.textContent=l.e;
-  acceptBtn.textContent=l.a;
+  auto = false;
+  clearTimeout(cycleTimeout);
+  const l = languages.find(x => x.c === code);
+  langLabel.textContent = l.l;
+  explicitTxt.textContent = l.e;
+  acceptBtn.textContent = l.a;
   document.getElementById("langOptions").classList.remove("open");
 }
 </script>
