@@ -93,7 +93,7 @@ body {
   filter:drop-shadow(0 0 28px rgba(140,80,220,0.45));
 }
 
-/* LANGUAGE */
+/* LANGUAGE SELECTOR */
 .lang-select {
   position:relative;
   margin-bottom:22px;
@@ -113,10 +113,6 @@ body {
   content:"▾";
   float:right;
   opacity:0.8;
-}
-
-.lang-current.typing {
-  opacity:0.85;
 }
 
 .lang-options {
@@ -184,10 +180,17 @@ body {
 
   <div id="contentWarningBox">
 
-    <img src="E55C11BE-05AB-4197-8A2B-DA7C038992D8.png" class="earth-photo" alt="">
+    <img
+      src="E55C11BE-05AB-4197-8A2B-DA7C038992D8.png"
+      alt=""
+      class="earth-photo"
+    >
 
     <div class="lang-select">
-      <div class="lang-current" id="langLabel" onclick="toggleLang()">English</div>
+      <div class="lang-current" onclick="toggleLang()">
+        <span id="langLabel">English</span>
+      </div>
+
       <div class="lang-options" id="langOptions">
         <div onclick="setLang('en')">English</div>
         <div onclick="setLang('es')">Español</div>
@@ -229,66 +232,62 @@ const languages = [
 
 let idx = 0;
 let auto = true;
+
 const label = document.getElementById("langLabel");
 
 function typeWord(word, cb){
-  label.classList.add("typing");
-  label.textContent="";
-  let i=0;
-  const t=setInterval(()=>{
+  label.textContent = "";
+  let i = 0;
+  const t = setInterval(()=>{
     label.textContent += word[i++];
-    if(i===word.length){
+    if(i === word.length){
       clearInterval(t);
-      setTimeout(cb,1200);
+      setTimeout(cb, 1400);
     }
-  },120);
+  }, 120);
 }
 
 function cycle(){
   if(!auto) return;
   const lang = languages[idx++ % languages.length];
-  typeWord(lang.l, ()=>{
-    label.style.opacity=0;
-    setTimeout(()=>{
-      label.style.opacity=1;
-      cycle();
-    },600);
+  typeWord(lang.l, () => {
+    setTimeout(cycle, 600);
   });
 }
 
-setTimeout(cycle,1500);
+setTimeout(cycle, 1500);
 
 function toggleLang(){
-  auto=false;
+  auto = false;
   document.getElementById("langOptions").classList.toggle("open");
 }
 
 function setLang(code){
-  auto=false;
-  const l = languages.find(x=>x.c===code);
-  label.textContent=l.l;
-  document.getElementById("explicitText").textContent=l.e;
-  document.getElementById("acceptBtn").textContent=l.a;
+  auto = false;
+  const l = languages.find(x => x.c === code);
+  label.textContent = l.l;
+  document.getElementById("explicitText").textContent = l.e;
+  document.getElementById("acceptBtn").textContent = l.a;
   document.getElementById("langOptions").classList.remove("open");
 }
 
 function unlockSite(){
   document.getElementById("site").classList.add("unlocked");
   document.getElementById("contentWarning").classList.add("hidden");
-  document.body.style.overflow="auto";
+  document.body.style.overflow = "auto";
 }
 
 /* BOKEH */
-const layer=document.getElementById("bokehLayer");
-const count=Math.floor(Math.random()*101);
+const layer = document.getElementById("bokehLayer");
+const count = Math.floor(Math.random()*101);
 for(let i=0;i<count;i++){
-  const s=document.createElement("span");
-  const size=160+Math.random()*900;
-  const dur=30+Math.random()*260;
-  const delay=Math.random()*90;
-  s.style.width=s.style.height=size+"px";
-  s.style.left=Math.random()*100+"%";
-  s.style.animation=`floatChaos ${dur}s linear ${delay}s infinite`;
+  const s = document.createElement("span");
+  const size = 160 + Math.random()*900;
+  const dur = 30 + Math.random()*260;
+  const delay = Math.random()*90;
+  s.style.width = s.style.height = size+"px";
+  s.style.left = Math.random()*100+"%";
+  s.style.animation = `floatChaos ${dur}s linear ${delay}s infinite`;
   s.style.setProperty("--dx",(Math.random()*1400-700)+"px");
   s.style.setProperty("--dy",(-(220+Math.random()*480))+"vh");
   layer.appendChild(s);
