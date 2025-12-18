@@ -29,7 +29,6 @@
     filter:none;
   }
 
-  /* OVERLAY */
   #contentWarning {
     position:fixed;
     inset:0;
@@ -47,7 +46,7 @@
     transition:opacity 0.5s ease;
   }
 
-  /* DARK PURPLE BOKEH */
+  /* BOKEH */
   .bokeh {
     position:absolute;
     inset:0;
@@ -75,7 +74,7 @@
     100% { opacity:0; transform:translate(var(--dx), var(--dy)); }
   }
 
-  /* EXPLICIT BOX */
+  /* BOX */
   #contentWarningBox {
     position:relative;
     z-index:1;
@@ -87,27 +86,52 @@
     box-shadow:0 0 52px rgba(120,60,200,0.22);
   }
 
-  /* LANGUAGE SELECT — TIGHTER */
-  select {
-    width:100%;
-    padding:14px 46px 14px 18px;
+  /* CUSTOM DROPDOWN */
+  .lang-select {
+    position:relative;
     margin-bottom:22px;
-    background:black;
-    color:white;
+    text-align:left;
+  }
+
+  .lang-current {
+    padding:14px 18px;
     border:1px solid rgba(255,255,255,0.85);
     border-radius:14px;
     font-size:19px;
-    appearance:none;
-    -webkit-appearance:none;
-    -moz-appearance:none;
-    background-image:
-      linear-gradient(45deg, transparent 50%, white 50%),
-      linear-gradient(135deg, white 50%, transparent 50%);
-    background-position:
-      calc(100% - 26px) 50%,
-      calc(100% - 18px) 50%;
-    background-size:8px 8px;
-    background-repeat:no-repeat;
+    cursor:pointer;
+    user-select:none;
+  }
+
+  .lang-current::after {
+    content:"▾";
+    float:right;
+    opacity:0.8;
+  }
+
+  .lang-options {
+    max-height:0;
+    overflow:hidden;
+    border-radius:0 0 14px 14px;
+    transition:max-height 0.35s ease, opacity 0.25s ease;
+    opacity:0;
+    margin-top:8px;
+    border:1px solid rgba(255,255,255,0.15);
+  }
+
+  .lang-options.open {
+    max-height:340px;
+    opacity:1;
+  }
+
+  .lang-options div {
+    padding:12px 18px;
+    font-size:18px;
+    cursor:pointer;
+    background:#0b0b0b;
+  }
+
+  .lang-options div:hover {
+    background:rgba(255,255,255,0.08);
   }
 
   .explicit-text {
@@ -116,7 +140,6 @@
     letter-spacing:3px;
   }
 
-  /* ACCEPT BUTTON */
   .gate-btn {
     width:100%;
     background:rgba(255,255,255,0.10);
@@ -131,18 +154,6 @@
     box-shadow:
       0 0 10px rgba(150,90,255,0.35),
       0 0 22px rgba(120,60,200,0.25);
-    transition:
-      background 0.25s ease,
-      box-shadow 0.25s ease,
-      border-color 0.25s ease;
-  }
-
-  .gate-btn:hover {
-    background:rgba(255,255,255,0.16);
-    box-shadow:
-      0 0 14px rgba(170,120,255,0.45),
-      0 0 30px rgba(140,80,220,0.35);
-    border-color:rgba(220,190,255,1);
   }
 </style>
 </head>
@@ -158,21 +169,25 @@
   <div class="bokeh" id="bokehLayer"></div>
 
   <div id="contentWarningBox">
-    <select onchange="setLanguage(this.value)">
-      <option value="en">English</option>
-      <option value="es">Español</option>
-      <option value="fr">Français</option>
-      <option value="de">Deutsch</option>
-      <option value="pt">Português</option>
-      <option value="it">Italiano</option>
-      <option value="ru">Русский</option>
-      <option value="ja">日本語</option>
-      <option value="ko">한국어</option>
-      <option value="zh">中文</option>
-      <option value="ar">العربية</option>
-      <option value="he">עברית</option>
-      <option value="tr">Türkçe</option>
-    </select>
+
+    <div class="lang-select">
+      <div class="lang-current" onclick="toggleLang()">English</div>
+      <div class="lang-options" id="langOptions">
+        <div onclick="setLang('en','English')">English</div>
+        <div onclick="setLang('es','Español')">Español</div>
+        <div onclick="setLang('fr','Français')">Français</div>
+        <div onclick="setLang('de','Deutsch')">Deutsch</div>
+        <div onclick="setLang('pt','Português')">Português</div>
+        <div onclick="setLang('it','Italiano')">Italiano</div>
+        <div onclick="setLang('ru','Русский')">Русский</div>
+        <div onclick="setLang('ja','日本語')">日本語</div>
+        <div onclick="setLang('ko','한국어')">한국어</div>
+        <div onclick="setLang('zh','中文')">中文</div>
+        <div onclick="setLang('ar','العربية')">العربية</div>
+        <div onclick="setLang('he','עברית')">עברית</div>
+        <div onclick="setLang('tr','Türkçe')">Türkçe</div>
+      </div>
+    </div>
 
     <div class="explicit-text" id="explicitText">explicit</div>
 
@@ -194,12 +209,18 @@ const translations = {
   ko:{e:"노골적인",a:"동의"},
   zh:{e:"露骨内容",a:"接受"},
   ar:{e:"محتوى صريح",a:"قبول"},
-  he:{e:"תוכן מפورש",a:"קבל"},
+  he:{e:"תוכן מפורש",a:"קבל"},
   tr:{e:"açık içerik",a:"kabul et"}
 };
 
-function setLanguage(lang){
-  const t = translations[lang] || translations.en;
+function toggleLang(){
+  document.getElementById("langOptions").classList.toggle("open");
+}
+
+function setLang(code,label){
+  document.querySelector(".lang-current").innerText = label;
+  document.getElementById("langOptions").classList.remove("open");
+  const t = translations[code] || translations.en;
   document.getElementById("explicitText").innerText = t.e;
   document.getElementById("acceptBtn").innerText = t.a;
 }
@@ -213,7 +234,6 @@ function unlockSite(){
 /* BOKEH */
 const layer = document.getElementById("bokehLayer");
 const count = Math.floor(Math.random()*101);
-
 for(let i=0;i<count;i++){
   const s=document.createElement("span");
   const size=160+Math.random()*900;
