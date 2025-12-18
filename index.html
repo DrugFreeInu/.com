@@ -4,250 +4,195 @@
 <meta charset="UTF-8">
 <title>DrugFreeInu</title>
 
-<meta http-equiv="Permissions-Policy" content="storage-access=()">
-
 <style>
-  body {
-    background:black;
-    color:white;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
-    margin:0;
-    padding:0;
-    text-align:center;
-    overflow:hidden;
-  }
+body{
+  margin:0;
+  background:black;
+  color:white;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+  overflow:hidden;
+}
 
-  #site {
-    padding:26px;
-    filter:blur(8px);
-    transition:filter 0.4s ease;
-    position:relative;
-    z-index:1;
-  }
+#overlay{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
 
-  #site.unlocked {
-    filter:none;
-  }
+.window{
+  background:#0b0b0b;
+  border:2px solid rgba(180,130,255,0.9);
+  border-radius:28px;
+  padding:46px;
+  width:520px;
+  box-shadow:0 0 60px rgba(120,60,200,0.3);
+  text-align:center;
+}
 
-  #contentWarning {
-    position:fixed;
-    inset:0;
-    background:black;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:99999;
-    overflow:hidden;
-  }
-
-  #contentWarning.hidden {
-    opacity:0;
-    pointer-events:none;
-    transition:opacity 0.5s ease;
-  }
-
-  /* BOKEH */
-  .bokeh {
-    position:absolute;
-    inset:0;
-    z-index:0;
-    pointer-events:none;
-  }
-
-  .bokeh span {
-    position:absolute;
-    bottom:-600px;
-    border-radius:50%;
-    filter:blur(22px);
-    background:radial-gradient(
-      circle,
-      rgba(90,30,160,0.35),
-      rgba(0,0,0,0)
+/* SPHERE */
+.sphere{
+  width:220px;
+  height:220px;
+  margin:0 auto 30px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at center,
+      rgba(160,100,255,0.15),
+      rgba(40,0,80,0.9)
     );
-    opacity:0;
-    animation-fill-mode:forwards;
-  }
+  box-shadow:
+    inset 0 0 40px rgba(180,120,255,0.4),
+    0 0 50px rgba(120,60,200,0.4);
+  position:relative;
+}
 
-  @keyframes floatChaos {
-    0% { opacity:0; transform:translate(0,0); }
-    15% { opacity:1; }
-    100% { opacity:0; transform:translate(var(--dx), var(--dy)); }
-  }
+.sphere::before{
+  content:"";
+  position:absolute;
+  inset:14px;
+  border-radius:50%;
+  border:1px dashed rgba(200,150,255,0.35);
+}
 
-  /* BOX */
-  #contentWarningBox {
-    position:relative;
-    z-index:1;
-    background:#0b0b0b;
-    border:2px solid rgba(255,255,255,0.9);
-    border-radius:28px;
-    padding:62px;
-    width:680px;
-    box-shadow:0 0 52px rgba(120,60,200,0.22);
-  }
+/* REGIONS */
+.regions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
 
-  /* CUSTOM DROPDOWN */
-  .lang-select {
-    position:relative;
-    margin-bottom:22px;
-    text-align:left;
-  }
+.region{
+  padding:14px;
+  border:1px solid rgba(200,160,255,0.6);
+  border-radius:14px;
+  cursor:pointer;
+  background:rgba(255,255,255,0.06);
+}
 
-  .lang-current {
-    padding:14px 18px;
-    border:1px solid rgba(255,255,255,0.85);
-    border-radius:14px;
-    font-size:19px;
-    cursor:pointer;
-    user-select:none;
-  }
+.region:hover{
+  background:rgba(255,255,255,0.12);
+}
 
-  .lang-current::after {
-    content:"▾";
-    float:right;
-    opacity:0.8;
-  }
+/* LANGUAGE */
+.lang-select{
+  display:none;
+  margin-top:22px;
+}
 
-  .lang-options {
-    max-height:0;
-    overflow:hidden;
-    opacity:0;
-    margin-top:8px;
-    border-radius:14px;
-    border:1px solid rgba(255,255,255,0.15);
-    background:#0b0b0b;
-    transition:max-height 0.35s ease, opacity 0.25s ease;
-  }
+.lang-current{
+  padding:14px;
+  border:1px solid rgba(255,255,255,0.8);
+  border-radius:14px;
+  cursor:pointer;
+}
 
-  /* 🔥 SCROLL FIX */
-  .lang-options.open {
-    max-height:260px;                 /* scroll window */
-    opacity:1;
-    overflow-y:auto;                  /* enable scroll */
-    -webkit-overflow-scrolling:touch; /* iOS smooth scroll */
-  }
+.lang-options{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .3s ease;
+  margin-top:8px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.2);
+}
 
-  .lang-options div {
-    padding:12px 18px;
-    font-size:18px;
-    cursor:pointer;
-  }
+.lang-options.open{
+  max-height:240px;
+  overflow-y:auto;
+}
 
-  .lang-options div:hover {
-    background:rgba(255,255,255,0.08);
-  }
+.lang-options div{
+  padding:12px;
+  cursor:pointer;
+}
 
-  .explicit-text {
-    font-size:62px;
-    margin-bottom:36px;
-    letter-spacing:3px;
-  }
+.lang-options div:hover{
+  background:rgba(255,255,255,0.1);
+}
 
-  .gate-btn {
-    width:100%;
-    background:rgba(255,255,255,0.10);
-    color:white;
-    border:1.5px solid rgba(190,150,255,0.9);
-    padding:24px;
-    font-size:31px;
-    border-radius:18px;
-    font-weight:500;
-    letter-spacing:1.5px;
-    cursor:pointer;
-    box-shadow:
-      0 0 10px rgba(150,90,255,0.35),
-      0 0 22px rgba(120,60,200,0.25);
-  }
+.explicit{
+  font-size:56px;
+  margin:30px 0;
+}
+
+button{
+  width:100%;
+  padding:20px;
+  font-size:28px;
+  background:rgba(255,255,255,0.1);
+  color:white;
+  border:1.5px solid rgba(180,140,255,0.9);
+  border-radius:18px;
+}
 </style>
 </head>
 
 <body>
 
-<div id="site">
-  <h1>DrugFreeInu</h1>
-  <p>an opportunity to<br>learn and create</p>
-</div>
+<div id="overlay">
+  <div class="window">
 
-<div id="contentWarning">
-  <div class="bokeh" id="bokehLayer"></div>
+    <div class="sphere"></div>
 
-  <div id="contentWarningBox">
-
-    <div class="lang-select">
-      <div class="lang-current" onclick="toggleLang()">English</div>
-      <div class="lang-options" id="langOptions">
-        <div onclick="setLang('en','English')">English</div>
-        <div onclick="setLang('es','Español')">Español</div>
-        <div onclick="setLang('fr','Français')">Français</div>
-        <div onclick="setLang('de','Deutsch')">Deutsch</div>
-        <div onclick="setLang('pt','Português')">Português</div>
-        <div onclick="setLang('it','Italiano')">Italiano</div>
-        <div onclick="setLang('ru','Русский')">Русский</div>
-        <div onclick="setLang('ja','日本語')">日本語</div>
-        <div onclick="setLang('ko','한국어')">한국어</div>
-        <div onclick="setLang('zh','中文')">中文</div>
-        <div onclick="setLang('ar','العربية')">العربية</div>
-        <div onclick="setLang('he','עברית')">עברית</div>
-        <div onclick="setLang('tr','Türkçe')">Türkçe</div>
-      </div>
+    <!-- REGIONS -->
+    <div class="regions" id="regions">
+      <div class="region" onclick="pickRegion('west')">Americas / Europe</div>
+      <div class="region" onclick="pickRegion('asia')">Asia</div>
+      <div class="region" onclick="pickRegion('mena')">Middle East</div>
+      <div class="region" onclick="pickRegion('global')">Global</div>
     </div>
 
-    <div class="explicit-text" id="explicitText">explicit</div>
+    <!-- LANGUAGES -->
+    <div class="lang-select" id="langSelect">
+      <div class="lang-current" onclick="toggleLang()">English</div>
+      <div class="lang-options" id="langOptions"></div>
+    </div>
 
-    <button class="gate-btn" id="acceptBtn" onclick="unlockSite()">accept</button>
+    <div class="explicit" id="explicitText">explicit</div>
+
+    <button id="acceptBtn">accept</button>
   </div>
 </div>
 
 <script>
-const translations = {
-  en:{e:"explicit",a:"accept"},
-  es:{e:"explícito",a:"aceptar"},
-  fr:{e:"explicite",a:"accepter"},
-  de:{e:"explizit",a:"akzeptieren"},
-  pt:{e:"explícito",a:"aceitar"},
-  it:{e:"esplicito",a:"accetta"},
-  ru:{e:"откровенный",a:"принять"},
-  ja:{e:"露骨な内容",a:"同意する"},
-  ko:{e:"노골적인",a:"동의"},
-  zh:{e:"露骨内容",a:"接受"},
-  ar:{e:"محتوى صريح",a:"قبول"},
-  he:{e:"תוכן מפورש",a:"קבל"},
-  tr:{e:"açık içerik",a:"kabul et"}
+const languages = {
+  west:[
+    ["en","English"],["es","Español"],["fr","Français"],
+    ["de","Deutsch"],["pt","Português"],["it","Italiano"]
+  ],
+  asia:[
+    ["ja","日本語"],["ko","한국어"],["zh","中文"]
+  ],
+  mena:[
+    ["ar","العربية"],["he","עברית"],["tr","Türkçe"]
+  ],
+  global:[
+    ["ru","Русский"],["en","English"],["es","Español"]
+  ]
 };
+
+function pickRegion(region){
+  document.getElementById("langSelect").style.display="block";
+  const box=document.getElementById("langOptions");
+  box.innerHTML="";
+  languages[region].forEach(l=>{
+    const d=document.createElement("div");
+    d.textContent=l[1];
+    d.onclick=()=>selectLang(l[0],l[1]);
+    box.appendChild(d);
+  });
+}
 
 function toggleLang(){
   document.getElementById("langOptions").classList.toggle("open");
 }
 
-function setLang(code,label){
-  document.querySelector(".lang-current").innerText = label;
+function selectLang(code,label){
+  document.querySelector(".lang-current").textContent=label;
   document.getElementById("langOptions").classList.remove("open");
-  const t = translations[code] || translations.en;
-  document.getElementById("explicitText").innerText = t.e;
-  document.getElementById("acceptBtn").innerText = t.a;
 }
 
-function unlockSite(){
-  document.getElementById("site").classList.add("unlocked");
-  document.getElementById("contentWarning").classList.add("hidden");
-  document.body.style.overflow="auto";
-}
-
-/* BOKEH */
-const layer = document.getElementById("bokehLayer");
-const count = Math.floor(Math.random()*101);
-for(let i=0;i<count;i++){
-  const s=document.createElement("span");
-  const size=160+Math.random()*900;
-  const dur=30+Math.random()*260;
-  const delay=Math.random()*90;
-  s.style.width=s.style.height=size+"px";
-  s.style.left=Math.random()*100+"%";
-  s.style.animation=`floatChaos ${dur}s linear ${delay}s infinite`;
-  s.style.setProperty("--dx",(Math.random()*1400-700)+"px");
-  s.style.setProperty("--dy",(-(220+Math.random()*480))+"vh");
-  layer.appendChild(s);
-}
 </script>
 
 </body>
