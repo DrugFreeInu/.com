@@ -101,22 +101,40 @@ body {
 }
 
 .lang-current {
+  position:relative;
   padding:14px 18px;
   border:1px solid rgba(255,255,255,0.85);
   border-radius:14px;
   font-size:19px;
   cursor:pointer;
   user-select:none;
-
-  /* 🔒 FIX: prevent shrink during typing */
   width:100%;
   box-sizing:border-box;
+  overflow:hidden;
 }
 
 .lang-current::after {
   content:"▾";
-  float:right;
+  position:absolute;
+  right:18px;
+  top:50%;
+  transform:translateY(-50%);
   opacity:0.8;
+}
+
+/* ghost text defines width */
+.lang-ghost {
+  visibility:hidden;
+  white-space:nowrap;
+}
+
+/* visible animated text */
+.lang-label {
+  position:absolute;
+  left:18px;
+  top:50%;
+  transform:translateY(-50%);
+  white-space:nowrap;
 }
 
 .lang-options {
@@ -184,15 +202,14 @@ body {
 
   <div id="contentWarningBox">
 
-    <img
-      src="E55C11BE-05AB-4197-8A2B-DA7C038992D8.png"
-      alt=""
-      class="earth-photo"
-    >
+    <img src="E55C11BE-05AB-4197-8A2B-DA7C038992D8.png" class="earth-photo" alt="">
 
     <div class="lang-select">
       <div class="lang-current" onclick="toggleLang()">
-        <span id="langLabel"></span>
+        <!-- longest label lives here invisibly -->
+        <span class="lang-ghost">Português</span>
+        <!-- animated label -->
+        <span class="lang-label" id="langLabel"></span>
       </div>
 
       <div class="lang-options" id="langOptions">
@@ -262,7 +279,7 @@ function cycle(){
   typeAndApply(lang, cycle);
 }
 
-cycle(); // start immediately
+cycle();
 
 function toggleLang(){
   auto = false;
