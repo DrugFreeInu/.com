@@ -24,14 +24,50 @@ html, body {
   max-width: 90vw;
   max-height: 90vh;
   position: relative;
-  z-index: 3;
+  z-index: 4;
 
   filter:
     drop-shadow(0 0 12px rgba(255,255,255,0.65))
     drop-shadow(0 0 26px rgba(255,255,255,0.55));
 }
 
-/* COLOR GLOW (edges, smooth) */
+/* INNER COLOR FILL (soft, alive, smooth) */
+.fill {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+
+  background: linear-gradient(
+    120deg,
+    #00ffff,
+    #ff4dff,
+    #ffff00,
+    #00ff66,
+    #00ffff
+  );
+
+  background-size: 500% 500%;
+  animation: flow 18s linear infinite;
+
+  -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+
+  mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+
+  filter:
+    blur(14px)
+    brightness(1.4)
+    saturate(1.8);
+  opacity: 0.45;
+}
+
+/* EDGE COLOR GLOW */
 .glow {
   position: absolute;
   inset: 0;
@@ -46,8 +82,9 @@ html, body {
     #00ff66,
     #00ffff
   );
+
   background-size: 500% 500%;
-  animation: glowMove 14s linear infinite;
+  animation: flow 18s linear infinite;
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
@@ -66,11 +103,11 @@ html, body {
   opacity: 1;
 }
 
-/* COLOR SHIMMER (on stroke) */
+/* SHIMMER ON STROKE */
 .shimmer {
   position: absolute;
   inset: 0;
-  z-index: 4;
+  z-index: 5;
   pointer-events: none;
 
   background: linear-gradient(
@@ -80,8 +117,9 @@ html, body {
     rgba(255,0,200,0.9) 56%,
     rgba(255,255,255,0.0) 70%
   );
-  background-size: 300% 300%;
-  animation: shimmer 12s ease-in-out infinite;
+
+  background-size: 500% 500%;
+  animation: flow 18s linear infinite;
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
@@ -94,19 +132,13 @@ html, body {
   mask-position: center;
 
   filter: blur(2.2px);
-  opacity: 0.95;
+  opacity: 0.9;
 }
 
-/* Animations */
-@keyframes glowMove {
+/* ONE SHARED ANIMATION — THIS IS WHY IT'S BUTTERY */
+@keyframes flow {
   0%   { background-position:   0% 50%; }
   100% { background-position: 500% 50%; }
-}
-
-@keyframes shimmer {
-  0%   { background-position:   0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position:   0% 50%; }
 }
 </style>
 </head>
@@ -115,10 +147,13 @@ html, body {
 
 <div class="wrap">
 
+  <!-- inner color fill -->
+  <div class="fill"></div>
+
   <!-- edge glow -->
   <div class="glow"></div>
 
-  <!-- main white hearts -->
+  <!-- white hearts -->
   <img
     class="main"
     src="1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png"
