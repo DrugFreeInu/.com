@@ -66,24 +66,27 @@ html, body {
   opacity: 0.45;
 }
 
-/* EDGE GLOW — HUE SHIFTING */
+/* EDGE GLOW — WHITE LIGHT WITH SUBTLE HUE DRIFT */
 .glow {
   position: absolute;
   inset: 0;
   z-index: 2;
   pointer-events: none;
 
+  /* barely-tinted whites so hue-rotate has material */
   background: linear-gradient(
     120deg,
     #ffffff,
-    #ffffff,
+    #f6ffff,
+    #fff6ff,
+    #fffff6,
     #ffffff
   );
 
   background-size: 500% 500%;
   animation:
     flow 18s linear infinite,
-    hueShift 60s linear infinite;
+    hueShift 90s linear infinite;
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
@@ -98,7 +101,7 @@ html, body {
   filter:
     blur(40px)
     brightness(2.3)
-    saturate(2.2);
+    saturate(2.1);
   opacity: 1;
 }
 
@@ -140,7 +143,7 @@ html, body {
   100% { background-position: 500% 50%; }
 }
 
-/* VERY slow hue rotation */
+/* Ultra-slow white-light temperature shift */
 @keyframes hueShift {
   0%   { filter: hue-rotate(0deg); }
   100% { filter: hue-rotate(360deg); }
