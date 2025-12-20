@@ -31,11 +31,11 @@ html, body {
     drop-shadow(0 0 26px rgba(255,255,255,0.55));
 }
 
-/* EDGE COLOR GLOW — ultra smooth */
+/* COLOR GLOW (edges, smooth) */
 .glow {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 2;
   pointer-events: none;
 
   background: linear-gradient(
@@ -46,10 +46,8 @@ html, body {
     #00ff66,
     #00ffff
   );
-
-  /* HUGE travel distance = tiny per-frame movement */
-  background-size: 800% 800%;
-  animation: glowMove 28s linear infinite;
+  background-size: 500% 500%;
+  animation: glowMove 14s linear infinite;
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
@@ -62,13 +60,13 @@ html, body {
   mask-position: center;
 
   filter:
-    blur(42px)
-    brightness(2.15)
-    saturate(2.3);
+    blur(40px)
+    brightness(2.2)
+    saturate(2.4);
   opacity: 1;
 }
 
-/* SHIMMER — locked to same timing */
+/* COLOR SHIMMER (on stroke) */
 .shimmer {
   position: absolute;
   inset: 0;
@@ -77,14 +75,13 @@ html, body {
 
   background: linear-gradient(
     120deg,
-    rgba(255,255,255,0.0) 34%,
-    rgba(0,255,255,0.85) 49%,
-    rgba(255,0,200,0.85) 56%,
-    rgba(255,255,255,0.0) 71%
+    rgba(255,255,255,0.0) 32%,
+    rgba(0,255,255,0.9) 48%,
+    rgba(255,0,200,0.9) 56%,
+    rgba(255,255,255,0.0) 70%
   );
-
-  background-size: 800% 800%;
-  animation: shimmerMove 28s linear infinite;
+  background-size: 300% 300%;
+  animation: shimmer 12s ease-in-out infinite;
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
@@ -96,19 +93,20 @@ html, body {
   mask-repeat: no-repeat;
   mask-position: center;
 
-  filter: blur(2.4px);
-  opacity: 0.9;
+  filter: blur(2.2px);
+  opacity: 0.95;
 }
 
-/* Matched animations */
+/* Animations */
 @keyframes glowMove {
   0%   { background-position:   0% 50%; }
-  100% { background-position: 800% 50%; }
+  100% { background-position: 500% 50%; }
 }
 
-@keyframes shimmerMove {
+@keyframes shimmer {
   0%   { background-position:   0% 50%; }
-  100% { background-position: 800% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position:   0% 50%; }
 }
 </style>
 </head>
@@ -117,17 +115,17 @@ html, body {
 
 <div class="wrap">
 
-  <!-- smooth glow -->
+  <!-- edge glow -->
   <div class="glow"></div>
 
-  <!-- white hearts -->
+  <!-- main white hearts -->
   <img
     class="main"
     src="1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png"
     alt="Heart Chain"
   >
 
-  <!-- smooth shimmer -->
+  <!-- shimmer -->
   <div class="shimmer"></div>
 
 </div>
