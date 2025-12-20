@@ -15,68 +15,26 @@ html, body {
   justify-content: center;
 }
 
-/* Wrapper */
-.wrap {
-  position: relative;
-}
-
-/* Base image with strong glow */
-.wrap img {
+img {
   max-width: 90vw;
   max-height: 90vh;
-  display: block;
-  z-index: 1;
 
+  /* STRONG GLOW */
   filter:
-    drop-shadow(0 0 12px rgba(255,255,255,0.6))
-    drop-shadow(0 0 28px rgba(255,255,255,0.45))
-    drop-shadow(0 0 60px rgba(255,255,255,0.25));
-}
-
-/* Traveling light overlay */
-.wrap::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-
-  background: conic-gradient(
-    from 0deg,
-    rgba(255,255,255,0.0) 0deg,
-    rgba(255,255,255,0.0) 300deg,
-    rgba(255,255,255,0.9) 330deg,
-    rgba(255,255,255,0.0) 360deg
-  );
-
-  /* Mask to the heart PNG */
-  -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
-  -webkit-mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-
-  mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
-  mask-size: contain;
-  mask-repeat: no-repeat;
-  mask-position: center;
-
-  filter: blur(3px);
-  animation: travel 6s linear infinite;
-}
-
-@keyframes travel {
-  to { transform: rotate(360deg); }
+    drop-shadow(0 0 10px rgba(255,255,255,0.6))
+    drop-shadow(0 0 20px rgba(255,255,255,0.5))
+    drop-shadow(0 0 40px rgba(255,255,255,0.4))
+    drop-shadow(0 0 80px rgba(255,255,255,0.25));
 }
 </style>
 </head>
 
 <body>
 
-<div class="wrap">
-  <img
-    src="1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png"
-    alt="Heart Chain"
-  >
-</div>
+<img
+  src="1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png"
+  alt="Heart Chain Glow"
+/>
 
 </body>
 </html>
