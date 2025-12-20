@@ -13,7 +13,6 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
 
 /* Wrapper */
@@ -23,7 +22,7 @@ html, body {
   height: 90vh;
 }
 
-/* Base image */
+/* Base white image (unchanged) */
 .wrap img {
   position: absolute;
   inset: 0;
@@ -33,25 +32,25 @@ html, body {
   z-index: 2;
 }
 
-/* Animated color + glow layer */
-.chain-glow {
+/* COLOR GLOW LAYER */
+.glow {
   position: absolute;
   inset: 0;
   z-index: 1;
 
-  background: conic-gradient(
-    #ff4dff,
+  background: linear-gradient(
+    90deg,
     #00ffff,
-    #00ff66,
+    #ff4dff,
     #ffff00,
-    #ff6600,
-    #ff4dff
+    #00ff66,
+    #00ffff
   );
+  background-size: 400% 100%;
 
-  background-size: 200% 200%;
-  animation: flow 6s linear infinite;
+  animation: glowFlow 6s linear infinite;
 
-  /* Mask to heart shape */
+  /* mask to heart shape */
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
   -webkit-mask-repeat: no-repeat;
@@ -62,22 +61,17 @@ html, body {
   mask-repeat: no-repeat;
   mask-position: center;
 
-  /* THIS is the magic */
+  /* THIS is the glow */
   filter:
-    blur(6px)
+    blur(14px)
     brightness(1.6)
-    drop-shadow(0 0 20px currentColor)
-    drop-shadow(0 0 40px currentColor)
-    drop-shadow(0 0 80px currentColor);
-
-  opacity: 0.95;
+    saturate(2);
 }
 
-/* Gradient motion only */
-@keyframes flow {
+/* Smooth color travel */
+@keyframes glowFlow {
   0%   { background-position:   0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position:   0% 50%; }
+  100% { background-position: 400% 50%; }
 }
 </style>
 </head>
@@ -85,16 +79,14 @@ html, body {
 <body>
 
 <div class="wrap">
+  <!-- Glow behind -->
+  <div class="glow"></div>
 
-  <!-- Reactive glow layer -->
-  <div class="chain-glow"></div>
-
-  <!-- White heart chain -->
+  <!-- White hearts on top -->
   <img
     src="1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png"
     alt="Heart Chain"
   >
-
 </div>
 
 </body>
