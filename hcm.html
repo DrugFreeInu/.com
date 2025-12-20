@@ -1,47 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>HCM</title>
+<meta charset="UTF-8">
+<title>HCM</title>
 
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      background: black;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
+<style>
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
 
-    img {
-      max-width: 90vw;
-      max-height: 90vh;
-      display: block;
+/* Container */
+.wrap {
+  position: relative;
+}
 
-      /* COLOR ANIMATION */
-      animation: luhvShift 12s linear infinite;
-      filter: drop-shadow(0 0 12px rgba(255,255,255,0.35));
-    }
+/* Base image (kept clean white) */
+.wrap img {
+  display: block;
+  max-width: 90vw;
+  max-height: 90vh;
+  position: relative;
+  z-index: 2;
+}
 
-    @keyframes luhvShift {
-      0%   { filter: hue-rotate(0deg)   drop-shadow(0 0 12px rgba(255,255,255,0.35)); }
-      25%  { filter: hue-rotate(90deg)  drop-shadow(0 0 14px rgba(0,255,255,0.5)); }
-      50%  { filter: hue-rotate(180deg) drop-shadow(0 0 16px rgba(255,0,255,0.5)); }
-      75%  { filter: hue-rotate(270deg) drop-shadow(0 0 14px rgba(255,255,0,0.5)); }
-      100% { filter: hue-rotate(360deg) drop-shadow(0 0 12px rgba(255,255,255,0.35)); }
-    }
-  </style>
+/* Animated glow layer */
+.wrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  /* Moving color ring */
+  background: conic-gradient(
+    from 0deg,
+    #ff4dff,
+    #00ffff,
+    #00ff66,
+    #ffff00,
+    #ff6600,
+    #ff4dff
+  );
+
+  /* Use PNG alpha as a mask so glow sticks to the border */
+  -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+
+  mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+
+  filter: blur(10px) brightness(1.4);
+  animation: spin 10s linear infinite;
+}
+
+/* Rotation animation */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+</style>
 </head>
+
 <body>
 
+<div class="wrap">
   <img
     src="1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png"
     alt="Luhv Infinity Chain"
   >
+</div>
 
 </body>
 </html>
