@@ -31,7 +31,7 @@ html, body {
   z-index: 1;
 }
 
-/* Static color layer (unchanged hues) */
+/* Static color layer */
 .chain {
   position: absolute;
   inset: 0;
@@ -59,18 +59,20 @@ html, body {
   filter: blur(1px) brightness(1.3);
 }
 
-/* Moving light sweep */
+/* Continuous flowing light */
 .chain::after {
   content: "";
   position: absolute;
   inset: 0;
 
+  /* Wide glow band — no hard start/end */
   background: conic-gradient(
     from 0deg,
-    transparent 0deg,
-    rgba(255,255,255,0.0) 300deg,
-    rgba(255,255,255,0.9) 330deg,
-    rgba(255,255,255,0.0) 360deg
+    rgba(255,255,255,0.15),
+    rgba(255,255,255,0.45),
+    rgba(255,255,255,0.75),
+    rgba(255,255,255,0.45),
+    rgba(255,255,255,0.15)
   );
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
@@ -83,12 +85,11 @@ html, body {
   mask-repeat: no-repeat;
   mask-position: center;
 
-  filter: blur(2px);
-  animation: sweep 6s linear infinite;
+  filter: blur(3px);
+  animation: flow 8s linear infinite;
 }
 
-/* Rotation animation */
-@keyframes sweep {
+@keyframes flow {
   to { transform: rotate(360deg); }
 }
 </style>
@@ -99,7 +100,7 @@ html, body {
 <div class="wrap">
   <img
     src="1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png"
-    alt="Luhv Infinity Chain"
+    alt="Heart Chain"
   >
   <div class="chain"></div>
 </div>
