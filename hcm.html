@@ -21,7 +21,7 @@ html, body {
   height: 90vh;
 }
 
-/* White base */
+/* Base white */
 .wrap img {
   position: absolute;
   inset: 0;
@@ -31,7 +31,7 @@ html, body {
   z-index: 1;
 }
 
-/* Color overlay (same hues, pulsing) */
+/* Color layer */
 .chain {
   position: absolute;
   inset: 0;
@@ -56,15 +56,59 @@ html, body {
   mask-repeat: no-repeat;
   mask-position: center;
 
-  filter: blur(1px) brightness(1.25);
-  animation: pulse 4.5s ease-in-out infinite;
+  filter: blur(1px) brightness(1.2);
 }
 
-/* Subtle glow pulse */
-@keyframes pulse {
-  0%   { filter: blur(1px) brightness(1.15); }
-  50%  { filter: blur(2px) brightness(1.45); }
-  100% { filter: blur(1px) brightness(1.15); }
+/* LEFT pulse */
+.chain::before,
+.chain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.9),
+    rgba(255,255,255,0.0) 60%
+  );
+
+  -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+
+  mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+
+  filter: blur(3px);
+  opacity: 0;
+}
+
+/* Pulse animations */
+.chain::before {
+  animation: pulseLeft 4.5s ease-in-out infinite;
+}
+
+.chain::after {
+  transform: scaleX(-1);
+  animation: pulseRight 4.5s ease-in-out infinite;
+}
+
+@keyframes pulseLeft {
+  0%   { opacity: 0; transform: translateX(0); }
+  15%  { opacity: 1; }
+  50%  { opacity: 0; transform: translateX(-35%); }
+  100% { opacity: 0; }
+}
+
+@keyframes pulseRight {
+  0%   { opacity: 0; transform: scaleX(-1) translateX(0); }
+  15%  { opacity: 1; }
+  50%  { opacity: 0; transform: scaleX(-1) translateX(-35%); }
+  100% { opacity: 0; }
 }
 </style>
 </head>
