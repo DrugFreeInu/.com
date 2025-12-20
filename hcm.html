@@ -24,19 +24,52 @@ html, body {
   max-width: 90vw;
   max-height: 90vh;
   position: relative;
-  z-index: 2;
+  z-index: 3;
 
-  /* keep crisp white edge */
   filter:
     drop-shadow(0 0 12px rgba(255,255,255,0.65))
     drop-shadow(0 0 26px rgba(255,255,255,0.55));
 }
 
-/* COLOR GLOW (behind, MUCH stronger + smoother) */
-.glow {
+/* HARD COLOR CORE (fills hearts, pulses) */
+.core {
   position: absolute;
   inset: 0;
   z-index: 1;
+  pointer-events: none;
+
+  background: radial-gradient(
+    circle at center,
+    rgba(255,0,200,0.9),
+    rgba(0,255,255,0.8),
+    rgba(255,255,0,0.7),
+    rgba(0,0,0,0.0) 70%
+  );
+  background-size: 200% 200%;
+  animation: corePulse 5.5s ease-in-out infinite;
+
+  -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+
+  mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+
+  filter:
+    blur(45px)
+    brightness(2.6)
+    saturate(2.8);
+  opacity: 0.85;
+}
+
+/* COLOR GLOW (edges, smooth) */
+.glow {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
   pointer-events: none;
 
   background: linear-gradient(
@@ -60,7 +93,6 @@ html, body {
   mask-repeat: no-repeat;
   mask-position: center;
 
-  /* STRONG BLOOM */
   filter:
     blur(40px)
     brightness(2.2)
@@ -68,11 +100,11 @@ html, body {
   opacity: 1;
 }
 
-/* COLOR SHIMMER (smoother + less twitchy) */
+/* COLOR SHIMMER (on stroke) */
 .shimmer {
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 4;
   pointer-events: none;
 
   background: linear-gradient(
@@ -110,6 +142,12 @@ html, body {
   50%  { background-position: 100% 50%; }
   100% { background-position:   0% 50%; }
 }
+
+@keyframes corePulse {
+  0%   { transform: scale(0.92); opacity: 0.65; }
+  50%  { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(0.92); opacity: 0.65; }
+}
 </style>
 </head>
 
@@ -117,17 +155,20 @@ html, body {
 
 <div class="wrap">
 
-  <!-- colored animated glow -->
+  <!-- HARD pulsing heart core -->
+  <div class="core"></div>
+
+  <!-- edge glow -->
   <div class="glow"></div>
 
-  <!-- main white image -->
+  <!-- main white hearts -->
   <img
     class="main"
     src="1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png"
     alt="Heart Chain"
   >
 
-  <!-- color shimmer on top -->
+  <!-- shimmer -->
   <div class="shimmer"></div>
 
 </div>
