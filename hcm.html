@@ -31,9 +31,9 @@ html, body {
     drop-shadow(0 0 26px rgba(255,255,255,0.55));
 }
 
-/* MOTION CURVE — fast start, fast reverse */
+/* CURVE — fast start, fast reverse */
 :root {
-  --flow-curve: cubic-bezier(0.45, 0.0, 0.55, 1.0);
+  --flow-curve: cubic-bezier(0.4, 0.0, 0.6, 1.0);
 }
 
 /* INNER COLOR FILL */
@@ -51,9 +51,8 @@ html, body {
     #00ff66,
     #00ffff
   );
-
-  background-size: 110% 110%;
-  animation: flow 2.2s var(--flow-curve) infinite alternate;
+  background-size: 250% 250%;
+  animation: flow 4s var(--flow-curve) infinite alternate;
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
@@ -80,8 +79,8 @@ html, body {
   pointer-events: none;
 
   background: linear-gradient(120deg, #ffffff, #ffffff, #ffffff);
-  background-size: 110% 110%;
-  animation: flow 2.2s var(--flow-curve) infinite alternate;
+  background-size: 250% 250%;
+  animation: flow 4s var(--flow-curve) infinite alternate;
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
@@ -99,7 +98,7 @@ html, body {
   opacity: 1;
 }
 
-/* SHIMMER — most visible motion */
+/* SHIMMER */
 .shimmer {
   position: absolute;
   inset: 0;
@@ -108,13 +107,13 @@ html, body {
 
   background: linear-gradient(
     120deg,
-    rgba(255,255,255,0.0) 28%,
-    rgba(0,255,255,1) 48%,
-    rgba(255,0,200,1) 56%,
-    rgba(255,255,255,0.0) 74%
+    rgba(255,255,255,0.0) 32%,
+    rgba(0,255,255,0.9) 48%,
+    rgba(255,0,200,0.9) 56%,
+    rgba(255,255,255,0.0) 70%
   );
-  background-size: 110% 110%;
-  animation: flow 2.2s var(--flow-curve) infinite alternate;
+  background-size: 250% 250%;
+  animation: flow 4s var(--flow-curve) infinite alternate;
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
@@ -126,11 +125,11 @@ html, body {
   mask-repeat: no-repeat;
   mask-position: center;
 
-  filter: blur(1.6px);
-  opacity: 1;
+  filter: blur(2.2px);
+  opacity: 0.9;
 }
 
-/* BACK & FORTH */
+/* MOTION */
 @keyframes flow {
   from { background-position: 0% 50%; }
   to   { background-position: 100% 50%; }
