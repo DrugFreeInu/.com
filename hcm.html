@@ -15,26 +15,74 @@ html, body {
   justify-content: center;
 }
 
-img {
+.wrap {
+  position: relative;
+}
+
+/* Base image with STRONG glow (unchanged) */
+.wrap img {
   max-width: 90vw;
   max-height: 90vh;
+  display: block;
+  z-index: 1;
 
-  /* STRONG GLOW */
   filter:
     drop-shadow(0 0 10px rgba(255,255,255,0.6))
     drop-shadow(0 0 20px rgba(255,255,255,0.5))
     drop-shadow(0 0 40px rgba(255,255,255,0.4))
     drop-shadow(0 0 80px rgba(255,255,255,0.25));
 }
+
+/* Subtle traveling shimmer */
+.wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+
+  /* Soft color band that moves across */
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0.0) 40%,
+    rgba(120,220,255,0.35) 50%,
+    rgba(255,120,220,0.35) 60%,
+    rgba(255,255,255,0.0) 70%
+  );
+  background-size: 200% 200%;
+  animation: shimmer 6s ease-in-out infinite;
+
+  /* Mask to the heart PNG so it only affects edges */
+  -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+
+  mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+
+  filter: blur(2px);
+  opacity: 0.7;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 </style>
 </head>
 
 <body>
 
-<img
-  src="1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png"
-  alt="Heart Chain Glow"
-/>
+<div class="wrap">
+  <img
+    src="1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png"
+    alt="Heart Chain Glow"
+  />
+</div>
 
 </body>
 </html>
