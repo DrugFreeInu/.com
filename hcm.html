@@ -19,7 +19,7 @@ html, body {
   position: relative;
 }
 
-/* MAIN IMAGE (front) */
+/* MAIN IMAGE */
 .main {
   max-width: 90vw;
   max-height: 90vh;
@@ -29,6 +29,11 @@ html, body {
   filter:
     drop-shadow(0 0 12px rgba(255,255,255,0.65))
     drop-shadow(0 0 26px rgba(255,255,255,0.55));
+}
+
+/* SHARED ANIMATION CURVE */
+:root {
+  --flow-curve: cubic-bezier(0.4, 0.0, 0.6, 1.0);
 }
 
 /* INNER COLOR FILL */
@@ -47,7 +52,7 @@ html, body {
     #00ffff
   );
   background-size: 250% 250%;
-  animation: flow 10s linear infinite alternate;
+  animation: flow 10s var(--flow-curve) infinite alternate;
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
@@ -73,14 +78,9 @@ html, body {
   z-index: 2;
   pointer-events: none;
 
-  background: linear-gradient(
-    120deg,
-    #ffffff,
-    #ffffff,
-    #ffffff
-  );
+  background: linear-gradient(120deg, #ffffff, #ffffff, #ffffff);
   background-size: 250% 250%;
-  animation: flow 10s linear infinite alternate;
+  animation: flow 10s var(--flow-curve) infinite alternate;
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
@@ -113,7 +113,7 @@ html, body {
     rgba(255,255,255,0.0) 70%
   );
   background-size: 250% 250%;
-  animation: flow 10s linear infinite alternate;
+  animation: flow 10s var(--flow-curve) infinite alternate;
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
@@ -129,7 +129,7 @@ html, body {
   opacity: 0.9;
 }
 
-/* BACK-AND-FORTH MOTION */
+/* MOTION */
 @keyframes flow {
   from { background-position: 0% 50%; }
   to   { background-position: 100% 50%; }
