@@ -24,7 +24,7 @@ html, body {
   max-width: 90vw;
   max-height: 90vh;
   position: relative;
-  z-index: 4;
+  z-index: 5;
 
   filter:
     drop-shadow(0 0 12px rgba(255,255,255,0.65))
@@ -66,7 +66,7 @@ html, body {
   opacity: 0.45;
 }
 
-/* EDGE GLOW — HUE SHIFTING */
+/* EDGE GLOW (smooth, white-based) */
 .glow {
   position: absolute;
   inset: 0;
@@ -79,7 +79,6 @@ html, body {
     #ffffff,
     #ffffff
   );
-
   background-size: 500% 500%;
   animation:
     flow 18s linear infinite,
@@ -102,11 +101,45 @@ html, body {
   opacity: 1;
 }
 
-/* SHIMMER */
+/* COLORED HIGHLIGHTS (smooth, locked motion) */
+.highlight {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0.0) 30%,
+    rgba(0,255,255,0.85) 42%,
+    rgba(255,0,200,0.85) 48%,
+    rgba(255,255,0,0.85) 54%,
+    rgba(255,255,255,0.0) 70%
+  );
+
+  background-size: 500% 500%;
+  animation: flow 18s linear infinite;
+
+  -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+
+  mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+
+  filter: blur(3px);
+  opacity: 0.45;
+  mix-blend-mode: screen;
+}
+
+/* SHIMMER (top-most polish) */
 .shimmer {
   position: absolute;
   inset: 0;
-  z-index: 5;
+  z-index: 6;
   pointer-events: none;
 
   background: linear-gradient(
@@ -116,7 +149,6 @@ html, body {
     rgba(255,0,200,0.9) 56%,
     rgba(255,255,255,0.0) 70%
   );
-
   background-size: 500% 500%;
   animation: flow 18s linear infinite;
 
@@ -140,7 +172,7 @@ html, body {
   100% { background-position: 500% 50%; }
 }
 
-/* VERY slow hue rotation */
+/* Slow white-light drift */
 @keyframes hueShift {
   0%   { filter: hue-rotate(0deg); }
   100% { filter: hue-rotate(360deg); }
@@ -154,16 +186,4 @@ html, body {
 
   <div class="fill"></div>
   <div class="glow"></div>
-
-  <img
-    class="main"
-    src="1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png"
-    alt="Heart Chain"
-  >
-
-  <div class="shimmer"></div>
-
-</div>
-
-</body>
-</html>
+  <div class="highlight"></div
