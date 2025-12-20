@@ -26,13 +26,13 @@ html, body {
   position: relative;
   z-index: 2;
 
-  /* crisp white glow */
+  /* keep crisp white edge */
   filter:
-    drop-shadow(0 0 10px rgba(255,255,255,0.6))
-    drop-shadow(0 0 20px rgba(255,255,255,0.5));
+    drop-shadow(0 0 12px rgba(255,255,255,0.65))
+    drop-shadow(0 0 26px rgba(255,255,255,0.55));
 }
 
-/* COLOR GLOW (behind, animated) */
+/* COLOR GLOW (behind, MUCH stronger + smoother) */
 .glow {
   position: absolute;
   inset: 0;
@@ -47,8 +47,8 @@ html, body {
     #00ff66,
     #00ffff
   );
-  background-size: 300% 300%;
-  animation: glowMove 6s linear infinite;
+  background-size: 500% 500%;
+  animation: glowMove 14s linear infinite;
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
@@ -60,14 +60,15 @@ html, body {
   mask-repeat: no-repeat;
   mask-position: center;
 
+  /* STRONG BLOOM */
   filter:
-    blur(22px)
-    brightness(1.6)
-    saturate(1.6);
-  opacity: 0.9;
+    blur(40px)
+    brightness(2.2)
+    saturate(2.4);
+  opacity: 1;
 }
 
-/* COLOR SHIMMER (on the stroke) */
+/* COLOR SHIMMER (smoother + less twitchy) */
 .shimmer {
   position: absolute;
   inset: 0;
@@ -76,13 +77,13 @@ html, body {
 
   background: linear-gradient(
     120deg,
-    rgba(255,255,255,0.0) 35%,
-    rgba(0,255,255,0.8) 48%,
-    rgba(255,0,200,0.8) 55%,
-    rgba(255,255,255,0.0) 68%
+    rgba(255,255,255,0.0) 32%,
+    rgba(0,255,255,0.9) 48%,
+    rgba(255,0,200,0.9) 56%,
+    rgba(255,255,255,0.0) 70%
   );
-  background-size: 200% 200%;
-  animation: shimmer 6s ease-in-out infinite;
+  background-size: 300% 300%;
+  animation: shimmer 12s ease-in-out infinite;
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
@@ -94,20 +95,20 @@ html, body {
   mask-repeat: no-repeat;
   mask-position: center;
 
-  filter: blur(1.5px);
+  filter: blur(2.2px);
   opacity: 0.95;
 }
 
 /* Animations */
 @keyframes glowMove {
   0%   { background-position:   0% 50%; }
-  100% { background-position: 300% 50%; }
+  100% { background-position: 500% 50%; }
 }
 
 @keyframes shimmer {
-  0%   { background-position: 0% 50%; }
+  0%   { background-position:   0% 50%; }
   50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  100% { background-position:   0% 50%; }
 }
 </style>
 </head>
