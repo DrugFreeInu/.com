@@ -19,7 +19,7 @@ html, body {
   position: relative;
 }
 
-/* MAIN IMAGE (front) */
+/* MAIN IMAGE */
 .main {
   max-width: 90vw;
   max-height: 90vh;
@@ -47,7 +47,7 @@ html, body {
     #00ffff
   );
   background-size: 500% 500%;
-  animation: flow 22s linear infinite alternate;
+  animation: flow 60s linear infinite alternate;
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
@@ -80,9 +80,7 @@ html, body {
     #ffffff
   );
   background-size: 500% 500%;
-  animation:
-    flow 22s linear infinite alternate,
-    hueShift 80s linear infinite;
+  animation: flow 60s linear infinite alternate;
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
@@ -96,8 +94,7 @@ html, body {
 
   filter:
     blur(40px)
-    brightness(2.3)
-    saturate(2.2);
+    brightness(2.3);
   opacity: 1;
 }
 
@@ -116,7 +113,7 @@ html, body {
     rgba(255,255,255,0.0) 70%
   );
   background-size: 500% 500%;
-  animation: flow 22s linear infinite alternate;
+  animation: flow 60s linear infinite alternate;
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
@@ -132,18 +129,10 @@ html, body {
   opacity: 0.9;
 }
 
-/* SHARED MOTION — TRAVEL + REST */
+/* SIMPLE, GENTLE MOTION */
 @keyframes flow {
-  0%   { background-position: -500% 50%; }
-  40%  { background-position:  500% 50%; }
-  60%  { background-position:  500% 50%; } /* rest */
-  100% { background-position: -500% 50%; }
-}
-
-/* VERY slow hue rotation */
-@keyframes hueShift {
-  0%   { filter: hue-rotate(0deg); }
-  100% { filter: hue-rotate(360deg); }
+  from { background-position: 0% 50%; }
+  to   { background-position: 100% 50%; }
 }
 </style>
 </head>
@@ -151,7 +140,6 @@ html, body {
 <body>
 
 <div class="wrap">
-
   <div class="fill"></div>
   <div class="glow"></div>
 
@@ -162,7 +150,6 @@ html, body {
   >
 
   <div class="shimmer"></div>
-
 </div>
 
 </body>
