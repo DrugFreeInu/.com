@@ -31,9 +31,9 @@ html, body {
     drop-shadow(0 0 26px rgba(255,255,255,0.55));
 }
 
-/* MOTION CURVE — early start, early reverse */
+/* MOTION CURVE — fast start, fast reverse */
 :root {
-  --flow-curve: cubic-bezier(0.4, 0.0, 0.6, 1.0);
+  --flow-curve: cubic-bezier(0.45, 0.0, 0.55, 1.0);
 }
 
 /* INNER COLOR FILL */
@@ -52,9 +52,8 @@ html, body {
     #00ffff
   );
 
-  /* 🔑 smaller travel = faster perceived motion */
-  background-size: 150% 150%;
-  animation: flow 4s var(--flow-curve) infinite alternate;
+  background-size: 110% 110%;
+  animation: flow 2.2s var(--flow-curve) infinite alternate;
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
@@ -81,8 +80,8 @@ html, body {
   pointer-events: none;
 
   background: linear-gradient(120deg, #ffffff, #ffffff, #ffffff);
-  background-size: 150% 150%;
-  animation: flow 4s var(--flow-curve) infinite alternate;
+  background-size: 110% 110%;
+  animation: flow 2.2s var(--flow-curve) infinite alternate;
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
@@ -100,7 +99,7 @@ html, body {
   opacity: 1;
 }
 
-/* SHIMMER (most noticeable motion layer) */
+/* SHIMMER — most visible motion */
 .shimmer {
   position: absolute;
   inset: 0;
@@ -109,13 +108,13 @@ html, body {
 
   background: linear-gradient(
     120deg,
-    rgba(255,255,255,0.0) 30%,
-    rgba(0,255,255,0.95) 48%,
-    rgba(255,0,200,0.95) 56%,
-    rgba(255,255,255,0.0) 72%
+    rgba(255,255,255,0.0) 28%,
+    rgba(0,255,255,1) 48%,
+    rgba(255,0,200,1) 56%,
+    rgba(255,255,255,0.0) 74%
   );
-  background-size: 150% 150%;
-  animation: flow 4s var(--flow-curve) infinite alternate;
+  background-size: 110% 110%;
+  animation: flow 2.2s var(--flow-curve) infinite alternate;
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
@@ -127,8 +126,8 @@ html, body {
   mask-repeat: no-repeat;
   mask-position: center;
 
-  filter: blur(2px);
-  opacity: 0.95;
+  filter: blur(1.6px);
+  opacity: 1;
 }
 
 /* BACK & FORTH */
