@@ -13,33 +13,14 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
 
-/* Container */
-.wrap {
-  position: relative;
-}
+/* Single colored render */
+.chain {
+  width: 90vw;
+  height: 90vh;
 
-/* Base image (kept clean white) */
-.wrap img {
-  display: block;
-  max-width: 90vw;
-  max-height: 90vh;
-  position: relative;
-  z-index: 2;
-}
-
-/* Animated glow layer */
-.wrap::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-
-  /* Moving color ring */
   background: conic-gradient(
-    from 0deg,
     #ff4dff,
     #00ffff,
     #00ff66,
@@ -48,7 +29,7 @@ html, body {
     #ff4dff
   );
 
-  /* Use PNG alpha as a mask so glow sticks to the border */
+  /* Mask with the heart PNG */
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
   -webkit-mask-repeat: no-repeat;
@@ -59,25 +40,14 @@ html, body {
   mask-repeat: no-repeat;
   mask-position: center;
 
-  filter: blur(10px) brightness(1.4);
-  animation: spin 10s linear infinite;
-}
-
-/* Rotation animation */
-@keyframes spin {
-  to { transform: rotate(360deg); }
+  filter: blur(1px) brightness(1.3);
 }
 </style>
 </head>
 
 <body>
 
-<div class="wrap">
-  <img
-    src="1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png"
-    alt="Luhv Infinity Chain"
-  >
-</div>
+<div class="chain"></div>
 
 </body>
 </html>
