@@ -31,7 +31,7 @@ html, body {
   z-index: 1;
 }
 
-/* Color layer (original hues preserved) */
+/* Static color layer (unchanged hues) */
 .chain {
   position: absolute;
   inset: 0;
@@ -59,26 +59,37 @@ html, body {
   filter: blur(1px) brightness(1.3);
 }
 
-/* Warm bias on left */
-.chain::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 140, 0, 0.18);
-  mix-blend-mode: overlay;
-}
-
-/* Cool bias on right */
+/* Moving light sweep */
 .chain::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(0,0,0,0) 50%,
-    rgba(0,180,255,0.22) 100%
+
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(255,255,255,0.0) 300deg,
+    rgba(255,255,255,0.9) 330deg,
+    rgba(255,255,255,0.0) 360deg
   );
-  mix-blend-mode: overlay;
+
+  -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+
+  mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+
+  filter: blur(2px);
+  animation: sweep 6s linear infinite;
+}
+
+/* Rotation animation */
+@keyframes sweep {
+  to { transform: rotate(360deg); }
 }
 </style>
 </head>
@@ -86,7 +97,10 @@ html, body {
 <body>
 
 <div class="wrap">
-  <img src="1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png" alt="Heart Chain">
+  <img
+    src="1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png"
+    alt="Luhv Infinity Chain"
+  >
   <div class="chain"></div>
 </div>
 
