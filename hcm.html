@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,7 +47,7 @@ html, body {
     #00ffff
   );
   background-size: 500% 500%;
-  animation: flow 18s linear infinite;
+  animation: flow 22s linear infinite alternate;
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
@@ -82,8 +81,8 @@ html, body {
   );
   background-size: 500% 500%;
   animation:
-    flow 18s linear infinite,
-    hueShift 60s linear infinite;
+    flow 22s linear infinite alternate,
+    hueShift 80s linear infinite;
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
@@ -117,7 +116,7 @@ html, body {
     rgba(255,255,255,0.0) 70%
   );
   background-size: 500% 500%;
-  animation: flow 18s linear infinite;
+  animation: flow 22s linear infinite alternate;
 
   -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
   -webkit-mask-size: contain;
@@ -133,10 +132,12 @@ html, body {
   opacity: 0.9;
 }
 
-/* SHARED MOTION — STARTS OFFSCREEN LEFT */
+/* SHARED MOTION — TRAVEL + REST */
 @keyframes flow {
   0%   { background-position: -500% 50%; }
-  100% { background-position:  500% 50%; }
+  40%  { background-position:  500% 50%; }
+  60%  { background-position:  500% 50%; } /* rest */
+  100% { background-position: -500% 50%; }
 }
 
 /* VERY slow hue rotation */
