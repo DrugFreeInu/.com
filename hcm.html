@@ -31,7 +31,7 @@ html, body {
   z-index: 1;
 }
 
-/* Static color layer */
+/* Color overlay (same hues, pulsing) */
 .chain {
   position: absolute;
   inset: 0;
@@ -56,41 +56,15 @@ html, body {
   mask-repeat: no-repeat;
   mask-position: center;
 
-  filter: blur(1px) brightness(1.3);
+  filter: blur(1px) brightness(1.25);
+  animation: pulse 4.5s ease-in-out infinite;
 }
 
-/* Continuous flowing light */
-.chain::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-
-  /* Wide glow band — no hard start/end */
-  background: conic-gradient(
-    from 0deg,
-    rgba(255,255,255,0.15),
-    rgba(255,255,255,0.45),
-    rgba(255,255,255,0.75),
-    rgba(255,255,255,0.45),
-    rgba(255,255,255,0.15)
-  );
-
-  -webkit-mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
-  -webkit-mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-
-  mask-image: url("1114B7B1-E76F-4E25-B43B-8E6E1A7DA85A.png");
-  mask-size: contain;
-  mask-repeat: no-repeat;
-  mask-position: center;
-
-  filter: blur(3px);
-  animation: flow 8s linear infinite;
-}
-
-@keyframes flow {
-  to { transform: rotate(360deg); }
+/* Subtle glow pulse */
+@keyframes pulse {
+  0%   { filter: blur(1px) brightness(1.15); }
+  50%  { filter: blur(2px) brightness(1.45); }
+  100% { filter: blur(1px) brightness(1.15); }
 }
 </style>
 </head>
