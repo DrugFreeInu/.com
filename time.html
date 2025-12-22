@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Timer</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #000;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    #time {
+      font-size: 64px;
+      margin-bottom: 20px;
+    }
+    button {
+      font-size: 18px;
+      padding: 10px 20px;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="time">00:00</div>
+  <div>
+    <button onclick="start()">Start</button>
+    <button onclick="stop()">Stop</button>
+    <button onclick="reset()">Reset</button>
+  </div>
+
+  <script>
+    let seconds = 0;
+    let interval = null;
+
+    function update() {
+      seconds++;
+      const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+      const s = String(seconds % 60).padStart(2, '0');
+      document.getElementById('time').textContent = `${m}:${s}`;
+    }
+
+    function start() {
+      if (!interval) interval = setInterval(update, 1000);
+    }
+
+    function stop() {
+      clearInterval(interval);
+      interval = null;
+    }
+
+    function reset() {
+      stop();
+      seconds = 0;
+      document.getElementById('time').textContent = '00:00';
+    }
+  </script>
+
+</body>
+</html>
