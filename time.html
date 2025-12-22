@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Infinite Timer</title>
+  <title>Persistent Timer</title>
   <style>
     body {
       background: #000;
@@ -25,18 +25,28 @@
   <div id="time">00:00:00</div>
 
   <script>
-    let seconds = 0;
+    const KEY = 'infinite_timer_start';
+
+    // Get or set start time
+    let start = localStorage.getItem(KEY);
+    if (!start) {
+      start = Date.now();
+      localStorage.setItem(KEY, start);
+    } else {
+      start = parseInt(start, 10);
+    }
 
     function tick() {
-      seconds++;
+      const elapsed = Math.floor((Date.now() - start) / 1000);
 
-      const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
-      const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
-      const s = String(seconds % 60).padStart(2, '0');
+      const h = String(Math.floor(elapsed / 3600)).padStart(2, '0');
+      const m = String(Math.floor((elapsed % 3600) / 60)).padStart(2, '0');
+      const s = String(elapsed % 60).padStart(2, '0');
 
       document.getElementById('time').textContent = `${h}:${m}:${s}`;
     }
 
+    tick();
     setInterval(tick, 1000);
   </script>
 
