@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Persistent Timer</title>
+  <title>Vertical Persistent Timer</title>
   <style>
     body {
       background: #000;
@@ -14,7 +14,11 @@
       height: 100vh;
       margin: 0;
     }
-    #time {
+    #timer {
+      text-align: center;
+      line-height: 1.1;
+    }
+    .unit {
       font-size: 72px;
       letter-spacing: 2px;
     }
@@ -22,12 +26,15 @@
 </head>
 <body>
 
-  <div id="time">00:00:00</div>
+  <div id="timer">
+    <div class="unit" id="h">00</div>
+    <div class="unit" id="m">00</div>
+    <div class="unit" id="s">00</div>
+  </div>
 
   <script>
     const KEY = 'infinite_timer_start';
 
-    // Get or set start time
     let start = localStorage.getItem(KEY);
     if (!start) {
       start = Date.now();
@@ -39,11 +46,12 @@
     function tick() {
       const elapsed = Math.floor((Date.now() - start) / 1000);
 
-      const h = String(Math.floor(elapsed / 3600)).padStart(2, '0');
-      const m = String(Math.floor((elapsed % 3600) / 60)).padStart(2, '0');
-      const s = String(elapsed % 60).padStart(2, '0');
-
-      document.getElementById('time').textContent = `${h}:${m}:${s}`;
+      document.getElementById('h').textContent =
+        String(Math.floor(elapsed / 3600)).padStart(2, '0');
+      document.getElementById('m').textContent =
+        String(Math.floor((elapsed % 3600) / 60)).padStart(2, '0');
+      document.getElementById('s').textContent =
+        String(elapsed % 60).padStart(2, '0');
     }
 
     tick();
