@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DrugFreeInu</title>
+<title>an opportunity to learn and create</title>
 
 <meta http-equiv="Permissions-Policy" content="storage-access=()">
 
@@ -68,7 +68,7 @@ body{
 }
 
 /* ======================
-   SITE HEADER (BIGGER + FILLS BLACK AREA)
+   SITE HEADER (HERO)
 ====================== */
 .site-header{
   min-height:34vh; /* fills the top black area */
@@ -77,23 +77,16 @@ body{
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:14px;
 }
 
-.site-header h1{
+.hero-line{
   margin:0;
   font-weight:800;
-  letter-spacing:0.5px;
-  font-size:clamp(44px, 10vw, 96px);
-  line-height:1.0;
-}
-
-.site-header p{
-  margin:0;
-  opacity:.95;
-  font-size:clamp(18px, 4.6vw, 34px);
-  line-height:1.15;
-  max-width:28ch;
+  letter-spacing:0.4px;
+  font-size:clamp(34px, 9vw, 76px);
+  line-height:1.05;
+  opacity:1;
+  max-width:22ch;
 }
 
 /* ======================
@@ -233,8 +226,7 @@ body{
 <div id="site">
 
   <div class="site-header">
-    <h1>DrugFreeInu</h1>
-    <p>an opportunity to<br>learn and create</p>
+    <p class="hero-line">an opportunity to<br>learn and create</p>
   </div>
 
   <div class="image-stage">
